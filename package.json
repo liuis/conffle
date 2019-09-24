@@ -15,6 +15,14 @@
   "license": "ISC",
   "dependencies": {
     "shelljs": "^0.8.3",
-    "yargs": "^14.0.0"
+    "solc": "^0.5.11",
+    "truffle-conflux-box": "0.0.2-alpha.1",
+    "truffle-conflux-init": "0.0.1",
+    "truffle-conflux-workflow-compile": "0.0.2-alpha.0",
+    "yargs": "^14.0.0",
+    "conflux-web": "v0.1.22-alpha.0"
+  },
+  "bin": {
+    "conflux-truffle": "conflux-truffle"
   }
 }
