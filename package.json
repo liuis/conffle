@@ -14,13 +14,17 @@
   "author": "ping.li@conflux-chain.org",
   "license": "ISC",
   "dependencies": {
+    "circular-json": "^0.5.9",
+    "conflux-web": "v0.1.22-alpha.0",
+    "json-stringify": "^1.0.0",
+    "request": "^2.88.0",
     "shelljs": "^0.8.3",
     "solc": "^0.5.11",
     "truffle-conflux-box": "0.0.2-alpha.1",
     "truffle-conflux-init": "0.0.1",
     "truffle-conflux-workflow-compile": "0.0.2-alpha.0",
-    "yargs": "^14.0.0",
-    "conflux-web": "v0.1.22-alpha.0"
+    "web3": "^1.2.1",
+    "yargs": "^14.0.0"
   },
   "bin": {
     "conflux-truffle": "conflux-truffle"
