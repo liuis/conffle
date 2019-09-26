@@ -3,7 +3,7 @@ const Contracts = require("truffle-conflux-workflow-compile");
 // expected config object
 const config = {
   contracts_directory: "./demo-test/contracts", // dir where contracts are located
-  contracts_build_directory: "./demo-test/contracts-output" // dir where contract artifacts will be saved
+  contracts_build_directory: "./demo-test/build/contracts" // dir where contract artifacts will be saved
 };
 
 // compiles contracts found in contracts_directory,

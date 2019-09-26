@@ -3,7 +3,7 @@ const Config = require("truffle-conflux-config");
 const Resolver = require("truffle-conflux-resolver");
 const Artifactor = require("truffle-conflux-artifactor");
 const config = new Config("./", "./demo-test", 'development')
-config.artifactor = new Artifactor("./demo-test/migrations");
+config.artifactor = new Artifactor("./demo-test/build/contracts");
 config.resolver = new Resolver(config);
 config.networks = {
     development: {
