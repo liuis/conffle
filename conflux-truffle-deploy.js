@@ -1,3 +1,4 @@
+/*
 const Migrate = require("truffle-conflux-migrate");
 const Config = require("truffle-conflux-config");
 const Resolver = require("truffle-conflux-resolver");
@@ -33,3 +34,4 @@ console.log(config.provider)
 //const conf = Config.detect({}, "truffle-conflux-config.js");//runMigrations(Config)
 Migrate.launchReporter();
 Migrate.run(config);
+*/

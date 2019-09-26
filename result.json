@@ -1,0 +1,1 @@
+{"code":0,"message":{"tx":"0xd3475dda74b7ee833667307ec9d39bec2c4f319ab2bf4fd29bbff3ac8ec06b7a"}} pool: Tx with same nonce already inserted, try to replace it with a higher gas price:{\"nonce\":\"0x1e5\",\"gasPrice\":\"0x333\",\"gasLimit\":\"0x5208\",\"value\":\"0xde0b6b3a7640000\",\"to\":\"0x929f8a8dd9dd57f5fd4004d082f0525c9bd62dab\",\"data\":\"0x\"}"}

@@ -15,7 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "circular-json": "^0.5.9",
-    "conflux-web": "v0.1.22-alpha.0",
+    "conflux-web": "0.1.22-alpha.0",
+    "fs": "0.0.1-security",
     "json-stringify": "^1.0.0",
     "request": "^2.88.0",
     "shelljs": "^0.8.3",
@@ -24,8 +25,8 @@
     "truffle-conflux-box": "0.0.2-alpha.1",
     "truffle-conflux-config": "0.0.2-alpha.0",
     "truffle-conflux-init": "0.0.1",
-    "truffle-conflux-migrate": "0.0.2-alpha.0",
-    "truffle-conflux-resolver": "0.0.2-alpha.2",
+    "truffle-conflux-migrate": "0.0.2-alpha.1",
+    "truffle-conflux-resolver": "0.0.2-alpha.3",
     "truffle-conflux-workflow-compile": "0.0.2-alpha.0",
     "web3": "^1.2.1",
     "yargs": "^14.0.0"
