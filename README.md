@@ -33,3 +33,16 @@ Account 使用 conflux-web 的conflux-web-cfx-wallet-create 来生成， 然后�
 ### 五。发布部署编译好的智能合约到链。
 
 truffle deploy & migrate   
+
+
+## USE :
+
+--------------------------------------------------------
+
+step1. node init.js 
+ 
+ 会生成demo-test的目录，在目录下有相关contract 的测试合约。放你自己的合约。
+
+step2. node  compile.js  CONTRACT-NAME 来编译你的合约，会生成 build 目录下来生成存有abi 和bytecode 。
+
+step3. node deploy.js  会往测试网发送相关在contract 生成的合约。
