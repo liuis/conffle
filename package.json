@@ -16,6 +16,7 @@
   "dependencies": {
     "circular-json": "^0.5.9",
     "conflux-web": "0.1.22-alpha.0",
+    "ether-pudding": "^3.2.0",
     "fs": "0.0.1-security",
     "json-stringify": "^1.0.0",
     "request": "^2.88.0",
