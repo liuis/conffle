@@ -1,10 +1,10 @@
 const compile = require('./conflux-dapp-compile/compile.js');
 const init = require('./conflux-dapp-init/init.js');
+const account = require('./conflux-dapp-init/account.js');
 const testConfig = require('./conflux-dapp-test/test.js');
 const node = require('./conflux-dapp-node/node.js');
 const deploy = require('./conflux-dapp-deploy/deploy.js');
 const config = require('conflux-dapp-config');
-const contracts = require('./conflux-dapp-contracts/conflux-dapp-contracts.js');
 
 const addInitOption = (program) => {
     program
@@ -15,6 +15,17 @@ const addInitOption = (program) => {
             await init.run(option.update);
         })
 }
+
+const addAccountOption = (program) => {
+    program
+        .command('account')
+        .description('Get the privateKey, Address, mnemonic')
+        .option('--account', 'Generator 10 PrivateKey&&Address')
+        .action(async (option) => {
+            await account.run(option.account);
+        })
+}
+
 
 const addCompileOption = (program) => {
     program
