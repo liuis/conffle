@@ -1,8 +1,24 @@
 const TruffleBox = require("truffle-conflux-box");
-const unboxOptions = { force: false };
+const unboxOptions = {
+    force: false
+};
 
+async function run() {
+    try {
+        await createProjectStructure();
 
-console.log("start the example procject, pls wait....")
+    } catch (e) {
+        printError(e.message)
+        console.error(e);
+    }
+}
 
-TruffleBox.unbox("https://github.com/liuis/truffle-conflux-init-default", "./demo-test", unboxOptions);
+function createProjectStructure() {
+    console.log("start the example procject, pls wait....")
 
+    TruffleBox.unbox("https://github.com/liuis/truffle-conflux-init-default", "./demo-test", unboxOptions);
+}
+
+module.exports = {
+    run
+}
