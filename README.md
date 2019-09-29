@@ -1,14 +1,34 @@
-## USE :
+# Conflux-Dapp-Js
 
---------------------------------------------------------
+[![npm version](https://badge.fury.io/js/aeproject.svg)](https://badge.fury.io/js/aeproject)
 
-### step1. node init.js 
+**Conflux-Dapp-Js** is an conflux framework which helps with Initialize a dapp project.
+The framework makes the development of smart contracts in the conflux network pretty easy. It provides commands for    compilation, deployment of smart contracts, running a local node, local compiler and unit testing the contracts.
 
- 会生成demo-test的目录，在目录下有相关contract 的测试合约。放你自己的合约。
+Conflux-Dapp-Js consists of 5 separated packages. There are two main packages.
+- conflux-dapp-cli - This package is responsible for reading **Conflux-Dapp-Js** commands from the command line
+- conflux-dapp-lib - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
+- conflux-dapp-logger - Using this package will give you the ability to print your historical deployments on the console.   
+- conflux-dapp-config - This package is used as helper where all the necessary configuration files are included.
+- conflux-dapp-utils - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
 
-### step2. 生成账号和私钥   node prKey.js
 
-产生如下的内容
+### Installing
+
+```text
+npm i -g Conflux-Dapp-Js
+```
+
+### Documentation
+
+#### Step1. node init
+
+Generates the demo - the test directory, the directory with related contract testing contract.Put your own contract.
+
+#### Step2. node prKey 
+
+Generate account and private key .
+The following content :
 
 ```
 ----------------------mnemonic--------------------------
@@ -41,14 +61,10 @@ privateKeys:
   'e191452c8ff38a9bb0edf693570f147ec37e2529932143c628cc68f19a01a4b9' ]
 
 ```
+#### Step3. node compile. Js CONTRACT -NAME 
 
+To compile your contract, will generate build directory down generated abi and the bytecode.
 
+#### Step4. node deploy 
 
-
-### step3. node  compile.js  CONTRACT-NAME 
-
-来编译你的合约，会生成 build 目录下来生成存有abi 和bytecode 。
-
-### step4. node deploy.js  
-
-会往测试网发送相关在contract 生成的合约。   
+Will be sent to test network related contracts over the contract.
