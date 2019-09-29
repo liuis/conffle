@@ -45,6 +45,10 @@ privateKeys:
 
 
 
-step3. node  compile.js  CONTRACT-NAME 来编译你的合约，会生成 build 目录下来生成存有abi 和bytecode 。
+### step3. node  compile.js  CONTRACT-NAME 
 
-step3. node deploy.js  会往测试网发送相关在contract 生成的合约。   
+来编译你的合约，会生成 build 目录下来生成存有abi 和bytecode 。
+
+### step4. node deploy.js  
+
+会往测试网发送相关在contract 生成的合约。   
