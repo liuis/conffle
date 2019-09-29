@@ -61,7 +61,7 @@ privateKeys:
   'e191452c8ff38a9bb0edf693570f147ec37e2529932143c628cc68f19a01a4b9' ]
 
 ```
-#### Step3. node compile. Js CONTRACT -NAME 
+#### Step3. node compile CONTRACT-NAME 
 
 To compile your contract, will generate build directory down generated abi and the bytecode.
 
