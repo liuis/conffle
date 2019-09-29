@@ -1,6 +1,6 @@
 # Conflux-Dapp-Js
 
-[![npm version](https://badge.fury.io/js/aeproject.svg)](https://badge.fury.io/js/aeproject)
+
 
 **Conflux-Dapp-Js** is an conflux framework which helps with Initialize a dapp project.
 The framework makes the development of smart contracts in the conflux network pretty easy. It provides commands for    compilation, deployment of smart contracts, running a local node, local compiler and unit testing the contracts.
