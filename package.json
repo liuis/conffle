@@ -1,13 +1,13 @@
 {
-  "name": "conflux-truffle-demo",
+  "name": "conflux-dapp-js",
   "version": "1.0.0",
-  "description": "conflux-truffle init publish deploy smart contract ",
+  "description": "conflux init publish deploy smart contract ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "conflux-truffle",
+    "conflux-dapp-js",
     "smart",
     "contract"
   ],
@@ -36,8 +36,5 @@
     "truffle-conflux-workflow-compile": "0.0.2-alpha.0",
     "web3": "^1.2.1",
     "yargs": "^14.0.0"
-  },
-  "bin": {
-    "conflux-truffle": "conflux-truffle"
   }
 }

@@ -1,0 +1,36 @@
+{
+  "name": "conflux-dapp-cli",
+  "version": "1.0.0",
+  "description": "commands for conflux-dapp-js",
+  "main": "index.js",
+  "bin": {
+    "conflux-dapp-js": "./conflux-dapp-cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liuis/conflux-dapp-js.git"
+  },
+  "keywords": [
+    "conflux-dapp"
+  ],
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "commander": "^2.19.0",
+    "esm": "^3.0.77",
+    "fs-extra": "^7.0.1",
+    "mocha": "^5.0.0",
+    "opn": "^5.4.0",
+    "original-require": "^1.0.1",
+    "path": "^0.12.7"
+  },
+  "author": "ping.li@conflux-chain.org",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liuis/conflux-dapp-js/issues"
+  },
+  "homepage": "https://github.com/liuis/conflux-dapp-js#readme"
+}
