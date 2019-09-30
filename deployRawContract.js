@@ -18,7 +18,8 @@ const privateKey = addressList[0].privateKey.toString();
 console.log("privateKey:", privateKey)
 const address = addressList[0].address;
 
-confluxWeb.cfx.accounts.wallet.add(privateKey);
+//confluxWeb.cfx.accounts.wallet.add(privateKey);
+confluxWeb.cfx.accounts.wallet.add('0x3afdd9b132fef52c7a7aed692c64622146965549b4f19052fde4e2ede1723b05');
 
 function deploy(argument) {
     confluxWeb.cfx.signTransaction(argument)
@@ -33,15 +34,15 @@ function deploy(argument) {
         }).catch(console.error);
 }
 
-fs.readdir("./demo-test/build/contracts", (err, files) => {
+fs.readdir("./demo-test/build", (err, files) => {
     files.forEach(file => {
         console.log(file);
-        const fd = require("./demo-test/build/contracts/" + file);
+        const fd = require("./demo-test/build/" + file);
         console.log("bytecode:", "0x" + fd.bytecode)
         const txParams = {
             from: 0,
-            nonce: 1, // make nonce appropriate
-            gasPrice: 10,
+            nonce: 2, // make nonce appropriate
+            gasPrice: 100,
             gas: 10000000,
             value: 0,
             to: null,
