@@ -1,11 +1,11 @@
-# Conflux-Chain-Dapp-Js
+# conflux-chain-dapp-js
 
 ![Build Status](https://api.travis-ci.org/liuis/conflux-dapp-js.svg?branch=refactor)
 
-**Conflux-Chain-Dapp-Js** is an conflux framework which helps with Initialize a dapp project.
+**conflux-chain-dapp-js** is an conflux framework which helps with Initialize a dapp project.
 The framework makes the development of smart contracts in the conflux network pretty easy. It provides commands for    compilation, deployment of smart contracts, running a local node, local compiler and unit testing the contracts.
 
-Conflux-Chain-Dapp-Js consists of 5 separated packages. There are two main packages.
+conflux-chain-dapp-js consists of 5 separated packages. There are two main packages.
 - **conflux-chain-dapp-cli** - This package is responsible for reading **Conflux-Dapp-Js** commands from the command line
 - **conflux-chain-dapp-lib** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
 - **conflux-chain-dapp-logger** - Using this package will give you the ability to print your historical deployments on the console.   
@@ -16,7 +16,7 @@ Conflux-Chain-Dapp-Js consists of 5 separated packages. There are two main packa
 ### Installing
 
 ```text
-npm i -g Conflux-Chain-Dapp-Js
+npm i -g conflux-chain-dapp-js
 ```
 
 ### Documentation
