@@ -2,7 +2,7 @@ var solc = require('solc');
 var fs = require('fs');
 const {
     findImports
-} = require('../../conflux-dapp-utils/utils');
+} = require('../../conflux-chain-dapp-utils/utils');
 
 async function run() {
     j

@@ -1,21 +1,21 @@
-# Conflux-Dapp-Js
+# Conflux-Chain-Dapp-Js
 
 
-**Conflux-Dapp-Js** is an conflux framework which helps with Initialize a dapp project.
+**Conflux-Chain-Dapp-Js** is an conflux framework which helps with Initialize a dapp project.
 The framework makes the development of smart contracts in the conflux network pretty easy. It provides commands for    compilation, deployment of smart contracts, running a local node, local compiler and unit testing the contracts.
 
-Conflux-Dapp-Js consists of 5 separated packages. There are two main packages.
-- **conflux-dapp-cli** - This package is responsible for reading **Conflux-Dapp-Js** commands from the command line
-- **conflux-dapp-lib** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
-- **conflux-dapp-logger** - Using this package will give you the ability to print your historical deployments on the console.   
-- **conflux-dapp-config** - This package is used as helper where all the necessary configuration files are included.
-- **conflux-dapp-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
+Conflux-Chain-Dapp-Js consists of 5 separated packages. There are two main packages.
+- **conflux-chain-dapp-cli** - This package is responsible for reading **Conflux-Dapp-Js** commands from the command line
+- **conflux-chain-dapp-lib** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
+- **conflux-chain-dapp-logger** - Using this package will give you the ability to print your historical deployments on the console.   
+- **conflux-chain-dapp-config** - This package is used as helper where all the necessary configuration files are included.
+- **conflux-chain-dapp-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
 
 
 ### Installing
 
 ```text
-npm i -g Conflux-Dapp-Js
+npm i -g Conflux-Chain-Dapp-Js
 ```
 
 ### Documentation

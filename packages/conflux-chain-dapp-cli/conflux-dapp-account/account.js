@@ -1,4 +1,4 @@
-const mnemonicInfo = require("../../conflux-dapp-utils/mnemonic.js");
+const mnemonicInfo = require("../../conflux-chain-dapp-utils/mnemonic.js");
 
 async function run() {
 

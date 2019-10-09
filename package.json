@@ -1,13 +1,14 @@
 {
-  "name": "conflux-dapp-js",
+  "name": "conflux-chain-dapp-js",
   "version": "1.0.0",
   "description": "conflux init publish deploy smart contract ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test/**/*.js --timeout 0 --exit",
+    "link": "lerna bootstrap && cd packages/conflux-chain-dapp-cli && yarn link"
   },
   "keywords": [
-    "conflux-dapp-js",
+    "conflux-chain-dapp-js",
     "smart",
     "contract"
   ],
@@ -51,7 +52,6 @@
     "lerna": "^3.14.1",
     "mocha": "^5.0.0",
     "promisify-child-process": "^2.1.2",
-    "shelljs": "^0.8.2",
     "sinon": "^7.1.1",
     "typescript": "^3.5.2"
   }
