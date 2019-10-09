@@ -4,7 +4,7 @@
   "description": "commands for conflux-dapp-js",
   "main": "index.js",
   "bin": {
-    "conflux-dapp-js": "./conflux-dapp-cli.js"
+    "conflux-chain-dapp-js": "./conflux-dapp-cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
