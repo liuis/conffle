@@ -21,7 +21,7 @@ npm i -g conffle
 
 ### Documentation
 
-#### Before you begin, please in you intend to create a directory to create a directory called demo-test.
+#### Before you begin, please create a directory called demo-test.
 ```
 mkdir demo-test
 ```
