@@ -26,7 +26,7 @@ function compile(name) {
 
     console.log("confile:", confile);
 
-    var contentfile = fs.readFileSync('/demo-test/contracts/' + fileName + '.sol', {
+    var contentfile = fs.readFileSync('./demo-test/contracts/' + fileName + '.sol', {
         encoding: 'utf8'
     }).toString().replace(/\n/g, ' ');
 
