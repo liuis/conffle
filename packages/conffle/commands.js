@@ -78,6 +78,7 @@ const addDeployOption = (program) => {
 const initCommands = (program) => {
     addInitOption(program);
     addCompileOption(program);
+    addAccountOption(program);
     //addTestOption(program);
     //addNodeOption(program);
     addDeployOption(program);

@@ -5,7 +5,6 @@ const {
 } = require('conffle-utils/utils');
 
 async function run() {
-    j
     try {
         await compile();
 
