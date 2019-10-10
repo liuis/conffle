@@ -53,7 +53,7 @@ function compile(name) {
         'abi': {},
         'bytecode': ''
     };
-    importpath = findImports(__dirname + "/demo-test/contracts")
+    importpath = findImports("./demo-test/contracts")
         //console.log("importpath:", importpath)
     var output = JSON.parse(solc.compile(JSON.stringify(input), importpath))
 
