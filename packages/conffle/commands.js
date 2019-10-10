@@ -35,7 +35,6 @@ const addCompileOption = (program) => {
         .action(async (option) => {
             await compile.run(option.name);
         })
-    program.parse(process.argv);
 }
 
 const addTestOption = (program) => {
