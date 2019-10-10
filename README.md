@@ -24,16 +24,22 @@ npm i -g conffle
 #### Before you begin, please in you intend to create a directory to create a directory called demo-test.
 ```
 mkdir demo-test
-
 ```
    
 #### Step1. conffle init
+
+```
+conffle init
+```
 
 Generates the demo - the test directory, the directory with related contract testing contract.
 Put your own contract.
 
 #### Step2. conffle account
 
+```
+conffle account
+```
 Generate account and private key .
 The following content :
 
@@ -78,6 +84,10 @@ example:
 To compile your contract, will generate build directory down generated abi and the bytecode.
 
 #### Step4. conffle  deploy 
+
+```
+conffle  deploy 
+```
 
 Will be sent to test network related contracts over the contract.
 
