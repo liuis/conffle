@@ -1,10 +1,10 @@
-const compile = require('./conflux-dapp-compile/compile.js');
-const init = require('./conflux-dapp-init/init.js');
-const account = require('./conflux-dapp-init/account.js');
-const testConfig = require('./conflux-dapp-test/test.js');
-const node = require('./conflux-dapp-node/node.js');
-const deploy = require('./conflux-dapp-deploy/deploy.js');
-const config = require('conflux-dapp-config');
+const compile = require('./compile/compile.js');
+const init = require('./init/init.js');
+const account = require('./init/account.js');
+const testConfig = require('./test/test.js');
+const node = require('./node/node.js');
+const deploy = require('./deploy/deploy.js');
+//const config = require('conflux-dapp-config');
 
 const addInitOption = (program) => {
     program
@@ -31,7 +31,7 @@ const addCompileOption = (program) => {
     program
         .command('compile')
         .option('--path [compile path]', 'Path to contract files', './contracts')
-        .option('--compiler [compiler url]', 'Url to the desired compiler', config.compilerUrl + "/compile")
+        //.option('--compiler [compiler url]', 'Url to the desired compiler', config.compilerUrl + "/compile")
         .description('Compile contracts')
         .action(async (option) => {
             await compile.run(option.path, option.compiler);

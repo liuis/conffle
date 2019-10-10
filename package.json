@@ -1,14 +1,14 @@
 {
-  "name": "conflux-chain-dapp-js",
+  "name": "conffle",
   "version": "0.0.1",
   "description": "conflux init publish deploy smart contract ",
-  "main": "index.js",
+  "main": "./packages/conffle/conffle.js",
   "scripts": {
     "test": "mocha ./test/**/*.js --timeout 0 --exit",
-    "link": "lerna bootstrap && cd packages/conflux-chain-dapp-cli && yarn link"
+    "link": "lerna bootstrap && cd packages/conffle && yarn link"
   },
   "keywords": [
-    "conflux-chain-dapp-js",
+    "conffle",
     "smart",
     "contract"
   ],
