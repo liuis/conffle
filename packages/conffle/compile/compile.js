@@ -2,7 +2,7 @@ var solc = require('solc');
 var fs = require('fs');
 const {
     findImports
-} = require('../../conffle-utils/utils');
+} = require('conffle-utils/utils');
 
 async function run() {
     j
