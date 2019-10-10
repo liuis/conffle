@@ -30,12 +30,12 @@ const addAccountOption = (program) => {
 const addCompileOption = (program) => {
     program
         .command('compile')
-        .option('--path [compile path]', 'Path to contract files', './contracts')
-        //.option('--compiler [compiler url]', 'Url to the desired compiler', config.compilerUrl + "/compile")
+        .option('--name [contract name], Give you want to compile the contract name')
         .description('Compile contracts')
         .action(async (option) => {
-            await compile.run(option.path, option.compiler);
+            await compile.run(option.name);
         })
+    program.parse(process.argv);
 }
 
 const addTestOption = (program) => {
