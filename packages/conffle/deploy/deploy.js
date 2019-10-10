@@ -5,7 +5,7 @@ const keccak = require('keccak');
 const ConfluxWeb = require('conflux-web');
 const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:12537');
 
-const mnemonicInfo = require("./mnemonic");
+const mnemonicInfo = require("conffle-utils/mnemonic");
 
 async function run() {
 
