@@ -1,22 +1,22 @@
-# conflux-chain-dapp-js
+# conffle
 
 ![Build Status](https://api.travis-ci.org/liuis/conflux-dapp-js.svg?branch=refactor)
 
-**conflux-chain-dapp-js** is an conflux framework which helps with Initialize a dapp project.
+**conffle** is an conflux framework which helps with Initialize a dapp project.
 The framework makes the development of smart contracts in the conflux network pretty easy. It provides commands for    compilation, deployment of smart contracts, running a local node, local compiler and unit testing the contracts.
 
 conflux-chain-dapp-js consists of 5 separated packages. There are two main packages.
-- **conflux-chain-dapp-cli** - This package is responsible for reading **Conflux-Dapp-Js** commands from the command line
-- **conflux-chain-dapp-lib** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
-- **conflux-chain-dapp-logger** - Using this package will give you the ability to print your historical deployments on the console.   
-- **conflux-chain-dapp-config** - This package is used as helper where all the necessary configuration files are included.
-- **conflux-chain-dapp-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
+- **conffle** - This package is responsible for reading **Conffle** commands from the command line
+- **conffle-lib** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
+- **conffle-logger** - Using this package will give you the ability to print your historical deployments on the console.   
+- **conffle-config** - This package is used as helper where all the necessary configuration files are included.
+- **conffle-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
 
 
 ### Installing
 
 ```text
-npm i -g conflux-chain-dapp-js
+npm i -g conffle
 ```
 
 ### Documentation
