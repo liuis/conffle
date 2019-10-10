@@ -10,7 +10,7 @@ Conflux-Dapp-Js consists of 5 separated packages. There are two main packages.
 - **conflux-dapp-lib** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
 - **conflux-dapp-logger** - Using this package will give you the ability to print your historical deployments on the console.   
 - **conflux-dapp-config** - This package is used as helper where all the necessary configuration files are included.
-- **conflux-dapp-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
+- **conflux-dapp-utils** - Similarly to config this package helps with functions like **ReadFile**  & **WriteFile** & **PrivateKey Generate**, etc.
 
 
 ### Installing
