@@ -7,6 +7,17 @@ const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:1253
 
 const mnemonicInfo = require("./mnemonic");
 
+async function run() {
+
+    try {
+        await deployContract();
+
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+
 
 const {
     mnemonic,
@@ -45,9 +56,13 @@ var fs = require('fs');
 //const address = addressList[0].address;
 
 //confluxWeb.cfx.accounts.wallet.add(privateKey);
-confluxWeb.cfx.accounts.wallet.add(privateKeys[0]);
+//confluxWeb.cfx.accounts.wallet.add(privateKeys[0]);
+confluxWeb.cfx.accounts.wallet.add({
+    privateKey: privateKeys[0],
+    address: accounts[0]
+});
 
-function deploy(argument) {
+function deploy(argument, abi) {
     confluxWeb.cfx.signTransaction(argument)
         .then((encodedTransaction) => {
             const {
@@ -57,58 +72,64 @@ function deploy(argument) {
             return confluxWeb.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
                 console.log('transaction hash from RPC: ', transactionHash);
                 console.log("you can find the transaction details on : http://www.confluxscan.io/transactionsdetail/" + transactionHash)
-                hexNonce = argument.nonce.toString(16);
-                contractAdd = generate_contract_address(hexNonce, accounts[0]);
-                console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
+                    //hexNonce = argument.nonce.toString(16);
+                    //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
+                    //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
+                waitBlock(transactionHash, abi)
             })
         }).catch(console.error);
 }
 
+function deployContract() {
+    fs.readdir("./demo-test/build", (err, files) => {
+        files.forEach(file => {
+            console.log(file);
+            const fd = require("./demo-test/build/" + file);
+            console.log("bytecode:", "0x" + fd.bytecode)
+            code = "0x" + fd.bytecode
+            abi = fd.abi
+                //console.log(confluxWeb.cfx.accounts.wallet[0]);
+            confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(nonceValue => {
 
+                const txParams = {
+                    from: 0,
+                    nonce: nonceValue, // make nonce appropriate
+                    gasPrice: 5000,
+                    gas: 10000000,
+                    value: 0,
+                    to: null,
+                    // byte code is the ballot contract from https://remix.ethereum.org/
+                    // Sol version: 0.5.0
+                    // With constructor(_numProposals = 10)
+                    data: code
+                };
 
-fs.readdir("./demo-test/build", (err, files) => {
-    files.forEach(file => {
-        console.log(file);
-        const fd = require("./demo-test/build/" + file);
-        console.log("bytecode:", "0x" + fd.bytecode)
-        code = "0x" + fd.bytecode
-        const txParams = {
-            from: 0,
-            nonce: 10, // make nonce appropriate
-            gasPrice: 50000,
-            gas: 10000000,
-            value: 0,
-            to: null,
-            // byte code is the ballot contract from https://remix.ethereum.org/
-            // Sol version: 0.5.0
-            // With constructor(_numProposals = 10)
-            data: code
-        };
+                deploy(txParams, abi);
+            })
+        });
+    })
+}
 
-        deploy(txParams);
-    });
-})
-
-
-
-/*
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function waitBlock(txHash, abi) {
 
-async function waitBlock(txHash) {
-    while (true) {
-        let receipt = confluxWeb.cfx.getTransactionReceipt(txHash);
-        if (receipt && receipt.contractAddress) {
-            console.log("Your contract has been deployed at :" + receipt.contractAddress);
-            console.log("Note that it might take some sceonds for the block to propagate befor it's visible in etherscan.io");
-            break;
-        }
-        EpochNumber = confluxWeb.cfx.getEpochNumber();
-        //Tx =confluxWeb.cfx.getBlockByEpochNumber(EpochNumber);
-        console.log("Waiting a mined block to include your contract... currently in epoch :" + EpochNumber.toString());
-        await sleep(4000);
-    }
+    return confluxWeb.cfx.getTransactionReceipt(txHash).then(
+        (receipt) => {
+            console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux chain");
+            if (receipt !== null) {
+                contractAddress = receipt["contractCreated"]
+                console.log("Your contract has been deployed at :" + contractAddress);
+            } else {
+                sleep(4000);
+                return waitBlock(txHash, abi)
+            }
+        })
+
 }
-*/
+
+module.exports = {
+    run
+}
