@@ -1,4 +1,4 @@
-const mnemonicInfo = require("../../conffle-utils/mnemonic.js");
+const mnemonicInfo = require("conffle-utils/mnemonic.js");
 
 async function run() {
 
