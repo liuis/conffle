@@ -21,11 +21,18 @@ npm i -g conffle
 
 ### Documentation
 
-#### Step1. node init
+#### Before you begin, please in you intend to create a directory to create a directory called demo-test.
+```
+mkdir demo-test
 
-Generates the demo - the test directory, the directory with related contract testing contract.Put your own contract.
+```
+   
+#### Step1. conffle init
 
-#### Step2. node prKey 
+Generates the demo - the test directory, the directory with related contract testing contract.
+Put your own contract.
+
+#### Step2. conffle account
 
 Generate account and private key .
 The following content :
@@ -61,10 +68,27 @@ privateKeys:
   'e191452c8ff38a9bb0edf693570f147ec37e2529932143c628cc68f19a01a4b9' ]
 
 ```
-#### Step3. node compile CONTRACT-NAME 
+#### Step3. conffle compile --name ContractName(you contract name)
+
+```
+example:
+      conffle compile --name SampleContract
+```
 
 To compile your contract, will generate build directory down generated abi and the bytecode.
 
-#### Step4. node deploy 
+#### Step4. conffle  deploy 
 
 Will be sent to test network related contracts over the contract.
+
+If you are successful, you will receive the following log:
+```
+example:
+
+you can find the transaction details on : http://www.confluxscan.io/transactionsdetail/0x5a8234da84f0c066780921a04b2cbc94d6e48a343cd9ae5bda5479d78a883f76
+
+..............
+
+Your contract has been deployed at :0xae2b17be6f7d590510fa7db89f86c02f55e73d2a
+
+````
