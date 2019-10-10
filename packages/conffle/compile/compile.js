@@ -4,23 +4,23 @@ const {
     findImports
 } = require('conffle-utils/utils');
 
-async function run() {
+async function run(name) {
     try {
-        await compile();
+        await compile(name);
 
     } catch (e) {
-        printError(e.message)
         console.error(e);
     }
 }
 
-function compile() {
+function compile(name) {
 
-    if (process.argv.length < 3) {
-        console.log('needs the contract Name as argument!');
-        process.exit(1);
-    }
-    var fileName = process.argv[2];
+    //if (process.argv.length < 3) {
+    //    console.log('needs the contract Name as argument!');
+    //    process.exit(1);
+    //}
+    //var fileName = process.argv[2];
+    var fileName = name 
 
     confile = fileName + '.sol';
 
