@@ -1,7 +1,7 @@
 {
-  "name": "conflux-dapp-cli",
+  "name": "conflux-chain-dapp-cli",
   "version": "0.0.2-alpha.0",
-  "description": "commands for conflux-dapp-js",
+  "description": "commands for conflux-chain-dapp-js",
   "main": "index.js",
   "bin": {
     "conflux-chain-dapp-js": "./conflux-dapp-cli.js"
