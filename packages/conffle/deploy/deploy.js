@@ -84,7 +84,9 @@ function deployContract() {
     fs.readdir("./demo-test/build", (err, files) => {
         files.forEach(file => {
             console.log(file);
-            const fd = require("./demo-test/build/" + file);
+            //const fd = require("./demo-test/build/" + file);
+            let rawdata = fs.readFileSync("./demo-test/build/" + file);
+            let fd = JSON.parse(rawdata);
             console.log("bytecode:", "0x" + fd.bytecode)
             code = "0x" + fd.bytecode
             abi = fd.abi
