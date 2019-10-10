@@ -1,5 +1,4 @@
 const mnemonicInfo = require("./mnemonic");
-const Config = require("truffle-conflux-config");
 
 
 const { mnemonic, accounts, privateKeys } = mnemonicInfo.getAccountsInfo(
