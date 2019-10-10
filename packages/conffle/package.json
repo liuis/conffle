@@ -1,10 +1,10 @@
 {
-  "name": "conflux-chain-dapp-cli",
+  "name": "conffle",
   "version": "0.0.3-alpha.0",
   "description": "commands for conflux-chain-dapp-js",
   "main": "index.js",
   "bin": {
-    "conflux-chain-dapp-js": "./conflux-dapp-cli.js"
+    "conffle": "./conffle.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
