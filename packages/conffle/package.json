@@ -1,6 +1,6 @@
 {
   "name": "conffle",
-  "version": "0.0.7-alpha.0",
+  "version": "0.0.8-alpha.0",
   "description": "commands for conflux-chain-dapp-js",
   "main": "index.js",
   "bin": {
@@ -22,7 +22,7 @@
     "chai-as-promised": "^7.1.1",
     "circular-json": "^0.5.9",
     "commander": "^2.19.0",
-    "conffle-utils": "0.0.4-alpha.0",
+    "conffle-utils": "^0.0.8-alpha.0",
     "conflux-web": "^1.2.2-alpha.0",
     "esm": "^3.0.77",
     "fs-extra": "^7.0.1",
