@@ -64,13 +64,13 @@ const addDeployOption = (program) => {
     program
         .command('deploy')
         .description('Run deploy script')
-        .option('--path [deploy path]', 'Path to deployment file', './deployment/deploy.js')
-        .option('-n --network [network]', 'Select network', "local")
+        //.option('--path [deploy path]', 'Path to deployment file', './deployment/deploy.js')
+        //.option('-n --network [network]', 'Select network', "local")
         .option('--networkId [networkId]', 'Configure your network id')
-        .option('-s --secretKey [secretKey]', 'Wallet secretKey(privateKey)')
-        .option('--compiler [compiler_url]', 'Url to the desired compiler')
+        //.option('-s --secretKey [secretKey]', 'Wallet secretKey(privateKey)')
+        //.option('--compiler [compiler_url]', 'Url to the desired compiler')
         .action(async (options) => {
-            await deploy.run();
+            await deploy.run(options);
         })
 };
 
@@ -79,8 +79,6 @@ const initCommands = (program) => {
     addInitOption(program);
     addCompileOption(program);
     addAccountOption(program);
-    //addTestOption(program);
-    //addNodeOption(program);
     addDeployOption(program);
 }
 
