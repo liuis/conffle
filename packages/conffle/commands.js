@@ -1,8 +1,8 @@
 const compile = require('./compile/compile.js');
 const init = require('./init/init.js');
-const account = require('./init/account.js');
-const testConfig = require('./test/test.js');
-const node = require('./node/node.js');
+const account = require('./account/account.js');
+//const testConfig = require('./test/test.js');
+//const node = require('./node/node.js');
 const deploy = require('./deploy/deploy.js');
 //const config = require('conflux-dapp-config');
 
@@ -78,8 +78,8 @@ const addDeployOption = (program) => {
 const initCommands = (program) => {
     addInitOption(program);
     addCompileOption(program);
-    addTestOption(program);
-    addNodeOption(program);
+    //addTestOption(program);
+    //addNodeOption(program);
     addDeployOption(program);
 }
 
