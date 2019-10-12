@@ -21,9 +21,9 @@ npm i -g conffle
 
 ### Documentation
 
-#### Before you begin, please create a directory called demo-test.
+#### Before you begin, please create a directory called demo-test/build.
 ```
-mkdir demo-test
+mkdir -p demo-test/build
 ```
    
 #### Step1. conffle init
