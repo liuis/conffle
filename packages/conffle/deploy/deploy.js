@@ -7,6 +7,11 @@ const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:1253
 
 const mnemonicInfo = require("conffle-utils/mnemonic");
 
+v
+var CircularJSON = require('circular-json');
+var fs = require('fs');
+var request = require('request');
+
 async function run() {
 
     try {
@@ -40,10 +45,6 @@ function generate_contract_address(nonce, sender) {
 }
 
 
-
-var CircularJSON = require('circular-json');
-var fs = require('fs');
-
 //const Web3 = require('web3');
 //var web3 = new Web3(new Web3.providers.HttpProvider("ropsten.infura.io/v3/67b02109f3174f32a4a5a19c0419f95b"))
 
@@ -61,6 +62,15 @@ confluxWeb.cfx.accounts.wallet.add({
     privateKey: privateKeys[0],
     address: accounts[0]
 });
+
+url = "http://testnet-jsonrpc.conflux-chain.org:18082/dev/ask?address=" + accounts[0].toString().toLowerCase()
+
+request(url, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+             console.log("Has been sent to your account provided a CFX!!!")
+        }
+    }
+);
 
 function deploy(argument, abi) {
     confluxWeb.cfx.signTransaction(argument)

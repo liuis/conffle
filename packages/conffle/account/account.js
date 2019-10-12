@@ -1,17 +1,20 @@
 const mnemonicInfo = require("conffle-utils/mnemonic.js");
 var fs = require('fs');
+var sd = require('silly-datetime');
 
+var time=sd.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
 var data = {}
 data.wallet = []
 
 function writeJson(mnemonicValue, accountsValue, privateKeysValue) {
     var obj = {
+        time : time, 
         mnemonic: mnemonicValue,
         accounts: accountsValue,
         privateKeys: privateKeysValue
     }
     data.wallet.push(obj)
-    fs.writeFile("wallet.json", JSON.stringify(data), function(err) {
+    fs.appendFile("wallet.json", JSON.stringify(data), function(err) {
         if (err) throw err;
         console.log('write complete, pls check wallet.json in current directory');
     })
