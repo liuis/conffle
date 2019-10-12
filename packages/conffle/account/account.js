@@ -1,4 +1,21 @@
 const mnemonicInfo = require("conffle-utils/mnemonic.js");
+var fs = require('fs');
+
+var data = {}
+data.wallet = []
+
+function writeJson(mnemonicValue, accountsValue, privateKeysValue) {
+    var obj = {
+        mnemonic: mnemonicValue,
+        accounts: accountsValue,
+        privateKeys: privateKeysValue
+    }
+    data.wallet.push(obj)
+    fs.writeFile("wallet.json", JSON.stringify(data), function(err) {
+        if (err) throw err;
+        console.log('write complete, pls check wallet.json in current directory');
+    })
+};
 
 async function run() {
 
@@ -33,7 +50,8 @@ function generatePK() {
     console.log("----------------------privateKeys--------------------------")
     console.log("privateKeys:")
     console.log(privateKeys)
-
+    
+    writeJson(mnemonic,accounts,privateKeys);
 
 }
 
