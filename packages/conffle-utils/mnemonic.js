@@ -28,7 +28,6 @@ const mnemonic = {
             // defaultUserConfig.set({ mnemonic: mnemonic });
             //} else {
             //  mnemonic = userMnemonicExists;
-        }
 
             return mnemonic;
     },
