@@ -7,7 +7,6 @@ const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:1253
 
 const mnemonicInfo = require("conffle-utils/mnemonic");
 
-v
 var CircularJSON = require('circular-json');
 var fs = require('fs');
 var request = require('request');
