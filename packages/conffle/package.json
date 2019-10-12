@@ -45,5 +45,6 @@
   "bugs": {
     "url": "https://github.com/liuis/conflux-dapp-js/issues"
   },
-  "homepage": "https://github.com/liuis/conflux-dapp-js#readme"
+  "homepage": "https://github.com/liuis/conflux-dapp-js#readme",
+  "gitHead": "dcd4e816e4d876d4311670de5703f1dc1827d4b3"
 }
