@@ -32,6 +32,13 @@
     "path": "^0.12.7",
     "solc": "^0.5.12",
     "truffle-conflux-box": "0.0.2-alpha.1",
+    "truffle-conflux-artifactor": "0.0.2-alpha.0",
+    "truffle-conflux-box": "0.0.2-alpha.1",
+    "truffle-conflux-config": "0.0.2-alpha.0",
+    "truffle-conflux-init": "0.0.1",
+    "truffle-conflux-migrate": "0.0.2-alpha.1",
+    "truffle-conflux-resolver": "0.0.2-alpha.3",
+    "truffle-conflux-workflow-compile": "0.0.2-alpha.0",
     "web3": "^1.2.1"
   },
   "author": "ping.li@conflux-chain.org",
