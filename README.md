@@ -24,6 +24,8 @@ npm i -g conffle
 #### Before you begin, please create a directory called demo-test/build.
 ```
 mkdir -p demo-test/build
+
+npm install -g inquirer
 ```
    
 #### Step1. conffle init
