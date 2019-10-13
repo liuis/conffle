@@ -11,7 +11,7 @@ var CircularJSON = require('circular-json');
 var fs = require('fs');
 var request = require('request');
 
-async function run() {
+async function run(address, privateKey) {
 
     try {
         await deployContract();
@@ -22,7 +22,7 @@ async function run() {
 }
 
 
-
+/*
 const {
     mnemonic,
     accounts,
@@ -30,7 +30,7 @@ const {
 } = mnemonicInfo.getAccountsInfo(
     1
 );
-
+*/
 function generate_contract_address(nonce, sender) {
 
     var input_arr = [sender, nonce];
@@ -58,15 +58,15 @@ function generate_contract_address(nonce, sender) {
 //confluxWeb.cfx.accounts.wallet.add(privateKey);
 //confluxWeb.cfx.accounts.wallet.add(privateKeys[0]);
 confluxWeb.cfx.accounts.wallet.add({
-    privateKey: privateKeys[0],
-    address: accounts[0]
+    privateKey: privateKeys,
+    address: address
 });
 
-url = "http://testnet-jsonrpc.conflux-chain.org:18082/dev/ask?address=" + accounts[0].toString().toLowerCase()
-
+url = "http://testnet-jsonrpc.conflux-chain.org:18082/dev/ask?address=" + address.toString().toLowerCase()
 request(url, function(error, response, body) {
         if (!error && response.statusCode == 200) {
              console.log("Has been sent to your account provided a CFX!!!")
+             console.log("Your address balance is :" + conflux.cfx.getBalance(address));
         }
     }
 );
