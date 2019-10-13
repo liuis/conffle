@@ -20,15 +20,15 @@ const mnemonic = {
    */
   getOrGenerateMnemonic: function() {
     let mnemonic;
-    const userMnemonicExists = defaultUserConfig.get("mnemonic");
-    if (!userMnemonicExists) {
+    //const userMnemonicExists = defaultUserConfig.get("mnemonic");
+    //if (!userMnemonicExists) {
       mnemonic = bip39.entropyToMnemonic(
         crypto.randomBytes(16).toString("hex")
-      );
-      defaultUserConfig.set({ mnemonic: mnemonic });
-    } else {
-      mnemonic = userMnemonicExists;
-    }
+  );
+    //  defaultUserConfig.set({ mnemonic: mnemonic });
+    //} else {
+   //   mnemonic = userMnemonicExists;
+    //}
 
     return mnemonic;
   },
@@ -46,10 +46,10 @@ const mnemonic = {
     //console.log(bip39.mnemonicToSeed(mnemonic));
     let hdwallet = hdkey.fromMasterSeed(bip39.mnemonicToSeed(mnemonic).toString());
     let addressIndex = 0;
-    let walletHdpath = "m/44'/60'/0'/0/";
+    let wallet_hdpath = 'm/44\'/60\'/0\'/0/';
 
     for (let i = addressIndex; i < addressIndex + numAddresses; i++) {
-      let wallet = hdwallet.derivePath(walletHdpath + i).getWallet();
+      let wallet = hdwallet.derivePath(wallet_hdpath + String(i)).getWallet();
       let addr = "0x" + wallet.getAddress().toString("hex");
       let privKey = wallet.getPrivateKey().toString("hex");
       accounts.push(addr);

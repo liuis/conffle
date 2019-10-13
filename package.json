@@ -23,6 +23,7 @@
     "ether-pudding": "^3.2.0",
     "ethereumjs-wallet": "^0.6.3",
     "fs": "0.0.1-security",
+    "hdwallet-accounts": "0.0.1",
     "json-stringify": "^1.0.0",
     "keccak": "^2.0.0",
     "request": "^2.88.0",
