@@ -65,7 +65,8 @@ const addDeployOption = (program) => {
         .description('Run deploy script')
         //.option('--path [deploy path]', 'Path to deployment file', './deployment/deploy.js')
         //.option('-n --network [network]', 'Select network', "local")
-        .option('--networkId [networkId]', 'Configure your network id')
+        .option('--a [account address]', 'Configure your address')
+        .option('--pk [privateKey]', 'Configure your privateKey')
         //.option('-s --secretKey [secretKey]', 'Wallet secretKey(privateKey)')
         //.option('--compiler [compiler_url]', 'Url to the desired compiler')
         .action(async (options) => {

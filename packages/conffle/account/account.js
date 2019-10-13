@@ -1,4 +1,5 @@
 const mnemonicInfo = require("conffle-utils/mnemonic.js");
+let HDWalletAccounts = require("hdwallet-accounts");
 var fs = require('fs');
 var sd = require('silly-datetime');
 
@@ -6,12 +7,11 @@ var time=sd.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
 var data = {}
 data.wallet = []
 
-function writeJson(mnemonicValue, accountsValue, privateKeysValue) {
+function writeJson(mnemonicValue, accountsValue) {
     var obj = {
         time : time, 
         mnemonic: mnemonicValue,
         accounts: accountsValue,
-        privateKeys: privateKeysValue
     }
     data.wallet.push(obj)
     fs.appendFile("wallet.json", JSON.stringify(data), function(err) {
@@ -32,29 +32,33 @@ async function run() {
 }
 
 function generatePK() {
-    const {
-        mnemonic,
-        accounts,
-        privateKeys
-    } = mnemonicInfo.getAccountsInfo(
-        10
-    );
 
-    console.log("----------------------mnemonic--------------------------")
-    console.log("mnemonic:");
-    console.log(mnemonic);
+    let walletAccounts = HDWalletAccounts(10);
+    console.log('Mnemonic:', walletAccounts.mnemonic);
+    console.log('Accounts:', walletAccounts.accounts);
+    writeJson(walletAccounts.mnemonic,walletAccounts.accounts);
+    //const {
+    //    mnemonic,
+    //    accounts,
+    //    privateKeys
+    //} = mnemonicInfo.getAccountsInfo(
+    //    10
+    //);
+
+    //console.log("----------------------mnemonic--------------------------")
+    //console.log("mnemonic:");
+    //console.log(mnemonic);
 
 
 
-    console.log("----------------------accounts--------------------------")
-    console.log("accounts:")
-    console.log(accounts)
+    //console.log("----------------------accounts--------------------------")
+    //console.log("accounts:")
+    //console.log(accounts)
 
-    console.log("----------------------privateKeys--------------------------")
-    console.log("privateKeys:")
-    console.log(privateKeys)
+    //console.log("----------------------privateKeys--------------------------")
+    //console.log("privateKeys:")
+    //console.log(privateKeys)
     
-    writeJson(mnemonic,accounts,privateKeys);
 
 }
 
