@@ -21,7 +21,7 @@ npm i -g conffle
 
 ### Documentation
 
-###  **warning** 
+##  **warning** 
 
 All tests are run on mac, because of the case-sensitive nature of Linux, so you can't run it on Linux for the time being.
 
@@ -100,7 +100,7 @@ Select the address and privatekey you want to deploy in the wallet.json file.
 
 ```
 example： 
-conffle  deploy conffle deploy --a "0xe1680683be13895b59c94eaf61818975a0d105dd" --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac"
+conffle deploy --a "0xe1680683be13895b59c94eaf61818975a0d105dd" --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac"
 ```
 
 Will be sent to test network related contracts over the contract.
