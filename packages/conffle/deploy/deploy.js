@@ -24,7 +24,7 @@ async function run(address, privateKeys) {
         request(url, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log("Has been sent to your account provided a CFX!!!")
-                console.log("Your address balance is :" + conflux.cfx.getBalance(address));
+                console.log("Your address balance is :" + confluxWeb.cfx.getBalance(address));
             }
         });
 
