@@ -100,9 +100,10 @@ function deployContract() {
             console.log("bytecode:", "0x" + fd.bytecode)
             code = "0x" + fd.bytecode
             abi = fd.abi
-                //console.log(confluxWeb.cfx.accounts.wallet[0]);
+            console.log("confluxWeb.cfx.accounts.wallet[0].address : ", confluxWeb.cfx.accounts.wallet[0].address);
+            console.log("confluxWeb.cfx.accounts.wallet : ", confluxWeb.cfx.accounts.wallet);
             confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(nonceValue => {
-
+            console.log("nonceValue:", nonceValue)
                 const txParams = {
                     from: 0,
                     nonce: nonceValue, // make nonce appropriate
