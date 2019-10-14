@@ -11,7 +11,7 @@ var CircularJSON = require('circular-json');
 var fs = require('fs');
 var request = require('request');
 
-async function run(address, privateKey) {
+async function run(address, privateKeys) {
 
     try {
         await deployContract();
