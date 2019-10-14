@@ -5,7 +5,7 @@
 **conffle** is an conflux framework which helps with Initialize a dapp project.
 The framework makes the development of smart contracts in the conflux network pretty easy. It provides commands for    compilation, deployment of smart contracts, running a local node, local compiler and unit testing the contracts.
 
-conflux-chain-dapp-js consists of 5 separated packages. There are two main packages.
+conffle consists of 5 separated packages. There are two main packages.
 - **conffle** - This package is responsible for reading **Conffle** commands from the command line
 - **conffle-lib** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
 - **conffle-logger** - Using this package will give you the ability to print your historical deployments on the console.   
