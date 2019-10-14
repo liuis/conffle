@@ -21,6 +21,10 @@ npm i -g conffle
 
 ### Documentation
 
+### warning 
+
+All tests are run on mac, because of the case-sensitive nature of Linux, so you can't run it on Linux for the time being.
+
 #### Before you begin, please create a directory called demo-test/build.
 ```
 mkdir -p demo-test/build
