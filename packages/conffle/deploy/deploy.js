@@ -14,12 +14,13 @@ var request = require('request');
 async function run(address, privateKeys) {
 
     try {
+        console.log("address:" + address, "privateKeys:" + privateKeys)
         confluxWeb.cfx.accounts.wallet.add({
             privateKey: privateKeys,
             address: address
         });
 
-        url = "http://testnet-jsonrpc.conflux-chain.org:18082/dev/ask?address=" + address.toString().toLowerCase()
+        url = "http://testnet-jsonrpc.conflux-chain.org:18082/dev/ask?address=" + address
         request(url, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log("Has been sent to your account provided a CFX!!!")
