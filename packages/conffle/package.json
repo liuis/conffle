@@ -7,7 +7,7 @@
     "conffle": "./conffle.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc tape tests/*.js | tap-nyc"
   },
   "repository": {
     "type": "git",
@@ -48,5 +48,13 @@
     "url": "https://github.com/liuis/conflux-dapp-js/issues"
   },
   "homepage": "https://github.com/liuis/conflux-dapp-js#readme",
-  "gitHead": "dcd4e816e4d876d4311670de5703f1dc1827d4b3"
+  "gitHead": "dcd4e816e4d876d4311670de5703f1dc1827d4b3",
+  "devDependencies": {
+    "tap-nyc": "^1.0.3",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.11.0"
+  },
+  "peerDependencies": {
+    "acorn": "^6.0.0"
+  }
 }
