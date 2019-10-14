@@ -21,7 +21,7 @@ npm i -g conffle
 
 ### Documentation
 
-### warning 
+###  **warning** 
 
 All tests are run on mac, because of the case-sensitive nature of Linux, so you can't run it on Linux for the time being.
 
@@ -46,7 +46,11 @@ Put your own contract.
 ```
 conffle account
 ```
-Generate account and private key .
+Generate account and private key . 
+
+
+You can find the generated **wallet.json** file in the current directory. All address, privatekey, publishkey will be written to this file.
+
 The following content :
 
 ```
@@ -91,8 +95,12 @@ To compile your contract, will generate build directory down generated abi and t
 
 #### Step4. conffle  deploy 
 
+
+Select the address and privatekey you want to deploy in the wallet.json file.
+
 ```
-conffle  deploy 
+example： 
+conffle  deploy conffle deploy --a "0xe1680683be13895b59c94eaf61818975a0d105dd" --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac"
 ```
 
 Will be sent to test network related contracts over the contract.
