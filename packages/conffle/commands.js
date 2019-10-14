@@ -70,7 +70,7 @@ const addDeployOption = (program) => {
         //.option('-s --secretKey [secretKey]', 'Wallet secretKey(privateKey)')
         //.option('--compiler [compiler_url]', 'Url to the desired compiler')
         .action(async (options) => {
-            await deploy.run(options);
+            await deploy.run(options.a, options.pk);
         })
 };
 
