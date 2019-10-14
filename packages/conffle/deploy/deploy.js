@@ -14,6 +14,20 @@ var request = require('request');
 async function run(address, privateKeys) {
 
     try {
+        confluxWeb.cfx.accounts.wallet.add({
+            privateKey: privateKeys,
+            address: address
+        });
+
+        url = "http://testnet-jsonrpc.conflux-chain.org:18082/dev/ask?address=" + address.toString().toLowerCase()
+        request(url, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log("Has been sent to your account provided a CFX!!!")
+                console.log("Your address balance is :" + conflux.cfx.getBalance(address));
+            }
+        });
+
+
         await deployContract();
 
     } catch (e) {
@@ -57,20 +71,6 @@ function generate_contract_address(nonce, sender) {
 
 //confluxWeb.cfx.accounts.wallet.add(privateKey);
 //confluxWeb.cfx.accounts.wallet.add(privateKeys[0]);
-confluxWeb.cfx.accounts.wallet.add({
-    privateKey: privateKeys,
-    address: address
-});
-
-url = "http://testnet-jsonrpc.conflux-chain.org:18082/dev/ask?address=" + address.toString().toLowerCase()
-request(url, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-             console.log("Has been sent to your account provided a CFX!!!")
-             console.log("Your address balance is :" + conflux.cfx.getBalance(address));
-        }
-    }
-);
-
 function deploy(argument, abi) {
     confluxWeb.cfx.signTransaction(argument)
         .then((encodedTransaction) => {
