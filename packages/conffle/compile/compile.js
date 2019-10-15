@@ -55,16 +55,19 @@ function compile(name) {
     };
     importpath = findImports("./demo-test/contracts")
         //console.log("importpath:", importpath)
-    solcResult = solc.compile(JSON.stringify(input), importpath)
-    if (typeof solcResult === 'string') {
-     output = JSON.parse(solcResult)
-    }
-    else {
-     output = solcResult
-    }
+    //solcResult = solc.compile(JSON.stringify(input), importpath)
+    const preparedSource = source.replace('Erc20TokenNamePlaceholder', "FC2");
+    const compiledContract = solc.compile(preparedSource, 1).contracts[':'+"FC2"];
 
-    console.log("output:", output);
+    //if (typeof solcResult === 'string') {
+    // output = JSON.parse(solcResult)
+    //}
+    //else {
+    // output = solcResult
+    //}
 
+    console.log("output:", compiledContract);
+    /*
     for (var file in output.contracts) {
         for (var contractName in output.contracts[file]) {
             teamJson.abi = output.contracts[file][contractName].abi;
@@ -80,6 +83,7 @@ function compile(name) {
 
         console.log("contract compiled sucessfully:", file)
     }
+    */
 
 }
 
