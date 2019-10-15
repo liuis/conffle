@@ -1,6 +1,6 @@
 {
   "name": "conffle",
-  "version": "0.0.23-alpha.12",
+  "version": "0.0.23-alpha.13",
   "description": "commands for conflux-chain-dapp-js",
   "main": "index.js",
   "bin": {
