@@ -15,7 +15,7 @@ conffle consists of 5 separated packages. There are two main packages.
 
 ### Installing
 
-```text
+```shell
 npm i -g conffle
 ```
 
@@ -26,7 +26,7 @@ npm i -g conffle
 All tests are run on mac, because of the case-sensitive nature of Linux, so you can't run it on Linux for the time being.
 
 #### Before you begin, please create a directory called demo-test/build.
-```
+```javascript
 mkdir -p demo-test/build
 
 npm install -g inquirer
@@ -34,7 +34,7 @@ npm install -g inquirer
    
 #### Step1. conffle init
 
-```
+```shell
 conffle init
 ```
 
@@ -43,7 +43,7 @@ Put your own contract.
 
 #### Step2. conffle account
 
-```
+```sehll
 conffle account
 ```
 Generate account and private key . 
@@ -53,7 +53,7 @@ You can find the generated **wallet.json** file in the current directory. All ad
 
 The following content :
 
-```
+```shell
 ----------------------mnemonic--------------------------
 
 mnemonic:
@@ -86,7 +86,7 @@ privateKeys:
 ```
 #### Step3. conffle compile --name ContractName(you contract name)
 
-```
+```shell
 example:
       conffle compile --name SampleContract
 ```
@@ -100,7 +100,7 @@ wallet addressIndex[0] as the default deploy address
 
 Select the address and privatekey you want to deploy in the wallet.json file.
 
-```
+```shell
 example： 
 conffle deploy 
          --a "0xe1680683be13895b59c94eaf61818975a0d105dd" 
@@ -111,7 +111,8 @@ conffle deploy
 Will be sent to test network related contracts over the contract.
 
 If you are successful, you will receive the following log:
-```
+
+```shell
 example:
 
 you can find the transaction details on : http://www.confluxscan.io/transactionsdetail/0x5a8234da84f0c066780921a04b2cbc94d6e48a343cd9ae5bda5479d78a883f76
