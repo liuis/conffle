@@ -95,12 +95,17 @@ To compile your contract, will generate build directory down generated abi and t
 
 #### Step4. conffle  deploy 
 
+##  **default:**  
+wallet addressIndex[0] as the default deploy address
 
 Select the address and privatekey you want to deploy in the wallet.json file.
 
 ```
 example： 
-conffle deploy --a "0xe1680683be13895b59c94eaf61818975a0d105dd" --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac"
+conffle deploy 
+         --a "0xe1680683be13895b59c94eaf61818975a0d105dd" 
+         --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac"
+         --name ContractName
 ```
 
 Will be sent to test network related contracts over the contract.
