@@ -55,7 +55,13 @@ function compile(name) {
     };
     importpath = findImports("./demo-test/contracts")
         //console.log("importpath:", importpath)
-    var output = JSON.parse(solc.compile(JSON.stringify(input), importpath))
+    solcResult = solc.compile(JSON.stringify(input), importpath)
+    if (typeof solcResult === 'string') {
+     output = JSON.parse(solcResult)
+    }
+    else {
+     output = solcResult
+    }
 
     console.log("output:", output);
 
