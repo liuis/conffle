@@ -70,7 +70,7 @@ function compile(name) {
     teamJson.abi = JSON.parse(compiledContract.interface)
     teamJson.bytecode =  compiledContract.bytecode
 
-    wfile = "./demo-test/build/" + file + ".json"
+    wfile = "./demo-test/build/" + contentfile + ".json"
 
     fs.writeFile(wfile, JSON.stringify(teamJson), function(err) {
         if (err)
