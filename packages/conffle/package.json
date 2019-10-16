@@ -33,7 +33,7 @@
     "original-require": "^1.0.1",
     "path": "^0.12.7",
     "silly-datetime": "^0.1.2",
-    "solc": "^0.4.19",
+    "solc": "^0.5.11",
     "truffle-conflux-artifactor": "0.0.2-alpha.0",
     "truffle-conflux-box": "0.0.2-alpha.1",
     "truffle-conflux-config": "0.0.2-alpha.0",
