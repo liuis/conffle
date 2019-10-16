@@ -100,10 +100,10 @@ function deployContract() {
             console.log("bytecode:", "0x" + fd.bytecode)
             code = "0x" + fd.bytecode
             abi = fd.abi
-            console.log("confluxWeb.cfx.accounts.wallet[0].address : ", confluxWeb.cfx.accounts.wallet[0].address);
-            console.log("confluxWeb.cfx.accounts.wallet : ", confluxWeb.cfx.accounts.wallet);
+                //console.log("confluxWeb.cfx.accounts.wallet[0].address : ", confluxWeb.cfx.accounts.wallet[0].address);
+                //console.log("confluxWeb.cfx.accounts.wallet : ", confluxWeb.cfx.accounts.wallet);
             confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(nonceValue => {
-            console.log("nonceValue:", nonceValue)
+                console.log("nonceValue:", nonceValue)
                 const txParams = {
                     from: 0,
                     nonce: nonceValue, // make nonce appropriate
@@ -114,9 +114,24 @@ function deployContract() {
                     // byte code is the ballot contract from https://remix.ethereum.org/
                     // Sol version: 0.5.0
                     // With constructor(_numProposals = 10)
-                    data: code
+                    data: code,
+                    arguments: ["FC2", "FC2", 18, 1000000]
                 };
+                /*
+                const result = await new confluxWeb.cfx.Contract(JSON.parse(abi))
+                    .deploy({
+                        data: code,
+                        arguments: ["FC2", "FC2", 18, 10000000000000000]
+                    })
+                    .send({
+                        gas: 1000000,
+                        from: 0,
+                        gasPrice:5000,
+                        nonce:nonceValue
+                    })
 
+                console.log('Contract deployed to: ', result.options.address);
+                */
                 deploy(txParams, abi);
             })
         });

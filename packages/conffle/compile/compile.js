@@ -20,7 +20,7 @@ function compile(name) {
     //    process.exit(1);
     //}
     //var fileName = process.argv[2];
-    var fileName = name 
+    var fileName = name
 
     confile = fileName + '.sol';
 
@@ -55,9 +55,9 @@ function compile(name) {
     };
     importpath = findImports("./demo-test/contracts")
         //console.log("importpath:", importpath)
-    //solcResult = solc.compile(JSON.stringify(input), importpath)
-    const preparedSource = source.replace('Erc20TokenNamePlaceholder', "FC2");
-    const compiledContract = solc.compile(preparedSource, 1).contracts[':'+"FC2"];
+        //solcResult = solc.compile(JSON.stringify(input), importpath)
+    const preparedSource = contentfile.replace('Erc20TokenNamePlaceholder', "FC2");
+    const compiledContract = solc.compile(preparedSource, 1).contracts[':' + "FC2"];
 
     //if (typeof solcResult === 'string') {
     // output = JSON.parse(solcResult)
@@ -67,6 +67,16 @@ function compile(name) {
     //}
 
     console.log("output:", compiledContract);
+    teamJson.abi = JSON.parse(compiledContract.interface)
+    teamJson.bytecode =  compiledContract.bytecode
+
+    wfile = "./demo-test/build/" + file + ".json"
+
+    fs.writeFile(wfile, JSON.stringify(teamJson), function(err) {
+        if (err)
+            console.error(err);
+    })
+
     /*
     for (var file in output.contracts) {
         for (var contractName in output.contracts[file]) {
