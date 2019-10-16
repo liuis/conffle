@@ -56,8 +56,8 @@ function compile(name) {
     importpath = findImports("./demo-test/contracts")
         //console.log("importpath:", importpath)
         //solcResult = solc.compile(JSON.stringify(input), importpath)
-    const preparedSource = contentfile.replace('Erc20TokenNamePlaceholder', "FC2");
-    const compiledContract = solc.compile(preparedSource, 1).contracts[':' + "FC2"];
+    const preparedSource = contentfile.replace('Erc20TokenNamePlaceholder', "GBLPToken");
+    const compiledContract = solc.compile(preparedSource, 1).contracts[':' + "GBLPToken"];
 
     //if (typeof solcResult === 'string') {
     // output = JSON.parse(solcResult)
@@ -70,7 +70,7 @@ function compile(name) {
     teamJson.abi = JSON.parse(compiledContract.interface)
     teamJson.bytecode =  compiledContract.bytecode
 
-    wfile = "./demo-test/build/" + contentfile + ".json"
+    wfile = "./demo-test/build/" + confile + ".json"
 
     fs.writeFile(wfile, JSON.stringify(teamJson), function(err) {
         if (err)

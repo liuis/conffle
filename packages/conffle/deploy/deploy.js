@@ -115,7 +115,7 @@ function deployContract() {
                     // Sol version: 0.5.0
                     // With constructor(_numProposals = 10)
                     data: code,
-                    arguments: ["FC2", "FC2", 18, 1000000]
+                    arguments: ["GBLPToken", "GBLP", 18, 1000000]
                 };
                 /*
                 const result = await new confluxWeb.cfx.Contract(JSON.parse(abi))
