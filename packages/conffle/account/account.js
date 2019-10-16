@@ -7,14 +7,14 @@ var time=sd.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
 var data = {}
 data.wallet = []
 
-function writeJson(mnemonicValue, accountsValue) {
+function writeJson(mnemonicValue, accountsValue, dir) {
     var obj = {
         time : time, 
         mnemonic: mnemonicValue,
         accounts: accountsValue,
     }
     data.wallet.push(obj)
-    fs.appendFile("wallet.json", JSON.stringify(data), function(err) {
+    fs.appendFile(dir + "wallet.json", JSON.stringify(data), function(err) {
         if (err) throw err;
         console.log('write complete, pls check wallet.json in current directory');
     })
@@ -31,12 +31,12 @@ async function run() {
     }
 }
 
-function generatePK() {
+function generatePK(dir="") {
 
     let walletAccounts = HDWalletAccounts(10);
-    console.log('Mnemonic:', walletAccounts.mnemonic);
-    console.log('Accounts:', walletAccounts.accounts);
-    writeJson(walletAccounts.mnemonic,walletAccounts.accounts);
+    //console.log('Mnemonic:', walletAccounts.mnemonic);
+    //console.log('Accounts:', walletAccounts.accounts);
+    writeJson(walletAccounts.mnemonic,walletAccounts.accounts, dir);
     //const {
     //    mnemonic,
     //    accounts,
@@ -63,5 +63,6 @@ function generatePK() {
 }
 
 module.exports = {
-    run
+    run,
+    generatePK
 }

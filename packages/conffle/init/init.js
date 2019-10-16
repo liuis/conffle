@@ -8,17 +8,17 @@ async function run() {
         await createProjectStructure();
 
     } catch (e) {
-        printError(e.message)
         console.error(e);
     }
 }
 
-function createProjectStructure() {
+function createProjectStructure(dir="./demo-test") {
     console.log("start the example procject, pls wait....")
 
-    TruffleBox.unbox("https://github.com/liuis/truffle-conflux-init-default", "./demo-test", unboxOptions);
+    TruffleBox.unbox("https://github.com/liuis/truffle-conflux-init-default", dir, unboxOptions);
 }
 
 module.exports = {
-    run
+    run,
+    createProjectStructure
 }
