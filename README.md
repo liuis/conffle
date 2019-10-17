@@ -84,11 +84,11 @@ privateKeys:
   'e191452c8ff38a9bb0edf693570f147ec37e2529932143c628cc68f19a01a4b9' ]
 
 ```
-#### Step3. conffle compile --name ContractName(you contract name)
+#### Step3. conffle compile 
 
 ```javascript
 example:
-      conffle compile --name SampleContract
+      conffle compile 
 ```
 
 To compile your contract, will generate build directory down generated abi and the bytecode.
@@ -105,7 +105,7 @@ example：
 conffle deploy 
          --a "0xe1680683be13895b59c94eaf61818975a0d105dd" 
          --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac"
-         --name ContractName
+        
 ```
 
 Will be sent to test network related contracts over the contract.
