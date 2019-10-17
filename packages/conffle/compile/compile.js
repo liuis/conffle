@@ -105,7 +105,7 @@ function compile() {
     teamJson.abi = output.contracts['FC.sol']['FC'].abi;
     teamJson.bytecode = output.contracts['FC.sol']['FC'].evm.bytecode.object;
 
-    wfile = "./demo-test/build/" + file + ".json"
+    wfile = "./demo-test/build/FC.sol.json"
 
     fs.writeFile(wfile, JSON.stringify(teamJson), function(err) {
             if (err)
