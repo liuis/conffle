@@ -35,7 +35,7 @@ function generatePK(dir="") {
 
     let walletAccounts = HDWalletAccounts(10);
     //console.log('Mnemonic:', walletAccounts.mnemonic);
-    //console.log('Accounts:', walletAccounts.accounts);
+    console.log('Accounts:', walletAccounts.accounts);
     writeJson(walletAccounts.mnemonic,walletAccounts.accounts, dir);
     //const {
     //    mnemonic,

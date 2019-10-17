@@ -65,6 +65,11 @@ function compile() {
     }
     */
     var input = {};
+    var teamJson = {
+        'abi': {},
+        'bytecode': ''
+    };
+ 
     var files = ['FC.sol', 'FCPausable.sol', 'FCRoles.sol', 'IFC.sol', 'Roles.sol', 'SafeMath.sol'];
     var i;
     for (i in files) {
