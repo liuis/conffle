@@ -23,7 +23,7 @@ const addSendBalanceOption = (program) => {
         .description('give some cfx coin')
         .option('--a [account address]', 'Configure your address')
         .action(async (option) => {
-            await init.run(option.a);
+            await sendbalance.run(option.a);
         })
 }
 
