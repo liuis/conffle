@@ -65,7 +65,7 @@ function sendcfx(address) {
                     //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
                     //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
 
-                    waitBlock(transactionHash)
+                    waitBlock(transactionHash, TO_ACCOUNT)
                 })
             }).catch(console.error);
     });
@@ -73,7 +73,7 @@ function sendcfx(address) {
 
 
 
-function waitBlock(txHash) {
+function waitBlock(txHash,TO_ACCOUNT) {
 
     for (var i = 0, len = 12; i < len; i++) {
         client.request('generateoneblock', [10, 300000], function(err, error, result) {
@@ -91,7 +91,7 @@ function waitBlock(txHash) {
                 console.log("receipt:", receipt);
                 console.log("Your account has been receiver some cfx coin");
                 confluxWeb.cfx.getBalance(TO_ACCOUNT).then(console.log)
-                console.log(confluxWeb.cfx.accounts.wallet)
+                //console.log(confluxWeb.cfx.accounts.wallet)
                 confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
                 console.log(confluxWeb.cfx.accounts.wallet)
             } else {
