@@ -203,7 +203,7 @@ function localhost_waitBlock(txHash) {
     for (var i = 0, len = 12; i < len; i++) {
         client.request('generateoneblock', [10, 300000], function(err, error, result) {
             if (err) throw err;
-            console.log("generateoneblock : " + result);
+            //console.log("generateoneblock : " + result);
         });
 
     }
@@ -213,7 +213,7 @@ function localhost_waitBlock(txHash) {
         (receipt) => {
             //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
             if (receipt !== null) {
-                console.log("receipt:", receipt.stateRoot);
+                //console.log("receipt:", receipt.stateRoot);
                 //console.log("Your account has been receiver some cfx coin");
                 confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
             } else {

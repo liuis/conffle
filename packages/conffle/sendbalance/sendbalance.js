@@ -78,7 +78,7 @@ function waitBlock(txHash,TO_ACCOUNT) {
     for (var i = 0, len = 12; i < len; i++) {
         client.request('generateoneblock', [10, 300000], function(err, error, result) {
             if (err) throw err;
-            console.log("generateoneblock : " + result);
+            //console.log("generateoneblock : " + result);
         });
 
     }
@@ -93,7 +93,7 @@ function waitBlock(txHash,TO_ACCOUNT) {
                 confluxWeb.cfx.getBalance(TO_ACCOUNT).then(console.log)
                 //console.log(confluxWeb.cfx.accounts.wallet)
                 confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
-                console.log(confluxWeb.cfx.accounts.wallet)
+                //console.log(confluxWeb.cfx.accounts.wallet)
             } else {
                 return waitBlock(txHash,TO_ACCOUNT)
             }
