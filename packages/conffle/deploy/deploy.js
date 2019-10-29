@@ -212,7 +212,7 @@ function localhost_waitBlock(txHash) {
             if (receipt !== null) {
                 console.log("receipt:", receipt);
                 console.log("Your account has been receiver some cfx coin");
-                confluxWeb.cfx.wallet.remove(GENESIS_ADDRESS)
+                confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
             } else {
                 return localhost_waitBlock(txHash)
             }
