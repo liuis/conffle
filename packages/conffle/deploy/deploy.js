@@ -24,6 +24,8 @@ async function run(address, privateKeys) {
 
     try {
         console.log("address:" + address, "privateKeys:" + privateKeys)
+        await sendBalance_localhost(address);
+
         await deployContract(address, privateKeys);
 
     } catch (e) {
@@ -79,7 +81,6 @@ function deploy(argument, abi) {
 
 async function deployContract(address, privateKeys) {
 
-    await sendBalance_localhost(address);
 
     confluxWeb.cfx.accounts.wallet.add({
         privateKey: privateKeys,
