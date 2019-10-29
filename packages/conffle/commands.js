@@ -1,5 +1,6 @@
 const compile = require('./compile/compile.js');
 const init = require('./init/init.js');
+const sendbalance = require('./sendbalance/sendbalance.js');
 const account = require('./account/account.js');
 //const testConfig = require('./test/test.js');
 //const node = require('./node/node.js');
@@ -15,6 +16,17 @@ const addInitOption = (program) => {
             await init.run(option.update);
         })
 }
+
+const addSendBalanceOption = (program) => {
+    program
+        .command('sendbalance')
+        .description('give some cfx coin')
+        .option('--a [account address]', 'Configure your address')
+        .action(async (option) => {
+            await init.run(option.a);
+        })
+}
+
 
 const addAccountOption = (program) => {
     program
@@ -77,6 +89,7 @@ const addDeployOption = (program) => {
 
 const initCommands = (program) => {
     addInitOption(program);
+    addSendBalanceOption(program);
     addCompileOption(program);
     addAccountOption(program);
     addDeployOption(program);
