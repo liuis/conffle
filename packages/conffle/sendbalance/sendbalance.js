@@ -95,7 +95,7 @@ function waitBlock(txHash,TO_ACCOUNT) {
                 confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
                 console.log(confluxWeb.cfx.accounts.wallet)
             } else {
-                return waitBlock(txHash)
+                return waitBlock(txHash,TO_ACCOUNT)
             }
         })
 }
