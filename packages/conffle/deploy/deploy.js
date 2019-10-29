@@ -68,7 +68,8 @@ function deploy(argument, abi) {
                     //hexNonce = argument.nonce.toString(16);
                     //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
                     //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
-                waitBlock(transactionHash, abi)
+                //waitBlock(transactionHash, abi)
+                localhost_waitBlock(transactionHash)
             })
         }).catch(console.error);
 }
