@@ -15,62 +15,16 @@ async function run() {
 
 function compile() {
 
-    //if (process.argv.length < 3) {
-    //    console.log('needs the contract Name as argument!');
-    //    process.exit(1);
-    //}
-    //var fileName = process.argv[2];
     /*
-    var fileName = name 
-
-    confile = fileName + '.sol';
-
-    console.log("confile:", confile);
-
-    var contentfile = fs.readFileSync('./demo-test/contracts/' + fileName + '.sol', {
-        encoding: 'utf8'
-    }).toString().replace(/\n/g, ' ');
-
-    var input = {
-        language: 'Solidity',
-        settings: {
-            outputSelection: {
-                '*': {
-                    '*': ['*']
-                }
-            }
-        }
-    }
-    temp = {}
-    temp.content = contentfile;
-    temp2 = {}
-    temp2[confile] = temp
-
-    input.sources = temp2
-
-    console.log(JSON.stringify(input))
-
-    teamJson = {
-        'abi': {},
-        'bytecode': ''
-    };
-    importpath = findImports("./demo-test/contracts")
-        //console.log("importpath:", importpath)
-    solcResult = solc.compile(JSON.stringify(input), importpath)
-    if (typeof solcResult === 'string') {
-     output = JSON.parse(solcResult)
-    }
-    else {
-     output = solcResult
-    }
-    */
+   */
     var input = {};
     var teamJson = {
         'abi': {},
         'bytecode': ''
     };
  
-    var files = ['FC.sol', 'FCPausable.sol', 'FCRoles.sol', 'IFC.sol', 'Roles.sol', 'SafeMath.sol'];
+    //var files = ['FC.sol', 'FCPausable.sol', 'FCRoles.sol', 'IFC.sol', 'Roles.sol', 'SafeMath.sol'];
+    var files = fs.readdirSync("./demo-test/contracts/");
     var i;
     for (i in files) {
         var file = files[i];
