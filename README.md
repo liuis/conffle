@@ -101,12 +101,23 @@ example:
 
 To compile your contract, will generate build directory down generated abi and the bytecode.
 
-#### Step4. conffle  deploy 
+#### Step4. conffle sendbalance 
+
+Give your address some CFX coin.
+
+```javascript
+example:
+        conffle sendbalance --a "0xe1680683be13895b59c94eaf61818975a0d105dd"
+```
+
+#### Step5. conffle  deploy 
 
 ##  **default:**  
 wallet addressIndex[0] as the default deploy address
 
 Select the address and privatekey you want to deploy in the wallet.json file.
+
+Ensure that your account has plenty of cfx coin, if not you can use **conffle sendbalance**  send some to your account.
 
 ```javascript
 example： 
