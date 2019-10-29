@@ -73,7 +73,7 @@ function deploy(argument, abi) {
         }).catch(console.error);
 }
 
-function deployContract(address, privateKeys) {
+async function deployContract(address, privateKeys) {
 
         await sendBalance_localhost(address);
 
