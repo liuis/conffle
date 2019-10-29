@@ -98,8 +98,8 @@ async function deployContract(address, privateKeys) {
             console.log("bytecode:", "0x" + fd.bytecode)
             code = "0x" + fd.bytecode
             abi = fd.abi
-            console.log("confluxWeb.cfx.accounts.wallet[0].address : ", confluxWeb.cfx.accounts.wallet[0].address);
-            console.log("confluxWeb.cfx.accounts.wallet : ", confluxWeb.cfx.accounts.wallet);
+            //console.log("confluxWeb.cfx.accounts.wallet[0].address : ", confluxWeb.cfx.accounts.wallet[0].address);
+            //console.log("confluxWeb.cfx.accounts.wallet : ", confluxWeb.cfx.accounts.wallet);
             confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(nonceValue => {
                 console.log("nonceValue:", nonceValue)
                 const txParams = {
@@ -185,7 +185,7 @@ async function sendBalance_localhost(account) {
                 const {
                     rawTransaction
                 } = encodedTransaction;
-                console.log('raw transaction: ', rawTransaction);
+                //console.log('raw transaction: ', rawTransaction);
                 return confluxWeb.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
                     console.log('transaction hash from RPC: ', transactionHash);
                     //hexNonce = argument.nonce.toString(16);
@@ -215,6 +215,8 @@ function localhost_waitBlock(txHash) {
             if (receipt !== null) {
                 //console.log("receipt:", receipt.stateRoot);
                 //console.log("Your account has been receiver some cfx coin");
+                contractAddress = receipt["contractCreated"]
+                console.log("Your contract has been deployed at :" + contractAddress);
                 confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
             } else {
                 return localhost_waitBlock(txHash)
