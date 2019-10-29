@@ -20,10 +20,18 @@ npm i -g conffle
 ```
 
 ### Documentation
-
 ##  **warning** 
 
 All tests are run on mac, because of the case-sensitive nature of Linux, so you can't run it on Linux for the time being.
+
+## start a  local node
+Before you start you must locally run a our conflux chain node. https://github.com/liuis/conflux-local-network
+
+```bash
+docker pull liqiazero/conflux-chain:v1
+
+docker run --name node1 -p 12537:12537 -d conflux-chain:v1
+```
 
 #### Before you begin, please create a directory called demo-test/build.
 ```javascript
