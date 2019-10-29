@@ -211,10 +211,10 @@ function localhost_waitBlock(txHash) {
 
     return confluxWeb.cfx.getTransactionReceipt(txHash).then(
         (receipt) => {
-            console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
+            //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
             if (receipt !== null) {
-                console.log("receipt:", receipt);
-                console.log("Your account has been receiver some cfx coin");
+                console.log("receipt:", receipt.stateRoot);
+                //console.log("Your account has been receiver some cfx coin");
                 confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
             } else {
                 return localhost_waitBlock(txHash)
