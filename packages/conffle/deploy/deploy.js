@@ -17,6 +17,9 @@ var CircularJSON = require('circular-json');
 var fs = require('fs');
 var request = require('request');
 
+const GENESIS_PRI_KEY = "46b9e861b63d3509c88b7817275a30d22d62c8cd8fa6486ddee35ef0d8e0495f";
+const GENESIS_ADDRESS = "0xfbe45681ac6c53d5a40475f7526bac1fe7590fb8";
+
 async function run(address, privateKeys) {
 
     try {
@@ -68,7 +71,7 @@ function deploy(argument, abi) {
                     //hexNonce = argument.nonce.toString(16);
                     //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
                     //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
-                //waitBlock(transactionHash, abi)
+                    //waitBlock(transactionHash, abi)
                 localhost_waitBlock(transactionHash)
             })
         }).catch(console.error);
@@ -76,12 +79,12 @@ function deploy(argument, abi) {
 
 async function deployContract(address, privateKeys) {
 
-        await sendBalance_localhost(address);
+    await sendBalance_localhost(address);
 
-        confluxWeb.cfx.accounts.wallet.add({
-            privateKey: privateKeys,
-            address: address
-        });
+    confluxWeb.cfx.accounts.wallet.add({
+        privateKey: privateKeys,
+        address: address
+    });
 
 
     fs.readdir("./demo-test/build", (err, files) => {
@@ -153,8 +156,6 @@ async function sendBalance_testnet(address) {
 
 
 async function sendBalance_localhost(account) {
-    const GENESIS_PRI_KEY = "46b9e861b63d3509c88b7817275a30d22d62c8cd8fa6486ddee35ef0d8e0495f";
-    const GENESIS_ADDRESS = "0xfbe45681ac6c53d5a40475f7526bac1fe7590fb8";
     const TO_ACCOUNT = account;
 
     confluxWeb.cfx.accounts.wallet.add({
