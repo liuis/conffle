@@ -30,7 +30,7 @@ Before you start you must locally run a our conflux chain node. https://github.c
 ```bash
 docker pull liqiazero/conflux-chain:v1
 
-docker run --name node1 -p 12537:12537 -d conflux-chain:v1
+docker run --name node1 -p 12537:12537 -d liqiazero/conflux-chain:v1
 ```
 
 #### Before you begin, please create a directory called demo-test/build.
@@ -121,9 +121,7 @@ Ensure that your account has plenty of cfx coin, if not you can use **conffle se
 
 ```javascript
 example： 
-conffle deploy 
-         --a "0xe1680683be13895b59c94eaf61818975a0d105dd" 
-         --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac"
+conffle deploy --a "0xe1680683be13895b59c94eaf61818975a0d105dd"  --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac"
         
 ```
 
