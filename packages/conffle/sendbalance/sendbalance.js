@@ -15,7 +15,7 @@ async function run(address) {
 const GENESIS_PRI_KEY = "0x46b9e861b63d3509c88b7817275a30d22d62c8cd8fa6486ddee35ef0d8e0495f";
 const GENESIS_ADDRESS = "0xfbe45681ac6c53d5a40475f7526bac1fe7590fb8";
 
-confluxWeb.cfx.getBalance(GENESIS_ADDRESS).then(console.log)
+//confluxWeb.cfx.getBalance(GENESIS_ADDRESS).then(console.log)
 
 const cfxNum = new BN('3000000000000000000');
 
@@ -23,17 +23,17 @@ var jayson = require('jayson');
 var client = jayson.client.http('http://localhost:12537');
 
 
-
-confluxWeb.cfx.accounts.wallet.add({
-    privateKey: GENESIS_PRI_KEY,
-    address: GENESIS_ADDRESS
-})
-
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
 
 function sendcfx(address) {
+
+    confluxWeb.cfx.accounts.wallet.add({
+        privateKey: GENESIS_PRI_KEY,
+        address: GENESIS_ADDRESS
+    })
+
 
     var TO_ACCOUNT = address;
 
@@ -73,7 +73,7 @@ function sendcfx(address) {
 
 
 
-function waitBlock(txHash,TO_ACCOUNT) {
+function waitBlock(txHash, TO_ACCOUNT) {
 
     for (var i = 0, len = 12; i < len; i++) {
         client.request('generateoneblock', [10, 300000], function(err, error, result) {
@@ -91,11 +91,11 @@ function waitBlock(txHash,TO_ACCOUNT) {
                 console.log("receipt:", receipt);
                 console.log("Your account has been receiver some cfx coin");
                 confluxWeb.cfx.getBalance(TO_ACCOUNT).then(console.log)
-                //console.log(confluxWeb.cfx.accounts.wallet)
+                    //console.log(confluxWeb.cfx.accounts.wallet)
                 confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
-                //console.log(confluxWeb.cfx.accounts.wallet)
+                    //console.log(confluxWeb.cfx.accounts.wallet)
             } else {
-                return waitBlock(txHash,TO_ACCOUNT)
+                return waitBlock(txHash, TO_ACCOUNT)
             }
         })
 }

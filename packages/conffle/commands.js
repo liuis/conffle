@@ -1,6 +1,9 @@
 const compile = require('./compile/compile.js');
+
 const init = require('./init/init.js');
+
 const sendbalance = require('./sendbalance/sendbalance.js');
+
 const account = require('./account/account.js');
 //const testConfig = require('./test/test.js');
 //const node = require('./node/node.js');
@@ -89,10 +92,10 @@ const addDeployOption = (program) => {
 
 const initCommands = (program) => {
     addInitOption(program);
-    addSendBalanceOption(program);
     addCompileOption(program);
     addAccountOption(program);
     addDeployOption(program);
+    addSendBalanceOption(program);
 }
 
 module.exports = {
