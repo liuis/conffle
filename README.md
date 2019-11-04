@@ -61,7 +61,7 @@ docker-compose down -v
 conffle init
 ```
 
-Generates the **demo-test** directory, the directory with related contract testing contract.
+Generates the ***demo-test*** directory, the directory include contract dir.
 Put your own contract.
 
 #### Step2. conffle account
