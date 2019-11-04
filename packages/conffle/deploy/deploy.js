@@ -70,7 +70,7 @@ function deploy(argument, abi) {
             console.log('raw transaction: ', rawTransaction);
             return confluxWeb.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
                 console.log('transaction hash from RPC: ', transactionHash);
-                console.log("you can find the transaction details on : http://www.confluxscan.io/transactionsdetail/" + transactionHash)
+                //console.log("you can find the transaction details on : http://www.confluxscan.io/transactionsdetail/" + transactionHash)
                     //hexNonce = argument.nonce.toString(16);
                     //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
                     //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
