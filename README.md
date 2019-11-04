@@ -54,12 +54,6 @@ To cleanup the associated docker volumes, `-v` option could be used:
 docker-compose down -v
 ```
 
-#### Before you begin, please create a directory called demo-test/build.
-```javascript
-mkdir -p demo-test/build
-
-npm install -g inquirer
-```
    
 #### Step1. conffle init
 
@@ -67,7 +61,7 @@ npm install -g inquirer
 conffle init
 ```
 
-Generates the demo - the test directory, the directory with related contract testing contract.
+Generates the **demo-test** directory, the directory with related contract testing contract.
 Put your own contract.
 
 #### Step2. conffle account
