@@ -32,7 +32,7 @@ docker pull liqiazero/conflux-chain:v1
 
 docker run --name node1 -p 12537:12537 -d liqiazero/conflux-chain:v1
 ```
-if u want use docker-compose, just following:
+***if u want use docker-compose, just following:***
 
 ### docker-compose
 
@@ -54,7 +54,8 @@ To cleanup the associated docker volumes, `-v` option could be used:
 docker-compose down -v
 ```
 
-   
+## conffle use:
+
 #### Step1. conffle init
 
 ```javascript
