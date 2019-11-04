@@ -50,7 +50,7 @@
     "url": "https://github.com/liuis/conflux-dapp-js/issues"
   },
   "homepage": "https://github.com/liuis/conflux-dapp-js#readme",
-  "gitHead": "6048d640c87348b6478255fcc12d18c34de25917",
+  "gitHead": "ed1c3df9689a3b0ae386559e947d5d62bd1d71e7",
   "devDependencies": {
     "mkdirp": "^0.5.1",
     "tap-nyc": "^1.0.3",
