@@ -17,7 +17,7 @@ conffle consists of 5 separated packages. There are two main packages.
 - **conffle-config** - This package is used as helper where all the necessary configuration files are included.
 - **conffle-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
 
-=================
+
 
 ### Installing
 
@@ -62,7 +62,7 @@ To cleanup the associated docker volumes, `-v` option could be used:
 ```bash
 docker-compose down -v
 ```
-=================
+
 ## conffle use:
 
 #### Step1. conffle init
