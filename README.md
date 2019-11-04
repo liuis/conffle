@@ -17,12 +17,14 @@ conffle consists of 5 separated packages. There are two main packages.
 - **conffle-config** - This package is used as helper where all the necessary configuration files are included.
 - **conffle-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
 
+=================
 
 ### Installing
 
 ```javascript
 npm i -g conffle
 ```
+-----------------
 
 ### Documentation
 ##  **warning** 
@@ -38,6 +40,8 @@ docker pull liqiazero/conflux-chain:v1
 docker run --name node1 -p 12537:12537 -d liqiazero/conflux-chain:v1
 ```
 ***if u want use docker-compose, just following:***
+
+-----------------
 
 ### docker-compose
 
@@ -58,7 +62,7 @@ To cleanup the associated docker volumes, `-v` option could be used:
 ```bash
 docker-compose down -v
 ```
-
+=================
 ## conffle use:
 
 #### Step1. conffle init
