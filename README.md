@@ -32,6 +32,27 @@ docker pull liqiazero/conflux-chain:v1
 
 docker run --name node1 -p 12537:12537 -d liqiazero/conflux-chain:v1
 ```
+if u want use docker-compose, just following:
+
+### docker-compose
+
+To start the network:
+
+```bash
+docker-compose up -d
+```
+
+To destroy the network:
+
+```bash
+docker-compose down
+```
+
+To cleanup the associated docker volumes, `-v` option could be used:
+
+```bash
+docker-compose down -v
+```
 
 #### Before you begin, please create a directory called demo-test/build.
 ```javascript
