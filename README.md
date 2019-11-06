@@ -35,9 +35,13 @@ All tests are run on mac, because of the case-sensitive nature of Linux, so you 
 Before you start you must locally run a our conflux chain node. https://github.com/liuis/conflux-local-network
 
 ```bash
-docker pull liqiazero/conflux-chain:v2
+docker pull liqiazero/conflux-chain:v3
 
-docker run --name node1 -p 12537:12537 -d liqiazero/conflux-chain:v2
+
+docker run --name conflux-chain  -p 12537:12537 -d liqiazero/conflux-chain:v3
+
+
+docker cp conflux-chain:/conflux-rust/run/genesis_accounts.toml .
 ```
 ***if u want use docker-compose, just following:***
 
