@@ -1,6 +1,7 @@
 # conffle
 
 ![Build Status](https://api.travis-ci.org/liuis/conflux-dapp-js.svg?branch=refactor) [![npm](https://img.shields.io/npm/dm/conffle.svg)](https://www.npmjs.com/package/conffle) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+[![npm version](https://badge.fury.io/js/conffle.svg)](https://badge.fury.io/js/conffle)
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/liqiazero/conflux-chain.svg)](https://hub.docker.com/r/liqiazero/conflux-chain/)
 [![Docker Stars](https://img.shields.io/docker/stars/liqiazero/conflux-chain.svg)](https://hub.docker.com/r/liqiazero/conflux-chain/)
@@ -12,7 +13,7 @@ The framework makes the development of smart contracts in the conflux network pr
 
 conffle consists of 5 separated packages. There are two main packages.
 - **conffle** - This package is responsible for reading **Conffle** commands from the command line
-- **conffle-lib** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
+- **conffle-contract** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
 - **conffle-logger** - Using this package will give you the ability to print your historical deployments on the console.   
 - **conffle-config** - This package is used as helper where all the necessary configuration files are included.
 - **conffle-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
