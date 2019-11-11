@@ -4,8 +4,7 @@
 [![npm version](https://badge.fury.io/js/conffle.svg)](https://badge.fury.io/js/conffle)
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/liqiazero/conflux-chain.svg)](https://hub.docker.com/r/liqiazero/conflux-chain/)
-[![Docker Stars](https://img.shields.io/docker/stars/liqiazero/conflux-chain.svg)]
-(https://hub.docker.com/r/liqiazero/conflux-chain/)
+[![Docker Stars](https://img.shields.io/docker/stars/liqiazero/conflux-chain.svg)](https://hub.docker.com/r/liqiazero/conflux-chain/)
 
 
 
