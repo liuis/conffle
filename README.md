@@ -13,7 +13,7 @@ The framework makes the development of smart contracts in the conflux network pr
 
 conffle consists of 5 separated packages. There are two main packages.
 - **conffle** - This package is responsible for reading **Conffle** commands from the command line
-- **conffle-lib** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
+- **conffle-contract** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
 - **conffle-logger** - Using this package will give you the ability to print your historical deployments on the console.   
 - **conffle-config** - This package is used as helper where all the necessary configuration files are included.
 - **conffle-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
