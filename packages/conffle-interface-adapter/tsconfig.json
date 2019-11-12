@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "lib": ["es2017"],
+    "paths": {
+      "conflux-web": [
+        "../../node_modules/@types/conflux-web/index",
+        "node_modules/conflux-web/index"
+      ]
+    },
+    "rootDir": "lib",
+    "typeRoots": [
+      "./typings",
+      "../../**/node_modules/@types/bn.js",
+      "../../**/node_modules/@types/mocha"
+    ]
+  },
+  "include": [
+    "./lib/**/*.ts",
+    "./typings/**/*.d.ts"
+  ]
+}
