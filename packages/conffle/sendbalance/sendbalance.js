@@ -74,7 +74,8 @@ function sendcfx(address) {
 
 
 function waitBlock(txHash, TO_ACCOUNT) {
-
+//TODO:  如果测试网或者本地网络挂了，不要循环等待
+    //加个计数器
     for (var i = 0, len = 12; i < len; i++) {
         client.request('generateoneblock', [10, 300000], function(err, error, result) {
             if (err) throw err;

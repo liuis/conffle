@@ -114,8 +114,7 @@ async function deployContract(address, privateKeys) {
                     // With constructor(_numProposals = 10)
                     data: code
                 };
-
-                deploy(txParams, abi);
+            if(abi){ deploy(txParams, abi);}
             })
         });
     })
@@ -208,7 +207,7 @@ function localhost_waitBlock(txHash) {
 
     }
 
-
+//TODO:增加计数器 不要死循环
     return confluxWeb.cfx.getTransactionReceipt(txHash).then(
         (receipt) => {
             //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
