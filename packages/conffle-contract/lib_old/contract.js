@@ -1,4 +1,7 @@
+//const debug = require("debug")("contract:contract"); // eslint-disable-line no-unused-vars
+//let Web3 = require("web3");
 let confluxWeb = require("conflux-web");
+//const webUtils = require("web3-utils");
 const webUtils = require("conflux-web-utils");
 const execute = require("./execute");
 const {
@@ -6,6 +9,12 @@ const {
   constructorMethods,
   properties
 } = require("./contract/index");
+
+// For browserified version. If browserify gave us an empty version,
+// look for the one provided by the user.
+if (typeof Web3 === "object" && Object.keys(Web3).length === 0) {
+  Web3 = global.Web3;
+}
 
 (function(module) {
   // Accepts a contract object created with confluxWeb.cfx.Contract or an address.
@@ -17,9 +26,7 @@ const {
     if (typeof contract === "string") {
       //var web3Instance = new constructor.web3.cfx.Contract(constructor.abi);
       var web3Instance = new constructor.confluxWeb.cfx.Contract(constructor.abi);
-      console.log("web3Instance-------")
-      console.log(web3Instance);
-      console.log("web3Instance-------")
+      console.log("web3Instance@contract.js:" web3Instance);
       web3Instance.options.address = contract;
       contract = web3Instance;
     }

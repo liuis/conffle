@@ -2,11 +2,8 @@ const Web3Shim = require("truffle-conflux-interface-adapter").Web3Shim;
 const utils = require("../utils");
 const execute = require("../execute");
 const bootstrap = require("./bootstrap");
-const ConfluxWeb = require('conflux-web');
-const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:12537');
 
 module.exports = Contract => ({
-
   setProvider(provider) {
     if (!provider) {
       throw new Error(
@@ -14,11 +11,10 @@ module.exports = Contract => ({
       );
     }
 
-    //this.confluxWeb.setProvider(provider);
-    //this.confluxWeb = confluxWeb;
-    this.confluxWeb.setProvider(provider);
+    this.web3.setProvider(provider);
     this.currentProvider = provider;
   },
+
   new() {
     utils.checkProvider(this);
 
@@ -34,7 +30,6 @@ module.exports = Contract => ({
 
     var constructorABI = this.abi.filter(i => i.type === "constructor")[0];
 
-    //TODO :  excute 整个文件需要重新，此处就是重新发一个合约
     return execute.deploy.call(this, constructorABI)(...arguments);
   },
 
@@ -50,10 +45,9 @@ module.exports = Contract => ({
     }
 
     try {
-      //不要相关的network fn
-      //await this.detectNetwork();
+      await this.detectNetwork();
       //const onChainCode = await this.web3.cfx.getCode(address);
-      const onChainCode = await this.confluxWeb.cfx.getCode(address);
+      const onChainCode = await this.web3.cfx.getCode(address);
       await utils.checkCode(onChainCode, this.contractName, address);
       return new this(address);
     } catch (error) {
@@ -64,10 +58,9 @@ module.exports = Contract => ({
   async deployed() {
     try {
       utils.checkProvider(this);
-      //不需要相关的network fn
-      //await this.detectNetwork();
-      //utils.checkNetworkArtifactMatch(this);
-      //utils.checkDeployment(this);
+      await this.detectNetwork();
+      utils.checkNetworkArtifactMatch(this);
+      utils.checkDeployment(this);
       return new this(this.address);
     } catch (error) {
       throw error;
@@ -91,24 +84,22 @@ module.exports = Contract => ({
     return this.class_defaults;
   },
 
-  //hasNetwork(network_id) {
-  //  return this._json.networks[`${network_id}`] != null;
-  //},
-
-  isDeployed() {
-    //TODO 检查是否已经deployed, 检查是否有address
-    //if (this.network_id == null) {
-    //  return false;
-    //}
-
-    //if (this._json.networks[this.network_id] == null) {
-    //  return false;
-    //}
-
-    //return !!this.network.address;
+  hasNetwork(network_id) {
+    return this._json.networks[`${network_id}`] != null;
   },
 
-    /*
+  isDeployed() {
+    if (this.network_id == null) {
+      return false;
+    }
+
+    if (this._json.networks[this.network_id] == null) {
+      return false;
+    }
+
+    return !!this.network.address;
+  },
+
   async detectNetwork() {
     // if artifacts already have a network_id and network configuration synced,
     // use that network and use latest block gasLimit
@@ -147,16 +138,16 @@ module.exports = Contract => ({
 
     this.networkType = networkType;
   },
+
   setWallet(wallet) {
     //this.web3.cfx.accounts.wallet = wallet;
-    this.confluxWeb.cfx.accounts.wallet = wallet;
+    this.web3.cfx.accounts.wallet = wallet;
   },
 
   // Overrides the deployed address to null.
   // You must call this explicitly so you don't inadvertently do this otherwise.
   resetAddress() {
-    //delete this.network.address;
-    //TODO:delete address from this object  
+    delete this.network.address;
   },
 
   link(name, address) {
@@ -172,8 +163,7 @@ module.exports = Contract => ({
 
       // Merge events so this contract knows about library's events
       Object.keys(contract.events).forEach(topic => {
-        //this.network.events[topic] = contract.events[topic];
-        //TODO 
+        this.network.events[topic] = contract.events[topic];
       });
 
       return;
@@ -188,7 +178,7 @@ module.exports = Contract => ({
       });
       return;
     }
-    //TODO:
+
     // Case: Contract.link(<libraryName>, <address>)
     if (this._json.networks[this.network_id] == null) {
       this._json.networks[this.network_id] = {
@@ -200,14 +190,13 @@ module.exports = Contract => ({
     this.network.links[name] = address;
   },
 
-*/
   // Note, this function can be called with two input types:
   // 1. Object with a bunch of data; this data will be merged with the json data of contract being cloned.
   // 2. network id; this will clone the contract and set a specific network id upon cloning.
   clone(json) {
     json = json || {};
 
-    const temp = function ConffleContract() {
+    const temp = function TruffleContract() {
       this.constructor = temp;
       return Contract.apply(this, arguments);
     };
@@ -232,22 +221,21 @@ module.exports = Contract => ({
 
     bootstrap(temp);
 
-    //temp.web3 = new Web3Shim({
-    //  type: temp.networkType
-    //});
-    temp.confluxWeb = confluxWeb;
+    temp.web3 = new Web3Shim({
+      type: temp.networkType
+    });
     temp.class_defaults = temp.prototype.defaults || {};
 
-    //if (network_id) {
-    //  temp.setNetwork(network_id);
-    //}
+    if (network_id) {
+      temp.setNetwork(network_id);
+    }
 
     // Copy over custom key/values to the contract class
     Object.keys(json).forEach(key => {
       if (key.indexOf("x-") !== 0) return;
       temp[key] = json[key];
     });
-    console.log("clone contract-----------")
+
     return temp;
   },
 
