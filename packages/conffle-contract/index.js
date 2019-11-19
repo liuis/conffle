@@ -1,6 +1,5 @@
 const Schema = require("truffle-conflux-contract-schema");
 const Contract = require("./lib/contract");
-const truffleContractVersion = require("./package.json").version;
 
 const contract = (json = {}) => {
   const normalizedArtifactObject = Schema.normalize(json);
@@ -10,10 +9,6 @@ const contract = (json = {}) => {
   return Contract.clone(normalizedArtifactObject);
 };
 
-contract.version = truffleContractVersion;
-
 module.exports = contract;
 
-if (typeof window !== "undefined") {
-  window.TruffleContract = contract;
-}
+

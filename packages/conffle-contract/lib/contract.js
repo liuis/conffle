@@ -1,6 +1,6 @@
-const debug = require("debug")("contract:contract"); // eslint-disable-line no-unused-vars
+//const debug = require("debug")("contract:contract"); // eslint-disable-line no-unused-vars
 //let Web3 = require("web3");
-let Web3 = require("conflux-web");
+let confluxWeb = require("conflux-web");
 //const webUtils = require("web3-utils");
 const webUtils = require("conflux-web-utils");
 const execute = require("./execute");
@@ -17,7 +17,7 @@ if (typeof Web3 === "object" && Object.keys(Web3).length === 0) {
 }
 
 (function(module) {
-  // Accepts a contract object created with web3.cfx.Contract or an address.
+  // Accepts a contract object created with confluxWeb.cfx.Contract or an address.
   function Contract(contract) {
     var instance = this;
     var constructor = instance.constructor;
@@ -25,7 +25,7 @@ if (typeof Web3 === "object" && Object.keys(Web3).length === 0) {
     // Disambiguate between .at() and .new()
     if (typeof contract === "string") {
       //var web3Instance = new constructor.web3.cfx.Contract(constructor.abi);
-      var web3Instance = new constructor.web3.cfx.Contract(constructor.abi);
+      var web3Instance = new constructor.confluxWeb.cfx.Contract(constructor.abi);
       web3Instance.options.address = contract;
       contract = web3Instance;
     }
@@ -134,7 +134,7 @@ if (typeof Web3 === "object" && Object.keys(Web3).length === 0) {
 
     // Other events
     instance.allEvents = execute.allEvents.call(constructor, contract);
-    instance.getPastEvents = execute.getPastEvents.call(constructor, contract);
+      instance.getPastEvents = execute.getPastEvents.call(constructor, contract);
   }
 
   Contract._constructorMethods = constructorMethods(Contract);
