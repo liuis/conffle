@@ -3,7 +3,7 @@ const utils = require("../utils");
 const execute = require("../execute");
 const bootstrap = require("./bootstrap");
 const ConfluxWeb = require('conflux-web');
-const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:12537');
+const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
 
 module.exports = Contract => ({
 
@@ -51,7 +51,7 @@ module.exports = Contract => ({
 
     try {
       //不要相关的network fn
-      //await this.detectNetwork();
+      await this.detectNetwork();
       //const onChainCode = await this.web3.cfx.getCode(address);
       const onChainCode = await this.confluxWeb.cfx.getCode(address);
       await utils.checkCode(onChainCode, this.contractName, address);
@@ -65,7 +65,7 @@ module.exports = Contract => ({
     try {
       utils.checkProvider(this);
       //不需要相关的network fn
-      //await this.detectNetwork();
+      await this.detectNetwork();
       //utils.checkNetworkArtifactMatch(this);
       //utils.checkDeployment(this);
       return new this(this.address);
@@ -91,31 +91,30 @@ module.exports = Contract => ({
     return this.class_defaults;
   },
 
-  //hasNetwork(network_id) {
-  //  return this._json.networks[`${network_id}`] != null;
-  //},
+  hasNetwork(network_id) {
+    return this._json.networks[`${network_id}`] != null;
+  },
 
   isDeployed() {
     //TODO 检查是否已经deployed, 检查是否有address
-    //if (this.network_id == null) {
-    //  return false;
-    //}
+    if (this.network_id == null) {
+      return false;
+    }
 
-    //if (this._json.networks[this.network_id] == null) {
-    //  return false;
-    //}
+    if (this._json.networks[this.network_id] == null) {
+      return false;
+    }
 
-    //return !!this.network.address;
+    return !!this.network.address;
   },
 
-    /*
   async detectNetwork() {
     // if artifacts already have a network_id and network configuration synced,
     // use that network and use latest block gasLimit
     if (this.network_id && this.networks[this.network_id] != null) {
       try {
         //const { gasLimit } = await this.web3.cfx.getBlock("latest");
-        const { gasLimit } = await this.web3.cfx.getBlock("latest_state");
+        const { gasLimit } = await this.confluxWeb.cfx.getBlock("latest_state");
         return { id: this.network_id, blockLimit: gasLimit };
       } catch (error) {
         throw error;
@@ -127,8 +126,9 @@ module.exports = Contract => ({
       //const chainNetworkID = await this.web3.cfx.net.getId();
       //const { gasLimit } = await this.web3.cfx.getBlock("latest");
 
-      const chainNetworkID = await this.web3.cfx.net.getId();
-      const { gasLimit } = await this.web3.cfx.getBlock("latest_state");
+      //const chainNetworkID = await this.web3.cfx.net.getId();
+      const chainNetworkID = 1;
+      const { gasLimit } = await this.confluxWeb.cfx.getBlock("latest_state");
       return await utils.setInstanceNetworkID(this, chainNetworkID, gasLimit);
     } catch (error) {
       throw error;
@@ -141,8 +141,8 @@ module.exports = Contract => ({
   },
 
   setNetworkType(networkType = "conflux") {
-    if (this.web3) {
-      this.web3.setNetworkType(networkType);
+    if (this.confluxWeb) {
+      this.confluxWeb.setNetworkType(networkType);
     }
 
     this.networkType = networkType;
@@ -200,7 +200,6 @@ module.exports = Contract => ({
     this.network.links[name] = address;
   },
 
-*/
   // Note, this function can be called with two input types:
   // 1. Object with a bunch of data; this data will be merged with the json data of contract being cloned.
   // 2. network id; this will clone the contract and set a specific network id upon cloning.

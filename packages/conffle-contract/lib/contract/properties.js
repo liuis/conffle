@@ -80,7 +80,7 @@ module.exports = {
   metadata: function() {
     return this._json.metadata;
   },
-  /*
+
   network: function() {
     var network_id = this.network_id;
 
@@ -126,11 +126,10 @@ module.exports = {
   networks: function() {
     return this._json.networks;
   },
-    */
+
   address: {
     get: function() {
       var address = this.network.address;
-      //var address = this.address;
 
       if (address == null) {
         var error =
@@ -147,7 +146,6 @@ module.exports = {
         throw new Error("Cannot set deployed address; malformed value: " + val);
       }
 
-    /*
       var network_id = this.network_id;
 
       if (network_id == null) {
@@ -172,7 +170,6 @@ module.exports = {
           links: {}
         };
       }
-    */
       // Finally, set the address.
       this.network.address = val;
     }
