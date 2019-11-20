@@ -14,11 +14,11 @@ var contractTr = require("./index");
 //  address: "0x3a69dd57facd0e1751b85182b225a3b74ae7f0e3"        // String; optional.
 //};
 
-var FC = require("./FC");
+var FC = require("./");
 
 var MyContract = contractTr({
-  contract_name: "FC",
-  abi: FC.abi,
+  contract_name: "MetaCoin",
+  abi: MetaCoin.abi,
   bytecode: FC.bytecode,
   address: "0x3a69dd57facd0e1751b85182b225a3b74ae7f0e3" // optional
 })

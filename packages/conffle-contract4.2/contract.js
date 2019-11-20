@@ -24,7 +24,9 @@ var contract = (function(module) {
     return this.provider.sendAsync.apply(this.provider, arguments);
   };
 
-  var BigNumber = (new Web3()).toBigNumber(0).constructor;
+  //console.log((new Web3()));
+  var BigNumber = (new Web3).utils.toBN(0).constructor;
+  //var BigNumber = Web3.utils.BN.toBN();
 
   var Utils = {
     is_object: function(val) {
@@ -279,12 +281,17 @@ var contract = (function(module) {
 
     if (typeof contract == "string") {
       var address = contract;
-      var contract_class = constructor.web3.cfx.Contract(this.abi);
-      contract = contract_class.at(address);
+      var contract_class = new constructor.web3.cfx.Contract(this.abi);
+      contract_class.options.address = address;
+      contract = contract_class;
     }
 
     this.contract = contract;
-
+    console.log("----------------------------------------------------------------")
+    console.log("----------------------------------------------------------------")
+    console.log(contract);
+    console.log("----------------------------------------------------------------")
+    console.log("----------------------------------------------------------------")
     // Provision our functions.
     for (var i = 0; i < this.abi.length; i++) {
       var item = this.abi[i];
@@ -294,7 +301,7 @@ var contract = (function(module) {
         } else {
           this[item.name] = Utils.synchronizeFunction(contract[item.name], this, constructor);
         }
-
+        console.log(contract[item.name])
         this[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
         this[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
         this[item.name].request = contract[item.name].request;
@@ -314,7 +321,7 @@ var contract = (function(module) {
 
       tx_params.to = self.address;
 
-      constructor.web3.cfx.sendTransaction.apply(constructor.web3.eth, [tx_params, callback]);
+      constructor.web3.cfx.sendTransaction.apply(constructor.web3.cfx, [tx_params, callback]);
     }, this, constructor);
 
     this.send = function(value) {
