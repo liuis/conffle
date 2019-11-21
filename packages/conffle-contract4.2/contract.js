@@ -287,11 +287,11 @@ var contract = (function(module) {
     }
 
     this.contract = contract;
-    console.log("----------------------------------------------------------------")
-    console.log("----------------------------------------------------------------")
-    console.log(contract);
-    console.log("----------------------------------------------------------------")
-    console.log("----------------------------------------------------------------")
+    //console.log("----------------------------------------------------------------")
+    //console.log("----------------------------------------------------------------")
+    //console.log(contract);
+    //console.log("----------------------------------------------------------------")
+    //console.log("----------------------------------------------------------------")
     // Provision our functions.
     for (var i = 0; i < this.abi.length; i++) {
       var item = this.abi[i];
@@ -301,11 +301,13 @@ var contract = (function(module) {
         } else {
           this[item.name] = Utils.synchronizeFunction(contract[item.name], this, constructor);
         }
+        console.log("12342342")
         console.log(contract[item.name])
-        this[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
-        this[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
-        this[item.name].request = contract[item.name].request;
-        this[item.name].estimateGas = Utils.promisifyFunction(contract[item.name].estimateGas, constructor);
+        console.log("12342342")
+        //this[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
+        //this[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
+        //this[item.name].request = contract[item.name].request;
+        //this[item.name].estimateGas = Utils.promisifyFunction(contract[item.name].estimateGas, constructor);
       }
 
       if (item.type == "event") {
@@ -430,14 +432,15 @@ var contract = (function(module) {
       }
 
       var contract = new this(address);
-
       // Add thennable to allow people opt into new recommended usage.
       contract.then = function(fn) {
         return self.detectNetwork().then(function(network_id) {
+              console.log("network_id: " + network_id)
           var instance = new self(address);
 
           return new Promise(function(accept, reject) {
             self.web3.cfx.getCode(address, function(err, code) {
+              console.log("code: " + code)
               if (err) return reject(err);
 
               if (!code || code.replace("0x", "").replace(/0/g, "") === '') {
@@ -516,44 +519,45 @@ var contract = (function(module) {
           }
         }
 
-        self.web3.version.getNetwork(function(err, result) {
-          if (err) return reject(err);
+        var network_id = "12537";
+        //self.web3.version.getNetwork(function(err, result) {
+        //  if (err) return reject(err);
 
-          var network_id = result.toString();
+        //  var network_id = result.toString();
 
-          // If we found the network via a number, let's use that.
+        //  // If we found the network via a number, let's use that.
           if (self.hasNetwork(network_id)) {
             self.setNetwork(network_id);
             return accept();
           }
 
-          // Otherwise, go through all the networks that are listed as
-          // blockchain uris and see if they match.
-          var uris = Object.keys(self._json.networks).filter(function(network) {
-            return network.indexOf("blockchain://") == 0;
-          });
+        //  // Otherwise, go through all the networks that are listed as
+        //  // blockchain uris and see if they match.
+        //  var uris = Object.keys(self._json.networks).filter(function(network) {
+        //    return network.indexOf("blockchain://") == 0;
+        //  });
 
-          var matches = uris.map(function(uri) {
-            return BlockchainUtils.matches.bind(BlockchainUtils, uri, self.web3.currentProvider);
-          });
+        //  var matches = uris.map(function(uri) {
+        //    return BlockchainUtils.matches.bind(BlockchainUtils, uri, self.web3.currentProvider);
+        //  });
 
-          Utils.parallel(matches, function(err, results) {
-            if (err) return reject(err);
+        //  Utils.parallel(matches, function(err, results) {
+        //    if (err) return reject(err);
 
-            for (var i = 0; i < results.length; i++) {
-              if (results[i]) {
-                self.setNetwork(uris[i]);
-                return accept();
-              }
-            }
+        //    for (var i = 0; i < results.length; i++) {
+        //      if (results[i]) {
+        //        self.setNetwork(uris[i]);
+        //        return accept();
+        //      }
+        //    }
 
-            // We found nothing. Set the network id to whatever the provider states.
-            self.setNetwork(network_id);
+        //    // We found nothing. Set the network id to whatever the provider states.
+        //    self.setNetwork(network_id);
 
-            accept();
-          });
+        //    accept();
+        //  });
 
-        });
+        //});
       });
     },
 

@@ -12,11 +12,11 @@ var MetaCoin = contractTr({
   address: "0x1c6da3c2e901e6aa282d5595fae05abbc3537fc9" // optional
   // many more
 });
-console.log(MetaCoin);
-console.log("--------------------------------")
-console.log("--------------------------------")
-console.log("--------------------------------")
-console.log("--------------------------------")
+//console.log(MetaCoin);
+//console.log("--------------------------------")
+//console.log("--------------------------------")
+//console.log("--------------------------------")
+//console.log("--------------------------------")
 MetaCoin.setProvider(provider);
 
 // In this scenario, two users will send MetaCoin back and forth, showing
@@ -47,7 +47,7 @@ MetaCoin.at(contract_address).then(function(instance) {
   // check account two's balance.
   return coin.balances.call(account_two);
 }).then(function(balance_of_account_two) {
-  alert("Balance of account two is " + balance_of_account_two + "!"); // => 3
+  console.log("Balance of account two is " + balance_of_account_two + "!"); // => 3
 
   // But maybe too much was sent. Let's send some back.
   // Like before, will create a transaction that returns a promise, where
@@ -57,8 +57,8 @@ MetaCoin.at(contract_address).then(function(instance) {
   // Again, get the balance of account two
   return coin.balances.call(account_two)
 }).then(function(balance_of_account_two) {
-  alert("Balance of account two is " + balance_of_account_two + "!") // => 1.5
+  console.log("Balance of account two is " + balance_of_account_two + "!") // => 1.5
 }).catch(function(err) {
   // Easily catch all errors along the whole execution.
-  alert("ERROR! " + err.message);
+  console.log("ERROR! " + err.message);
 });
