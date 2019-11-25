@@ -2,13 +2,16 @@ var ethJSABI = require("ethjs-abi");
 var BlockchainUtils = require("truffle-blockchain-utils");
 var Web3 = require("conflux-web");
 var StatusError = require("./statuserror.js")
-
+var fs = require("fs");
+var util = require("util");
 // For browserified version. If browserify gave us an empty version,
 // look for the one provided by the user.
 if (typeof Web3 == "object" && Object.keys(Web3).length == 0) {
   Web3 = global.Web3;
 }
-
+function logToFile(input){
+    fs.writeFile('.log', util.inspect(input));
+}
 var contract = (function(module) {
 
   // Planned for future features, logging, etc.
@@ -279,10 +282,16 @@ var contract = (function(module) {
     var constructor = this.constructor;
     this.abi = constructor.abi;
 
+        //console.log("-------------------------")
+        //console.log(contract)
+        //console.log("--------------------------")
     if (typeof contract == "string") {
       var address = contract;
-      var contract_class = new constructor.web3.cfx.Contract(this.abi);
-      contract_class.options.address = address;
+      var contract_class = new constructor.web3.cfx.Contract(this.abi,address);
+      //contract_class.options.address = address;
+        //console.log("++++++++++++")
+        //console.log(contract_class)
+        //console.log("++++++++++++")
       contract = contract_class;
     }
 
@@ -301,9 +310,9 @@ var contract = (function(module) {
         } else {
           this[item.name] = Utils.synchronizeFunction(contract[item.name], this, constructor);
         }
-        console.log("12342342")
-        console.log(contract[item.name])
-        console.log("12342342")
+        //console.log("12342342")
+        //console.log(contract)
+        //console.log("12342342")
         //this[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
         //this[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
         //this[item.name].request = contract[item.name].request;
@@ -437,12 +446,16 @@ var contract = (function(module) {
         return self.detectNetwork().then(function(network_id) {
               console.log("network_id: " + network_id)
           var instance = new self(address);
-
+          console.log("9090990909090909090909090")
+          //console.log(instance)
+          console.log("9090990909090909090909090:" + address )
+          console.dir(self.web3.cfx.getCode(address), {depth:null})
+          self.web3.cfx.getCode(address).then(console.log)
           return new Promise(function(accept, reject) {
             self.web3.cfx.getCode(address, function(err, code) {
-              console.log("code: " + code)
+               console.log("xxxxxxxxxxxxxxxxxx" + err);
               if (err) return reject(err);
-
+              console.log("code787878788787878787878: " + code)
               if (!code || code.replace("0x", "").replace(/0/g, "") === '') {
                 return reject(new Error("Cannot create instance of " + self.contractName + "; no code at address " + address));
               }
@@ -509,7 +522,11 @@ var contract = (function(module) {
 
     detectNetwork: function() {
       var self = this;
-
+      return new Promise(function(accept, reject) {
+      self.setNetwork("123456");
+      return accept(self.network_id);
+      });
+      /*
       return new Promise(function(accept, reject) {
         // Try to detect the network we have artifacts for.
         if (self.network_id) {
@@ -559,6 +576,7 @@ var contract = (function(module) {
 
         //});
       });
+      */
     },
 
     setNetwork: function(network_id) {

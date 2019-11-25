@@ -2,22 +2,17 @@
 const ConfluxWeb = require('conflux-web');
 var provider = new ConfluxWeb.providers.HttpProvider("http://localhost:12537");
 var contractTr = require("./index.js");
-var MC = require("./MetaCoin.json");
+var MC = require("./MetaCoin.sol.json");
 
 // Remember to set the Web3 provider (see above).
-var MetaCoin = contractTr({
-  contractName:"MetaCoin",
-  abi: MC.abi,
-  unlinked_binary: MC.bytecode,
-  address: "0x1c6da3c2e901e6aa282d5595fae05abbc3537fc9" // optional
+var FC = contractTr({
+  contractName:"FC",
+  abi: FC.abi,
+  unlinked_binary: FC.bytecode,
+  address: "0xb3247fa6b8e674f86055a74dfa8b35c6c339ddf9" // optional
   // many more
 });
-//console.log(MetaCoin);
-//console.log("--------------------------------")
-//console.log("--------------------------------")
-//console.log("--------------------------------")
-//console.log("--------------------------------")
-MetaCoin.setProvider(provider);
+FC.setProvider(provider);
 
 // In this scenario, two users will send MetaCoin back and forth, showing
 // how truffle-contract allows for easy control flow.
@@ -29,12 +24,20 @@ var account_two = "0xd35f819a5af644f60e95db2b12dc309329de0c4b";
 //
 //
 // Note our MetaCoin contract exists at a specific address.
-var contract_address = "0x1c6da3c2e901e6aa282d5595fae05abbc3537fc9";
+var contract_address = "0xb3247fa6b8e674f86055a74dfa8b35c6c339ddf9";
 var coin;
 
-MetaCoin.at(contract_address).then(function(instance) {
+//console.log(MetaCoin);
+//console.log("1--------------------------------")
+//console.log("2--------------------------------")
+//console.log("3--------------------------------")
+//console.log(MetaCoin.at(contract_address))
+FC.at(contract_address).then(function(instance) {
   coin = instance;
 
+console.log("5--------------------------------")
+    console.log("result_@at:" + coin);
+console.log("6--------------------------------")
   // Make a transaction that calls the function `sendCoin`, sending 3 MetaCoin
   // to the account listed as account_two.
   return coin.sendCoin(account_two, 3, {from: account_one});
@@ -42,7 +45,7 @@ MetaCoin.at(contract_address).then(function(instance) {
   // This code block will not be executed until truffle-contract has verified
   // the transaction has been processed and it is included in a mined block.
   // truffle-contract will error if the transaction hasn't been processed in 120 seconds.
-
+    console.log("result_@at:" + result);
   // Since we're using promises, we can return a promise for a call that will
   // check account two's balance.
   return coin.balances.call(account_two);

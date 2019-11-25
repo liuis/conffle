@@ -83,14 +83,15 @@ function deploy(argument, abi) {
 async function deployContract(address, privateKeys) {
 
 
-    confluxWeb.cfx.accounts.wallet.add({
+    await confluxWeb.cfx.accounts.wallet.add({
         privateKey: privateKeys,
         address: address
     });
 
 
     fs.readdir("./demo-test/build", (err, files) => {
-        files.forEach(file => {
+        //files.forEach(file => {
+        for (const file of files) {
             console.log(file);
             //const fd = require("./demo-test/build/" + file);
             let rawdata = fs.readFileSync("./demo-test/build/" + file);
@@ -100,23 +101,26 @@ async function deployContract(address, privateKeys) {
             abi = fd.abi
             //console.log("confluxWeb.cfx.accounts.wallet[0].address : ", confluxWeb.cfx.accounts.wallet[0].address);
             //console.log("confluxWeb.cfx.accounts.wallet : ", confluxWeb.cfx.accounts.wallet);
-            confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(nonceValue => {
+            const add = confluxWeb.cfx.accounts.wallet[0].address;
+            //const nonceValue = await confluxWeb.cfx.getTransactionCount(add);
+            confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
                 console.log("nonceValue:", nonceValue)
                 const txParams = {
-                    from: 0,
+                    from: add,
                     nonce: nonceValue, // make nonce appropriate
                     gasPrice: 5000,
-                    gas: 10000000,
                     value: 0,
                     to: null,
-                    // byte code is the ballot contract from https://remix.ethereum.org/
-                    // Sol version: 0.5.0
-                    // With constructor(_numProposals = 10)
                     data: code
                 };
-            if(abi){ deploy(txParams, abi);}
-            })
-        });
+                
+                let gas = await confluxWeb.cfx.estimateGas(txParams);
+                console.log("gas : ", gas)
+                txParams.gas = gas;
+                txParams.from = 0;
+            if(abi){ deploy(txParams, abi); }
+          })
+        };
     })
 }
 
@@ -199,15 +203,15 @@ async function sendBalance_localhost(account) {
 
 function localhost_waitBlock(txHash) {
 
-    for (var i = 0, len = 12; i < len; i++) {
-        client.request('generateoneblock', [10, 300000], function(err, error, result) {
+    for (var i = 0, len = 5; i < len; i++) {
+        client.request('generateoneblock', [1, 300000], function(err, error, result) {
             if (err) throw err;
             //console.log("generateoneblock : " + result);
         });
 
     }
 
-//TODO:增加计数器 不要死循环
+
     return confluxWeb.cfx.getTransactionReceipt(txHash).then(
         (receipt) => {
             //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
