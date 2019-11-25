@@ -1,9 +1,9 @@
 var ethJSABI = require("ethjs-abi");
 var BlockchainUtils = require("truffle-blockchain-utils");
-//var Web3 = require("web3");
 var Web3 = require("conflux-web");
 var StatusError = require("./statuserror.js")
-
+var fs = require("fs");
+var util = require("util");
 // For browserified version. If browserify gave us an empty version,
 // look for the one provided by the user.
 if (typeof Web3 == "object" && Object.keys(Web3).length == 0) {
@@ -18,6 +18,7 @@ var contract = (function(module) {
   }
 
   Provider.prototype.send = function() {
+    console.log("this.provider.send", this.provider);
     return this.provider.send.apply(this.provider, arguments);
   };
 
@@ -25,7 +26,9 @@ var contract = (function(module) {
     return this.provider.sendAsync.apply(this.provider, arguments);
   };
 
-  var BigNumber = (new Web3()).utils.toBN(0).constructor;
+  //console.log((new Web3()));
+  var BigNumber = (new Web3).utils.toBN(0).constructor;
+  //var BigNumber = Web3.utils.BN.toBN();
 
   var Utils = {
     is_object: function(val) {
@@ -270,7 +273,7 @@ var contract = (function(module) {
     }
   };
 
-  // Accepts a contract object created with web3.cfx.contract.
+  // Accepts a contract object created with web3.cfx.Contract.
   // Optionally, if called without `new`, accepts a network_id and will
   // create a new version of the contract abstraction with that network_id set.
   function Contract(contract) {
@@ -278,15 +281,25 @@ var contract = (function(module) {
     var constructor = this.constructor;
     this.abi = constructor.abi;
 
+        //console.log("-------------------------")
+        //console.log(contract)
+        //console.log("--------------------------")
     if (typeof contract == "string") {
       var address = contract;
-      var contract_class = new constructor.web3.cfx.Contract(this.abi, address);
-      //contract = contract_class.at(address);
+      var contract_class = new constructor.web3.cfx.Contract(this.abi,address);
+      //contract_class.options.address = address;
+        //console.log("++++++++++++")
+        //console.log(contract_class)
+        //console.log("++++++++++++")
       contract = contract_class;
     }
 
     this.contract = contract;
-
+    //console.log("----------------------------------------------------------------")
+    //console.log("----------------------------------------------------------------")
+    //console.log(contract);
+    //console.log("----------------------------------------------------------------")
+    //console.log("----------------------------------------------------------------")
     // Provision our functions.
     for (var i = 0; i < this.abi.length; i++) {
       var item = this.abi[i];
@@ -296,7 +309,9 @@ var contract = (function(module) {
         } else {
           this[item.name] = Utils.synchronizeFunction(contract[item.name], this, constructor);
         }
-        //TODO
+        //console.log("12342342")
+        //console.log(contract)
+        //console.log("12342342")
         //this[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
         //this[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
         //this[item.name].request = contract[item.name].request;
@@ -316,7 +331,7 @@ var contract = (function(module) {
 
       tx_params.to = self.address;
 
-      constructor.web3.cfx.sendTransaction.apply(constructor.web3.eth, [tx_params, callback]);
+      constructor.web3.cfx.sendTransaction.apply(constructor.web3.cfx, [tx_params, callback]);
     }, this, constructor);
 
     this.send = function(value) {
@@ -335,8 +350,15 @@ var contract = (function(module) {
       }
 
       var wrapped = new Provider(provider);
+      console.log("set provider")
+      console.log("set provider")
+      console.log("set provider")
+      console.log("set provider")
+      console.log("set provider")
       this.web3.setProvider(wrapped);
+      console.log(this.web3)
       this.currentProvider = provider;
+      console.log(this.currentProvider)
     },
 
     new: function() {
@@ -425,16 +447,22 @@ var contract = (function(module) {
       }
 
       var contract = new this(address);
-
       // Add thennable to allow people opt into new recommended usage.
       contract.then = function(fn) {
         return self.detectNetwork().then(function(network_id) {
+              console.log("network_id: " + network_id)
           var instance = new self(address);
+          console.log("9090990909090909090909090")
+          //console.log(instance)
+          console.log("9090990909090909090909090:" + address )
+          console.dir(self.web3, {depth:null})
 
           return new Promise(function(accept, reject) {
+            console.log("xxdfdsfasfsdaf")
             self.web3.cfx.getCode(address, function(err, code) {
+               console.log("xxxxxxxxxxxxxxxxxx" + err);
               if (err) return reject(err);
-
+              console.log("code787878788787878787878: " + code)
               if (!code || code.replace("0x", "").replace(/0/g, "") === '') {
                 return reject(new Error("Cannot create instance of " + self.contractName + "; no code at address " + address));
               }
@@ -450,19 +478,19 @@ var contract = (function(module) {
 
     deployed: function() {
       var self = this;
-      return self.detectNetwork().then(function() {
-        // We don't have a network config for the one we found
-        if (self._json.networks[self.network_id] == null) {
-          throw new Error(self.contractName + " has not been deployed to detected network (network/artifact mismatch)");
-        }
+      //return self.detectNetwork().then(function() {
+      //  // We don't have a network config for the one we found
+      //  if (self._json.networks[self.network_id] == null) {
+      //    throw new Error(self.contractName + " has not been deployed to detected network (network/artifact mismatch)");
+      //  }
 
-        // If we found the network but it's not deployed
-        if (!self.isDeployed()) {
-          throw new Error(self.contractName + " has not been deployed to detected network (" + self.network_id + ")");
-        }
+      //  // If we found the network but it's not deployed
+      //  if (!self.isDeployed()) {
+      //    throw new Error(self.contractName + " has not been deployed to detected network (" + self.network_id + ")");
+      //  }
 
         return new self(self.address);
-      });
+      //});
     },
 
     defaults: function(class_defaults) {
@@ -501,7 +529,11 @@ var contract = (function(module) {
 
     detectNetwork: function() {
       var self = this;
-
+      return new Promise(function(accept, reject) {
+      self.setNetwork("123456");
+      return accept(self.network_id);
+      });
+      /*
       return new Promise(function(accept, reject) {
         // Try to detect the network we have artifacts for.
         if (self.network_id) {
@@ -511,46 +543,47 @@ var contract = (function(module) {
           }
         }
 
-        self.web3.cfx.getGasPrice(function(err, re) {
-        //TODO hard code 
-          if (err) return reject(err);
-          result =1;
-          var network_id = result.toString();
+        var network_id = "12537";
+        //self.web3.version.getNetwork(function(err, result) {
+        //  if (err) return reject(err);
 
-          // If we found the network via a number, let's use that.
+        //  var network_id = result.toString();
+
+        //  // If we found the network via a number, let's use that.
           if (self.hasNetwork(network_id)) {
             self.setNetwork(network_id);
             return accept();
           }
 
-          // Otherwise, go through all the networks that are listed as
-          // blockchain uris and see if they match.
-          var uris = Object.keys(self._json.networks).filter(function(network) {
-            return network.indexOf("blockchain://") == 0;
-          });
+        //  // Otherwise, go through all the networks that are listed as
+        //  // blockchain uris and see if they match.
+        //  var uris = Object.keys(self._json.networks).filter(function(network) {
+        //    return network.indexOf("blockchain://") == 0;
+        //  });
 
-          var matches = uris.map(function(uri) {
-            return BlockchainUtils.matches.bind(BlockchainUtils, uri, self.web3.currentProvider);
-          });
+        //  var matches = uris.map(function(uri) {
+        //    return BlockchainUtils.matches.bind(BlockchainUtils, uri, self.web3.currentProvider);
+        //  });
 
-          Utils.parallel(matches, function(err, results) {
-            if (err) return reject(err);
+        //  Utils.parallel(matches, function(err, results) {
+        //    if (err) return reject(err);
 
-            for (var i = 0; i < results.length; i++) {
-              if (results[i]) {
-                self.setNetwork(uris[i]);
-                return accept();
-              }
-            }
+        //    for (var i = 0; i < results.length; i++) {
+        //      if (results[i]) {
+        //        self.setNetwork(uris[i]);
+        //        return accept();
+        //      }
+        //    }
 
-            // We found nothing. Set the network id to whatever the provider states.
-            self.setNetwork(network_id);
+        //    // We found nothing. Set the network id to whatever the provider states.
+        //    self.setNetwork(network_id);
 
-            accept();
-          });
+        //    accept();
+        //  });
 
-        });
+        //});
       });
+      */
     },
 
     setNetwork: function(network_id) {

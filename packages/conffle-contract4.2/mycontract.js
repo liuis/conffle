@@ -14,15 +14,15 @@ var contractTr = require("./index");
 //  address: "0x3a69dd57facd0e1751b85182b225a3b74ae7f0e3"        // String; optional.
 //};
 
-var FC = require("./");
+var MetaCoin = require("./MetaCoin.json");
 
 var MyContract = contractTr({
   contract_name: "MetaCoin",
   abi: MetaCoin.abi,
-  bytecode: FC.bytecode,
-  address: "0x3a69dd57facd0e1751b85182b225a3b74ae7f0e3" // optional
+  bytecode: MetaCoin.bytecode,
+  address: "0xb3247fa6b8e674f86055a74dfa8b35c6c339ddf9" // optional
 })
-console.log("myContract:", MyContract.prototype)
+console.log("myContract:", MyContract)
 //var MyContract = require("./FC");
 MyContract.setProvider(provider);
 //console.log(bool);

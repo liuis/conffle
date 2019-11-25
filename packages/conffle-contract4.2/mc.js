@@ -5,15 +5,24 @@ var contractTr = require("./index.js");
 var MC = require("./MetaCoin.sol.json");
 
 // Remember to set the Web3 provider (see above).
-var FC = contractTr({
-  contractName:"FC",
-  abi: FC.abi,
-  unlinked_binary: FC.bytecode,
-  address: "0xb3247fa6b8e674f86055a74dfa8b35c6c339ddf9" // optional
+var MetaCoin = contractTr({
+  contractName:"MetaCoin",
+  abi: MC.abi,
+  unlinked_binary: MC.bytecode,
+  address: "0xb3247fa6b8e674f86055a74dfa8b35c6c339ddf9", // optional
+  network_id:"1",
+  default_network:"123"
   // many more
 });
-FC.setProvider(provider);
-
+MetaCoin.setProvider(provider);
+if (typeof MetaCoin.currentProvider.sendAsync !== "function") {
+  MetaCoin.currentProvider.sendAsync = function() {
+    return MetaCoin.currentProvider.send.apply(
+      MetaCoin.currentProvider,
+          arguments
+    );
+  };
+}
 // In this scenario, two users will send MetaCoin back and forth, showing
 // how truffle-contract allows for easy control flow.
 var account_one = "0x3a46d8eb526937f8e42ebe59881532b90543b844";
@@ -28,11 +37,11 @@ var contract_address = "0xb3247fa6b8e674f86055a74dfa8b35c6c339ddf9";
 var coin;
 
 //console.log(MetaCoin);
-//console.log("1--------------------------------")
-//console.log("2--------------------------------")
-//console.log("3--------------------------------")
+console.log("1--------------------------------")
+console.log("2--------------------------------")
+console.log("3--------------------------------")
 //console.log(MetaCoin.at(contract_address))
-FC.at(contract_address).then(function(instance) {
+MetaCoin.at(contract_address).then(function(instance) {
   coin = instance;
 
 console.log("5--------------------------------")
