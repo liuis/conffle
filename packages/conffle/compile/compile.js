@@ -1,5 +1,6 @@
 var solc = require('solc');
 var fs = require('fs');
+var util = require('util');
 const {
     findImports
 } = require('conffle-utils/utils');
@@ -16,13 +17,14 @@ async function run() {
 function compile() {
 
     /*
-     */
+   */
     var input = {};
     var teamJson = {
         'abi': {},
-        'bytecode': ''
+        'bytecode': '',
+        'linkReferences':{}
     };
-
+ 
     //var files = ['FC.sol', 'FCPausable.sol', 'FCRoles.sol', 'IFC.sol', 'Roles.sol', 'SafeMath.sol'];
     var files = fs.readdirSync("./demo-test/contracts/");
     var i;
@@ -41,7 +43,8 @@ function compile() {
                 },
                 outputSelection: {
                     '*': {
-                        '*': ['evm.bytecode', 'abi']
+                        //'*': ['evm.bytecode', 'abi']
+                        '*': ['*']
                     }
                 }
             },
@@ -51,33 +54,27 @@ function compile() {
 
 
     console.log("output:", output);
+    console.log(util.inspect(output, {showHidden: false, depth: null}));
 
-    for (var file in output.contracts) {
+
+  for (var file in output.contracts) {
         for (var contractName in output.contracts[file]) {
-            //console.log(output.contracts['FC.sol']['FC'].evm.bytecode.object)
-            //console.log(output.contracts['FC.sol']['FC'].abi)
-            //teamJson.abi = output.contracts['FC.sol']['FC'].abi;
-            //teamJson.bytecode = output.contracts['FC.sol']['FC'].evm.bytecode.object;
+    //console.log(output.contracts[file][contractName].evm.bytecode.object)
+    //console.log(output.contracts[file][contractName].abi)
+    teamJson.abi = output.contracts[file][contractName].abi;
+    teamJson.bytecode = output.contracts[file][contractName].evm.bytecode.object;
+    teamJson.linkReferences = output.contracts[file][contractName].evm.bytecode.linkReferences;
+    wfile = "./demo-test/build/" + file + ".json"
 
-            //wfile = "./demo-test/build/FC.sol.json"
-
-            console.log(output.contracts[file][contractName].evm.bytecode.object)
-            console.log(output.contracts[file][contractName].abi)
-            teamJson.abi = output.contracts[file][contractName].abi;
-            teamJson.bytecode = output.contracts[file][contractName].evm.bytecode.object;
-
-            wfile = "./demo-test/build/" + file + ".json"
-
-
-            fs.writeFile(wfile, JSON.stringify(teamJson), function(err) {
-                if (err)
-                    console.error(err);
-            })
-        }
-
-        console.log("contract compiled!")
+    fs.writeFile(wfile, JSON.stringify(teamJson), function(err) {
+            if (err)
+                console.error(err);
+        })
     }
 
+   }
+
+    console.log("contract compiled sucessfully")
 }
 
 

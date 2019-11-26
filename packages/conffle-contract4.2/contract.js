@@ -3,6 +3,7 @@ var BlockchainUtils = require("truffle-blockchain-utils");
 //var Web3 = require("web3");
 var Web3 = require("conflux-web");
 var StatusError = require("./statuserror.js")
+var util = require("util");
 
 // For browserified version. If browserify gave us an empty version,
 // look for the one provided by the user.
@@ -140,6 +141,10 @@ var contract = (function(module) {
     },
     synchronizeFunction: function(fn, instance, C) {
       var self = this;
+      //console.log("fn:" + fn)
+      //console.log("fn tyoeof :" + typeof fn)
+      //console.log("instance:" + instance)
+      //console.log("C:" + C)
       return function() {
         var args = Array.prototype.slice.call(arguments);
         var tx_params = {};
@@ -202,6 +207,17 @@ var contract = (function(module) {
             };
 
             args.push(tx_params, callback);
+            //fn.apply(self, args);
+            //console.log("args:" + args)
+            //console.log("tx params:" + tx_params)
+            //console.log("fn 2:" + fn)
+            //console.log(typeof fn) 
+            //if (typeof fn !== "function"){
+            //      console.log("try to be a fun")
+            //    fn = function(){
+            //      fn.apply(self, args);
+            //    }
+            //}
             fn.apply(self, args);
           });
         });
@@ -250,7 +266,7 @@ var contract = (function(module) {
       Object.keys(fn._static_methods).forEach(function(key) {
         fn[key] = fn._static_methods[key].bind(fn);
       });
-
+      
       // Add our properties.
       Object.keys(fn._properties).forEach(function(key) {
         fn.addProp(key, fn._properties[key]);
@@ -297,10 +313,11 @@ var contract = (function(module) {
           this[item.name] = Utils.synchronizeFunction(contract[item.name], this, constructor);
         }
         //TODO
-        //this[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
-        //this[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
-        //this[item.name].request = contract[item.name].request;
-        //this[item.name].estimateGas = Utils.promisifyFunction(contract[item.name].estimateGas, constructor);
+        //console.log(contract)
+        this[item.name].call = Utils.promisifyFunction(contract.methods[item.name].call, constructor);
+        this[item.name].sendTransaction = Utils.promisifyFunction(contract.methods[item.name].sendTransaction, constructor);
+        this[item.name].request = contract.methods[item.name].request;
+        this[item.name].estimateGas = Utils.promisifyFunction(contract.methods[item.name].estimateGas, constructor);
       }
 
       if (item.type == "event") {
@@ -450,19 +467,22 @@ var contract = (function(module) {
 
     deployed: function() {
       var self = this;
-      return self.detectNetwork().then(function() {
-        // We don't have a network config for the one we found
-        if (self._json.networks[self.network_id] == null) {
-          throw new Error(self.contractName + " has not been deployed to detected network (network/artifact mismatch)");
-        }
+      //return self.detectNetwork().then(function() {
+      //  console.log("909090909090909090909090===========================================")
+      //  console.log(util.inspect(self._json.networks, {showHidden: false, depth: null}));
+      //  //console.log("self._json.networks:" + self._json.networks)
+      //  // We don't have a network config for the one we found
+      //  if (self._json.networks[self.network_id] == null) {
+      //    throw new Error(self.contractName + " has not been deployed to detected network (network/artifact mismatch)");
+      //  }
 
-        // If we found the network but it's not deployed
-        if (!self.isDeployed()) {
-          throw new Error(self.contractName + " has not been deployed to detected network (" + self.network_id + ")");
-        }
+      //  // If we found the network but it's not deployed
+      //  if (!self.isDeployed()) {
+      //    throw new Error(self.contractName + " has not been deployed to detected network (" + self.network_id + ")");
+      //  }
 
         return new self(self.address);
-      });
+      //});
     },
 
     defaults: function(class_defaults) {
@@ -511,6 +531,7 @@ var contract = (function(module) {
           }
         }
 
+        //self.web3.version.getNetwork(function(err, re) {
         self.web3.cfx.getGasPrice(function(err, re) {
         //TODO hard code 
           if (err) return reject(err);
