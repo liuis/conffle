@@ -45,7 +45,7 @@ MetaCoin.at(contract_address).then(function(instance) {
   coin = instance;
 
 console.log("5--------------------------------")
-    console.log("result_@at:" + coin);
+    console.log("result_@at:" + coin.sendCoin);
 console.log("6--------------------------------")
   // Make a transaction that calls the function `sendCoin`, sending 3 MetaCoin
   // to the account listed as account_two.

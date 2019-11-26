@@ -316,7 +316,7 @@ var contract = (function(module) {
 
       tx_params.to = self.address;
 
-      constructor.web3.cfx.sendTransaction.apply(constructor.web3.eth, [tx_params, callback]);
+      constructor.web3.cfx.sendTransaction.apply(constructor.web3.cfx, [tx_params, callback]);
     }, this, constructor);
 
     this.send = function(value) {
