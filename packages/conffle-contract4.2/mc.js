@@ -2,16 +2,15 @@
 const ConfluxWeb = require('conflux-web');
 var provider = new ConfluxWeb.providers.HttpProvider("http://localhost:12537");
 var contractTr = require("./index.js");
-var MC = require("./MetaCoin.json");
+var MC = require("./MetaCoin_final.json");
 const util = require('util')
 // Remember to set the Web3 provider (see above).
 var MetaCoin = contractTr({
   contractName:"MetaCoin",
   abi: MC.abi,
-  unlinked_binary: MC.bytecode,
-  address: "0xb3247fa6b8e674f86055a74dfa8b35c6c339ddf9", // optional
-  network_id:"1",
-  default_network:"123"
+  unlinked_binary: MC.unlinked_binary,
+  address: MC.address, // optional
+  networks:MC.networks
   // many more
 });
 MetaCoin.setProvider(provider);
@@ -25,7 +24,6 @@ if (typeof MetaCoin.currentProvider.sendAsync !== "function") {
   };
 }
 
-console.log(data)
 
 // In this scenario, two users will send MetaCoin back and forth, showing
 // how truffle-contract allows for easy control flow.
@@ -47,19 +45,7 @@ console.log("3--------------------------------")
 //console.log(MetaCoin.at(contract_address))
 MetaCoin.at(contract_address).then(function(instance) {
   coin = instance;
-//var deployed;
-//
-MetaCoin.deployed().then(function(instance) {
-  deployed = instance;
-  console.log(util.inspect(deployed, {showHidden: false, depth: null}));
-})
-console.log("5--------------------------------")
-//console.log(util.inspect(coin, {showHidden: false, depth: null}));
-console.log("6--------------------------------")
-
-})
-/*
-  // Make a transaction that calls the function `sendCoin`, sending 3 MetaCoin
+// Make a transaction that calls the function `sendCoin`, sending 3 MetaCoin
   // to the account listed as account_two.
   return coin.sendCoin(account_two, 3, {from: account_one});
 }).then(function(result) {
@@ -69,14 +55,14 @@ console.log("6--------------------------------")
     console.log("result_@at:" + result);
   // Since we're using promises, we can return a promise for a call that will
   // check account two's balance.
-  return coin.balances.call(account_two);
+  return coin.methods.balances.call(account_two);
 }).then(function(balance_of_account_two) {
   console.log("Balance of account two is " + balance_of_account_two + "!"); // => 3
 
   // But maybe too much was sent. Let's send some back.
   // Like before, will create a transaction that returns a promise, where
   // the callback won't be executed until the transaction has been processed.
-eturn coin.sendCoin(account_one, 1.5, {from: account_two});
+  return coin.sendCoin(account_one, 1.5, {from: account_two});
 }).then(function(result) {
   // Again, get the balance of account two
   return coin.balances.call(account_two)
@@ -86,4 +72,24 @@ eturn coin.sendCoin(account_one, 1.5, {from: account_two});
   // Easily catch all errors along the whole execution.
   console.log("ERROR! " + err.message);
 });
+
+////var deployed;
+////
+//console.log(util.inspect(coin, {showHidden: false, depth: null}));
+//})
+
+/*
+MetaCoin.new().then(function(instance) {
+  deployed = instance;
+  console.log(util.inspect(deployed, {showHidden: false, depth: null}));
+})
+MetaCoin.deployed().then(function(instance) {
+  deployed = instance;
+  console.log(util.inspect(deployed, {showHidden: false, depth: null}));
+})
+console.log("5--------------------------------")
+//console.log(util.inspect(coin, {showHidden: false, depth: null}));
+console.log("6--------------------------------")
+
 */
+  

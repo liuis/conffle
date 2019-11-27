@@ -145,11 +145,12 @@ var contract = (function(module) {
       //console.log("fn tyoeof :" + typeof fn)
       //console.log("instance:" + instance)
       //console.log("C:" + C)
-      return function() {
+      return function(fn) {
         var args = Array.prototype.slice.call(arguments);
         var tx_params = {};
         var last_arg = args[args.length - 1];
 
+        console.log("fn tyoeof :" + typeof fn)
         // It's only tx_params if it's an object and not a BigNumber.
         if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
           tx_params = args.pop();
@@ -208,16 +209,17 @@ var contract = (function(module) {
 
             args.push(tx_params, callback);
             //fn.apply(self, args);
-            //console.log("args:" + args)
-            //console.log("tx params:" + tx_params)
-            //console.log("fn 2:" + fn)
-            //console.log(typeof fn) 
+            console.log("args:" + args)
+            console.log("tx params:" + tx_params)
+            console.log("fn 2:" + fn)
+            console.log(typeof fn) 
             //if (typeof fn !== "function"){
             //      console.log("try to be a fun")
             //    fn = function(){
             //      fn.apply(self, args);
             //    }
             //}
+
             fn.apply(self, args);
           });
         });
@@ -274,6 +276,7 @@ var contract = (function(module) {
 
       return fn;
     },
+    //wrong function  
     linkBytecode: function(bytecode, links) {
       Object.keys(links).forEach(function(library_name) {
         var library_address = links[library_name];
@@ -302,15 +305,20 @@ var contract = (function(module) {
     }
 
     this.contract = contract;
-
+    console.log("abi --------contract: ")
+    //console.log(util.inspect(contract, {showHidden: false, depth: null}));
+    console.log("abi --------contract: ")
     // Provision our functions.
     for (var i = 0; i < this.abi.length; i++) {
       var item = this.abi[i];
       if (item.type == "function") {
         if (item.constant == true) {
-          this[item.name] = Utils.promisifyFunction(contract[item.name], constructor);
+          console.log(is)
+          console.log("is function and promisifyFunction:", contract.methods[item.name])
+          this[item.name] = Utils.promisifyFunction(contract.methods[item.name], constructor);
         } else {
-          this[item.name] = Utils.synchronizeFunction(contract[item.name], this, constructor);
+          console.log("is function and synchronizeFunction:", contract.methods[item.name])
+          this[item.name] = Utils.synchronizeFunction(contract.methods[item.name], this, constructor);
         }
         //TODO
         //console.log(contract)
@@ -321,7 +329,7 @@ var contract = (function(module) {
       }
 
       if (item.type == "event") {
-        this[item.name] = contract[item.name];
+        this[item.name] = contract.methods[item.name];
       }
     }
 
@@ -370,28 +378,29 @@ var contract = (function(module) {
       }
 
       return self.detectNetwork().then(function(network_id) {
+        // 不要这里去做相关的link
         // After the network is set, check to make sure everything's ship shape.
-        var regex = /__[^_]+_+/g;
-        var unlinked_libraries = self.binary.match(regex);
+        //var regex = /__[^_]+_+/g;
+        //var unlinked_libraries = self.binary.match(regex);
 
-        if (unlinked_libraries != null) {
-          unlinked_libraries = unlinked_libraries.map(function(name) {
-            // Remove underscores
-            return name.replace(/_/g, "");
-          }).sort().filter(function(name, index, arr) {
-            // Remove duplicates
-            if (index + 1 >= arr.length) {
-              return true;
-            }
+        //if (unlinked_libraries != null) {
+        //  unlinked_libraries = unlinked_libraries.map(function(name) {
+        //    // Remove underscores
+        //    return name.replace(/_/g, "");
+        //  }).sort().filter(function(name, index, arr) {
+        //    // Remove duplicates
+        //    if (index + 1 >= arr.length) {
+        //      return true;
+        //    }
 
-            return name != arr[index + 1];
-          }).join(", ");
+        //    return name != arr[index + 1];
+        //  }).join(", ");
 
-          throw new Error(self.contractName + " contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of " + self._json.contractName + ": " + unlinked_libraries);
-        }
+        //  throw new Error(self.contractName + " contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of " + self._json.contractName + ": " + unlinked_libraries);
+        //}
       }).then(function() {
         return new Promise(function(accept, reject) {
-          var contract_class = self.web3.cfx.Contract(self.abi);
+          var contract_class = new self.web3.cfx.Contract(self.abi);
           var tx_params = {};
           var last_arg = args[args.length - 1];
 
@@ -429,6 +438,9 @@ var contract = (function(module) {
           };
 
           args.push(tx_params, intermediary);
+          console.log("args:" + args)
+          console.log("contract_class:" + contract_class)
+          //contract_class.new.apply(contract_class, args);
           contract_class.new.apply(contract_class, args);
         });
       });
@@ -467,22 +479,22 @@ var contract = (function(module) {
 
     deployed: function() {
       var self = this;
-      //return self.detectNetwork().then(function() {
-      //  console.log("909090909090909090909090===========================================")
-      //  console.log(util.inspect(self._json.networks, {showHidden: false, depth: null}));
-      //  //console.log("self._json.networks:" + self._json.networks)
-      //  // We don't have a network config for the one we found
-      //  if (self._json.networks[self.network_id] == null) {
-      //    throw new Error(self.contractName + " has not been deployed to detected network (network/artifact mismatch)");
-      //  }
+      return self.detectNetwork().then(function() {
+        console.log("909090909090909090909090===========================================")
+        console.log(util.inspect(self._json.networks, {showHidden: false, depth: null}));
+        //console.log("self._json.networks:" + self._json.networks)
+        // We don't have a network config for the one we found
+        if (self._json.networks[self.network_id] == null) {
+          throw new Error(self.contractName + " has not been deployed to detected network (network/artifact mismatch)");
+        }
 
-      //  // If we found the network but it's not deployed
-      //  if (!self.isDeployed()) {
-      //    throw new Error(self.contractName + " has not been deployed to detected network (" + self.network_id + ")");
-      //  }
+        // If we found the network but it's not deployed
+        if (!self.isDeployed()) {
+          throw new Error(self.contractName + " has not been deployed to detected network (" + self.network_id + ")");
+        }
 
         return new self(self.address);
-      //});
+      });
     },
 
     defaults: function(class_defaults) {
@@ -535,7 +547,7 @@ var contract = (function(module) {
         self.web3.cfx.getGasPrice(function(err, re) {
         //TODO hard code 
           if (err) return reject(err);
-          result =1;
+          result = 1574836033;
           var network_id = result.toString();
 
           // If we found the network via a number, let's use that.
