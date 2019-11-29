@@ -1,8 +1,7 @@
-const utils = require("./utils");
 const reformat = require("./reformat");
 
 const execute = {
-    is_tx_params(val) {
+    is_tx_params: function(val) {
 
         const allowed_fields = {
             from: true,
@@ -21,7 +20,7 @@ const execute = {
         return false;
     },
 
-    getTxParams(methodABI, args) {
+    getTxParams: function(methodABI, args) {
         const constructor = this;
 
         const expected_arg_count = methodABI ? methodABI.inputs.length : 0;
@@ -31,7 +30,7 @@ const execute = {
 
         if (
             args.length === expected_arg_count + 1 &&
-            is_tx_params(last_arg)
+            execute.is_tx_params(last_arg)
         ) {
             tx_params = args.pop();
         }
@@ -41,7 +40,7 @@ const execute = {
 
     prepareCall: async function(constructor, methodABI, _arguments) {
         let args = Array.prototype.slice.call(_arguments);
-        let params = getTxParams.call(constructor, methodABI, args);
+        let params = execute.getTxParams.call(constructor, methodABI, args);
         return {
             args,
             params
@@ -79,11 +78,12 @@ const execute = {
         })
     },
 
-    signTransaction: function(txParams) {
-        const constructor = this;
+    signTransaction: async function(constructor, txParams) {
         const web3 = constructor.web3;
-        let gas = await confluxWeb.cfx.estimateGas(txParams);¦¦¦
-        console.log("gas : ", gas)¦¦¦ txParams.gas = gas;¦¦¦
+        console.log("constructor xxxxxxxx: " + constructor.web3)
+        let gas = await web3.cfx.estimateGas(txParams);
+        console.log("gas : ", gas) 
+        txParams.gas = gas;
         txParams.from = 0;
         web3.cfx.signTransaction(txParams)
             .then((encodedTransaction) => {
@@ -93,7 +93,7 @@ const execute = {
                 console.log('raw transaction: ', rawTransaction);
                 return web3.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
                     console.log('transaction hash from RPC: ', transactionHash);
-                    wait_local_block(transactionHash)
+                    execute.wait_local_block(transactionHash)
                 });
             }).catch(console.error);
 
@@ -131,7 +131,7 @@ const execute = {
     send: function(fn, methodABI, address) {
         const constructor = this;
         const web3 = constructor.web3;
-
+        console.log("send fun : ", constructor.web3)
         return function() {
             let deferred;
 
@@ -143,7 +143,9 @@ const execute = {
                 }) => {
                     params.to = address;
                     params.data = fn ? fn(...args).encodeABI() : params.data;
-                    signTransaction(params);
+                    console.log("params:", params)
+                    execute.signTransaction(constructor, params);
+                    
 
                 })
 

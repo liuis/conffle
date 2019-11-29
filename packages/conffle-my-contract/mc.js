@@ -35,7 +35,7 @@ console.log("3--------------------------------")
 MetaCoin.at(contract_address).then(function(instance) {
   coin = instance;
   console.log("--------------------------------")
-  console.log(util.inspect(coin, {showHidden: false, depth: null}));
+  console.log(util.inspect(coin.getBalance('0xe1680683be13895b59c94eaf61818975a0d105dd'), {showHidden: false, depth: null}));
 })
 
 
