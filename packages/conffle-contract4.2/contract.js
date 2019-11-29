@@ -306,7 +306,7 @@ var contract = (function(module) {
 
     this.contract = contract;
     console.log("abi --------contract: ")
-    //console.log(util.inspect(contract, {showHidden: false, depth: null}));
+    console.log(util.inspect(contract, {showHidden: false, depth: null}));
     console.log("abi --------contract: ")
     // Provision our functions.
     for (var i = 0; i < this.abi.length; i++) {
