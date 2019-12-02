@@ -1,5 +1,15 @@
 const reformat = require("./reformat");
-
+var jayson = require('jayson');
+const ad = "0xe1680683be13895b59c94eaf61818975a0d105dd";
+//const pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
+const Tx = require("./transaction.js");
+const pk = Buffer.from(
+    '91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac',
+    'hex',
+)
+const util = require('util');
+//const Tx = require('ethereumjs-tx').Transaction;
+var client = jayson.client.http('http://localhost:12537');
 const execute = {
     is_tx_params: function(val) {
 
@@ -20,9 +30,9 @@ const execute = {
         return false;
     },
 
-    getTxParams: function(methodABI, args) {
+    getTxParams: async function(methodABI, args) {
         const constructor = this;
-
+        const web3 = constructor.web3;
         const expected_arg_count = methodABI ? methodABI.inputs.length : 0;
 
         let tx_params = {};
@@ -39,6 +49,7 @@ const execute = {
     },
 
     prepareCall: async function(constructor, methodABI, _arguments) {
+
         let args = Array.prototype.slice.call(_arguments);
         let params = execute.getTxParams.call(constructor, methodABI, args);
         return {
@@ -47,56 +58,72 @@ const execute = {
         }
     },
 
-    getNonce: async function() {
-        const constructor = this;
-        const web3 = constructor.web3;
-        const add = web3.cfx.accounts.wallet[0].address;
-        const nonceValue = await web3.cfx.getTransactionCount(add);
+    getNonce: async function(web3) {
+        //const ad = web3.cfx.accounts.wallet[0].address;
+        const nonceValue = await web3.cfx.getTransactionCount(ad);
 
         return nonceValue;
     },
 
-    wait_local_block: function(txHash) {
-        const constructor = this;
+    wait_local_block: function(constructor, txHash) {
         const web3 = constructor.web3;
         for (var i = 0, len = 5; i < len; i++) {
-            client.request('generateoneblock', [1, 300000], function(err, error, result) {
+            client.request('generateoneblock', [100, 300000], function(err, res) {
+                console.log("pacakgeing:::::", res)
                 if (err) throw err; //console.log("generateoneblock : " + result);
 
             });
 
         }
-        return web3.cfx.getTransactionReceipt(txHash).then((receipt) => { //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux"
-            if (receipt !== null) { //console.log("receipt:", receipt.stateRoot);
+        //return web3.cfx.getTransactionReceipt(txHash).then((receipt) => { 
+        client.request('cfx_getTransactionReceipt', [txHash], function(err, res) {
+            //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux"
+            console.log("getTransactionReceipt:::::::", res);
+            if (res.result !== null) { //console.log("receipt:", receipt.stateRoot);
                 //console.log("Your account has been receiver some cfx coin");
 
-                contractAddress = receipt["contractCreated"];
+                contractAddress = res.result["contractCreated"];
                 console.log("Your contract has been deployed at :" + contractAddress);
             } else {
-                return localhost_waitBlock(txHash)
+                return execute.wait_local_block(constructor, txHash)
             }
         })
     },
 
     signTransaction: async function(constructor, txParams) {
         const web3 = constructor.web3;
-        console.log("constructor xxxxxxxx: " + constructor.web3)
-        let gas = await web3.cfx.estimateGas(txParams);
-        console.log("gas : ", gas) 
-        txParams.gas = gas;
-        txParams.from = 0;
-        web3.cfx.signTransaction(txParams)
-            .then((encodedTransaction) => {
-                const {
-                    rawTransaction
-                } = encodedTransaction;
-                console.log('raw transaction: ', rawTransaction);
-                return web3.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
-                    console.log('transaction hash from RPC: ', transactionHash);
-                    execute.wait_local_block(transactionHash)
-                });
-            }).catch(console.error);
+        //console.log(util.inspect(web3.extend.utils, {
+        //    showHidden: false,
+        //    depth: null
+        //}));
+        txParams.then(async function(res) {
+            let gas = await web3.cfx.estimateGas(txParams);
+            let NonceValue = await web3.cfx.getTransactionCount(ad);
+            res.to = txParams.to;
+            res.data = txParams.data;
+            var rawTx = {
+                "gas": web3.extend.utils.toHex(gas),
+                "gasPrice": web3.extend.utils.toHex(5000),
+                "to": res.to,
+                "value": "0x0",
+                "data": res.data,
+                "nonce": web3.extend.utils.toHex(NonceValue + 17)
+            };
 
+            var rtx = new Tx(rawTx);
+            delete rtx._common;
+            rtx.sign(pk);
+            const serializedTx = rtx.serialize().toString('hex');
+            console.log("rawTransaction", serializedTx);
+            client.request('cfx_sendRawTransaction', [serializedTx], function(err, res) {
+                if (err) throw err;
+                console.log('transaction hash from RPC:', res.result);
+                execute.wait_local_block(constructor, res.result);
+
+            });
+
+
+        });
     },
 
 
@@ -131,7 +158,7 @@ const execute = {
     send: function(fn, methodABI, address) {
         const constructor = this;
         const web3 = constructor.web3;
-        console.log("send fun : ", constructor.web3)
+        //console.log("send fun : ", constructor.web3)
         return function() {
             let deferred;
 
@@ -143,9 +170,8 @@ const execute = {
                 }) => {
                     params.to = address;
                     params.data = fn ? fn(...args).encodeABI() : params.data;
-                    console.log("params:", params)
                     execute.signTransaction(constructor, params);
-                    
+
 
                 })
 

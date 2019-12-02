@@ -26,11 +26,19 @@
   "homepage": "https://github.com/trufflesuite/truffle-contract#readme",
   "dependencies": {
     "conflux-web": "1.2.2-alpha.0",
+    "ethereumjs-tx": "^2.1.1",
     "ethjs-abi": "0.1.8",
+    "jayson": "^3.2.0",
     "truffle-blockchain-utils": "^0.0.5",
     "truffle-contract-schema": "^2.0.1",
     "truffle-error": "^0.0.3",
-    "web3-utils": "^1.2.4"
+    "web3-utils": "^1.2.4",
+    "bignumber.js": "^9.0.0",
+    "keccak": "^2.0.0",
+    "lodash": "^4.17.15",
+    "rlp": "^2.2.3",
+    "scrypt.js": "^0.3.0",
+    "secp256k1": "^3.7.1"
   },
   "devDependencies": {
     "async": "2.6.1",
