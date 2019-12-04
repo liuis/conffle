@@ -48,7 +48,8 @@ MetaCoin.at(contract_address).then(function(instance) {
         //    showHidden: true,
         //    depth: 7
         //}));
-        //console.log(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"));
+        console.log(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"));
+        console.log(coin.getBalance(account_two));
         //.then(result => {
 
         //    console.log(result);
@@ -62,7 +63,7 @@ MetaCoin.at(contract_address).then(function(instance) {
 
         */
         console.log("--------------------------------")
-        console.log(coin.sendCoin(account_two, 3))
+        //console.log(coin.sendCoin(account_two, 3))
 })
 
 

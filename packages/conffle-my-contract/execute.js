@@ -93,21 +93,27 @@ const execute = {
 
     signTransaction: async function(constructor, txParams) {
         const web3 = constructor.web3;
-        //console.log(util.inspect(web3.extend.utils, {
-        //    showHidden: false,
-        //    depth: null
-        //}));
+
         txParams.then(async function(res) {
-            let gas = await web3.cfx.estimateGas(txParams);
+            console.log("txParams gas::::::::::", res);
             let NonceValue = await web3.cfx.getTransactionCount(ad);
-            res.to = txParams.to;
-            res.data = txParams.data;
+            console.log("txParams NonceValue::::::::::", NonceValue);
+            var caluGas = {
+                "from": ad,
+                "gasPrice": 5000,
+                "to": txParams.to,
+                "value": 0,
+                "data": txParams.data,
+                "nonce": NonceValue
+            };
+            let gas = await web3.cfx.estimateGas(caluGas);
+            console.log("txParams gas::::::::::", gas);
             var rawTx = {
                 "gas": web3.extend.utils.toHex(gas),
                 "gasPrice": web3.extend.utils.toHex(5000),
-                "to": res.to,
+                "to": txParams.to,
                 "value": "0x0",
-                "data": res.data,
+                "data": txParams.data,
                 "nonce": web3.extend.utils.toHex(NonceValue)
             };
             console.log("rawTX::::::::", rawTx);
@@ -146,11 +152,11 @@ const execute = {
 
                     result = await fn(...args).call(params);
                     console.log("isConstant:::::::== true:::", result)
-                    //result = reformat.numbers.call(
-                    //    constructor,
-                    //    result,
-                    //    methodABI.outputs
-                    //);
+                        //result = reformat.numbers.call(
+                        //    constructor,
+                        //    result,
+                        //    methodABI.outputs
+                        //);
                     return result;
                 })
 
@@ -172,7 +178,7 @@ const execute = {
                     console.log("methodABI:::::::::", args, params)
                     params.to = address;
                     params.data = fn ? fn(...args).encodeABI() : params.data;
-                    console.log("send:::::::::",fn)
+                    console.log("send:::::::::", fn)
                     console.log(util.inspect(fn, {
                         showHidden: false,
                         depth: null
