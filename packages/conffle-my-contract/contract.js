@@ -39,11 +39,12 @@ var contract = (function(module) {
         instance.abi.forEach(function(item) {
             switch (item.type) {
                 case "function":
-                    var isConstant = ["pure", "view"].includes(item.stateMutability) || item.constant; // new form // deprecated case
+                    //var isConstant = ["pure", "view"].includes(item.stateMutability) || item.constant; // new form // deprecated case
+                    var isConstant = item.constant; // new form // deprecated case
 
                     var signature = webUtils._jsonInterfaceMethodToString(item);
-                    console.log("signature:", signature);
-                    console.log(item.name);
+                    console.log("isConstant:::::", isConstant);
+                    console.log("item.name::::::;", item.name);
                     var method = function(constant, web3Method) {
                         var fn;
 
@@ -101,6 +102,7 @@ var contract = (function(module) {
         });
 
         // sendTransaction / send
+        /*
         instance.sendTransaction = execute.send.call(
             constructor,
             null,
@@ -117,7 +119,7 @@ var contract = (function(module) {
                 return instance.sendTransaction(packet);
             };
         }
-
+        */
     };
 
     var Utils = {

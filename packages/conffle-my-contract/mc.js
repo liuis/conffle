@@ -2,7 +2,7 @@
 const ConfluxWeb = require('conflux-web');
 var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
 var contractTr = require("./index.js");
-var MC = require("./MetaCoin_final.json");
+var MC = require("/Users/liping/about_CFX_Work/about_conffle_test/demo-test/build/MetaCoin.sol.json");
 const util = require('util');
 
 const ad = "0xe1680683be13895b59c94eaf61818975a0d105dd";
@@ -11,18 +11,14 @@ const pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
 var MetaCoin = contractTr({
     contractName: "MetaCoin",
     abi: MC.abi,
-    bytecode: MC.unlinked_binary,
-    address: MC.address, // optional
-    // many more
+    bytecode: MC.bytecode,
+    address: "0x3a69dd57facd0e1751b85182b225a3b74ae7f0e3", // optional
 });
+
 MetaCoin.setProvider(provider);
-//async function waitWallet(address, privateKeys) {
-//    await MetaCoin.cfx.accounts.wallet.add({
-//        privateKey: privateKeys,
-//        address: address
-//    });
-//}
-//waitWallet(ad, pk);
+
+var account_one = "0xe1680683be13895b59c94eaf61818975a0d105dd";
+var account_two = "0x3ba790a9dcf7dd081f6167bc76a1e8279cb7da17";
 
 if (typeof MetaCoin.currentProvider.sendAsync !== "function") {
     MetaCoin.currentProvider.sendAsync = function() {
@@ -41,19 +37,56 @@ var coin;
 console.log("1--------------------------------")
 console.log("2--------------------------------")
 console.log("3--------------------------------")
+    //coin.constructor.web3.cfx.accounts.wallet.add({
+    //    privateKey: pk,
+    //    address: ad
+    //});
 MetaCoin.at(contract_address).then(function(instance) {
-    coin = instance;
-    console.log("--------------------------------")
-    coin.constructor.web3.cfx.accounts.wallet.add({
-        privateKey: pk,
-        address: ad
+        coin = instance;
+
+        //console.log(util.inspect(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"), {
+        //    showHidden: true,
+        //    depth: 7
+        //}));
+        //console.log(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"));
+        //.then(result => {
+
+        //    console.log(result);
+
+        //})
+        /*
+        console.log(util.inspect(coin.sendCoin, {
+            showHidden: true,
+            depth: 7 
+        }));
+
+        */
+        console.log("--------------------------------")
+        console.log(coin.sendCoin(account_two, 3))
+})
+
+
+/*
+        console.log(util.inspect(coin.sendCoin, {
+            showHidden: false,
+            depth: null
+        }));
+        console.log("--------------------------------")
+        return coin.sendCoin(account_two, 3, {
+            from: account_one
+        }).call();
+    }).then(function(result) {
+        console.log("result::::::::::", result);
     })
     //console.log("xxxx:", coin.constructor.web3.cfx.accounts.wallet);
-    console.log(util.inspect(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"), {
-        showHidden: false,
-        depth: null
-    }));
-})
+    //coin.getBalance(ad).then(result => {
+    //        console.log("result:::::::::", result)
+    //})
+    //console.log(coin.getBalance(ad))
+    ///console.log(util.inspect(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"), {
+    ///    showHidden: false,
+    ///    depth: null
+    ///}));
 
 
 

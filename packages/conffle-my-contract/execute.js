@@ -31,6 +31,7 @@ const execute = {
     },
 
     getTxParams: async function(methodABI, args) {
+
         const constructor = this;
         const web3 = constructor.web3;
         const expected_arg_count = methodABI ? methodABI.inputs.length : 0;
@@ -69,7 +70,7 @@ const execute = {
         const web3 = constructor.web3;
         for (var i = 0, len = 5; i < len; i++) {
             client.request('generateoneblock', [100, 300000], function(err, res) {
-                console.log("pacakgeing:::::", res)
+                //console.log("pacakgeing:::::", res)
                 if (err) throw err; //console.log("generateoneblock : " + result);
 
             });
@@ -82,8 +83,8 @@ const execute = {
             if (res.result !== null) { //console.log("receipt:", receipt.stateRoot);
                 //console.log("Your account has been receiver some cfx coin");
 
-                contractAddress = res.result["contractCreated"];
-                console.log("Your contract has been deployed at :" + contractAddress);
+                //contractAddress = res.result["contractCreated"];
+                //console.log("Your contract has been deployed at :" + contractAddress);
             } else {
                 return execute.wait_local_block(constructor, txHash)
             }
@@ -107,17 +108,17 @@ const execute = {
                 "to": res.to,
                 "value": "0x0",
                 "data": res.data,
-                "nonce": web3.extend.utils.toHex(NonceValue + 17)
+                "nonce": web3.extend.utils.toHex(NonceValue)
             };
-
+            console.log("rawTX::::::::", rawTx);
             var rtx = new Tx(rawTx);
             delete rtx._common;
             rtx.sign(pk);
             const serializedTx = rtx.serialize().toString('hex');
-            console.log("rawTransaction", serializedTx);
+            //console.log("rawTransaction", serializedTx);
             client.request('cfx_sendRawTransaction', [serializedTx], function(err, res) {
                 if (err) throw err;
-                console.log('transaction hash from RPC:', res.result);
+                //console.log('transaction hash from RPC:', res.result);
                 execute.wait_local_block(constructor, res.result);
 
             });
@@ -144,11 +145,12 @@ const execute = {
                     params.to = address;
 
                     result = await fn(...args).call(params);
-                    result = reformat.numbers.call(
-                        constructor,
-                        result,
-                        methodABI.outputs
-                    );
+                    console.log("isConstant:::::::== true:::", result)
+                    //result = reformat.numbers.call(
+                    //    constructor,
+                    //    result,
+                    //    methodABI.outputs
+                    //);
                     return result;
                 })
 
@@ -156,20 +158,25 @@ const execute = {
     },
 
     send: function(fn, methodABI, address) {
+        //console.log("fn:::args:::::", fn, methodABI, address)
         const constructor = this;
         const web3 = constructor.web3;
         //console.log("send fun : ", constructor.web3)
         return function() {
-            let deferred;
-
             execute
                 .prepareCall(constructor, methodABI, arguments)
                 .then(async({
                     args,
                     params
                 }) => {
+                    console.log("methodABI:::::::::", args, params)
                     params.to = address;
                     params.data = fn ? fn(...args).encodeABI() : params.data;
+                    console.log("send:::::::::",fn)
+                    console.log(util.inspect(fn, {
+                        showHidden: false,
+                        depth: null
+                    }));
                     execute.signTransaction(constructor, params);
 
 

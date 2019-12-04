@@ -2,8 +2,6 @@
 //const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:12537');
 //const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
 //console.log(confluxWeb.cfx.getCode)
-a = {"jsonrpc":"2.0","result":"0x31f361d1fbfdaa593d8eaca65d0d8ce92d13767a6727c1830a2973817444b0db","id":"4f97d767-0435-4613-9959-37ebac3006d8"}
-console.log(a["result"])
 //const confluxWeb = new ConfluxWeb();
 //console.log(confluxWeb);
 //const confluxWeb = new ConfluxWeb('http://localhost:12345');
