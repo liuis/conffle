@@ -175,7 +175,7 @@ const execute = {
                     args,
                     params
                 }) => {
-                    console.log("methodABI:::::::::", args, params)
+                    console.log("methodABI:::::::::xxxxxxxxxxxx:", args, params)
                     params.to = address;
                     params.data = fn ? fn(...args).encodeABI() : params.data;
                     console.log("send:::::::::", fn)

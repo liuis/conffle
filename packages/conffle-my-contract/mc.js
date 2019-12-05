@@ -18,6 +18,8 @@ MetaCoin.setProvider(provider);
 
 var account_one = "0xe1680683be13895b59c94eaf61818975a0d105dd";
 var account_two = "0x3ba790a9dcf7dd081f6167bc76a1e8279cb7da17";
+var account_three = "0x49a583998b1921eded4f2ade09255648db7672d3";
+
 
 if (typeof MetaCoin.currentProvider.sendAsync !== "function") {
     MetaCoin.currentProvider.sendAsync = function() {
@@ -44,7 +46,8 @@ MetaCoin.at(contract_address).then(function(instance) {
     //    depth: 7
     //}));
     console.log(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"));
-    console.log(coin.sendCoin(account_two, 3))
+    //console.log(coin.sendCoin(account_three, 3, {from: account_two}))
     console.log(coin.getBalance(account_two));
+    console.log(coin.getBalanceInEth(account_two));
     console.log("--------------------------------")
 })
