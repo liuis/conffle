@@ -5,6 +5,7 @@ var jayson = require('jayson');
 var client = jayson.client.http('http://localhost:12537');
 const ConfluxWeb = require('conflux-web');
 const cfxNum = new BN('3000000000000000000');
+var linker = require('solc/linker'); 
 
 // use the testnet 
 //const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:12537');
@@ -20,14 +21,14 @@ var request = require('request');
 const GENESIS_PRI_KEY = "46b9e861b63d3509c88b7817275a30d22d62c8cd8fa6486ddee35ef0d8e0495f";
 const GENESIS_ADDRESS = "0xfbe45681ac6c53d5a40475f7526bac1fe7590fb8";
 
-async function run(address, privateKeys) {
+async function run(address, privateKeys, name) {
 
     try {
         console.log("address:" + address, "privateKeys:" + privateKeys)
 
         //sendBalance_localhost(address);
 
-        deployContract(address, privateKeys);
+        deployContract(address, privateKeys, name);
 
     } catch (e) {
         console.error(e);
@@ -48,7 +49,7 @@ async function run(address, privateKeys) {
 
 //confluxWeb.cfx.accounts.wallet.add(privateKey);
 //confluxWeb.cfx.accounts.wallet.add(privateKeys[0]);
-function deploy(argument, abi) {
+function deploy(argument, abi, solfile) {
     confluxWeb.cfx.signTransaction(argument)
         .then((encodedTransaction) => {
             const {
@@ -58,16 +59,19 @@ function deploy(argument, abi) {
             return confluxWeb.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
                 console.log('transaction hash from RPC: ', transactionHash);
                 //console.log("you can find the transaction details on : http://www.confluxscan.io/transactionsdetail/" + transactionHash)
-                    //hexNonce = argument.nonce.toString(16);
-                    //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
-                    //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
-                    //waitBlock(transactionHash, abi)
-                localhost_waitBlock(transactionHash)
+                //hexNonce = argument.nonce.toString(16);
+                //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
+                //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
+                //waitBlock(transactionHash, abi)
+                localhost_waitBlock(transactionHash, solfile)
             })
         }).catch(console.error);
-}
+};
 
-async function deployContract(address, privateKeys) {
+function isHex(num) {
+    return Boolean(num.match(/^0x[0-9a-f]+$/i))
+};
+async function deployContract(address, privateKeys, name) {
 
 
     await confluxWeb.cfx.accounts.wallet.add({
@@ -76,39 +80,49 @@ async function deployContract(address, privateKeys) {
     });
 
 
-    fs.readdir("./build", (err, files) => {
-        //files.forEach(file => {
-        for (const file of files) {
-            console.log(file);
-            //const fd = require("./demo-test/build/" + file);
-            let rawdata = fs.readFileSync("./build/" + file);
-            let fd = JSON.parse(rawdata);
-            console.log("bytecode:", "0x" + fd.bytecode)
-            code = "0x" + fd.bytecode
-            abi = fd.abi
-            //console.log("confluxWeb.cfx.accounts.wallet[0].address : ", confluxWeb.cfx.accounts.wallet[0].address);
-            //console.log("confluxWeb.cfx.accounts.wallet : ", confluxWeb.cfx.accounts.wallet);
-            const add = confluxWeb.cfx.accounts.wallet[0].address;
-            //const nonceValue = await confluxWeb.cfx.getTransactionCount(add);
-            confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
-                console.log("nonceValue:", nonceValue)
-                const txParams = {
-                    from: add,
-                    nonce: nonceValue, // make nonce appropriate
-                    gasPrice: 5000,
-                    value: 0,
-                    to: null,
-                    data: code
-                };
-                
-                let gas = await confluxWeb.cfx.estimateGas(txParams);
-                console.log("gas : ", gas)
-                txParams.gas = gas;
-                txParams.from = 0;
-            if(abi){ deploy(txParams, abi); }
-          })
-        };
-    })
+    let rawdata = fs.readFileSync("./build/" + name + ".sol.json");
+    let fd = JSON.parse(rawdata);
+    console.log("bytecode:", "0x" + fd.bytecode)
+    code = "0x" + fd.bytecode
+    abi = fd.abi
+    if (isHex(code)) 
+    {
+        const add = confluxWeb.cfx.accounts.wallet[0].address;
+        confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
+            console.log("nonceValue:", nonceValue)
+            const txParams = {
+                from: add,
+                nonce: nonceValue, // make nonce appropriate
+                gasPrice: 5000,
+                value: 0,
+                to: null,
+                data: code
+            };
+
+            let gas = await confluxWeb.cfx.estimateGas(txParams);
+            console.log("gas : ", gas)
+            txParams.gas = gas;
+            txParams.from = 0;
+            if (abi) {
+                deploy(txParams, abi, name + ".sol.json");
+            }
+        })
+    }
+    else 
+    {
+       //link 
+       console.log("----------------------------------------------------")
+       console.log("\n")
+       console.log("The bytecode is not a hex, you may be a reference to other sol file, try to link!!!")   
+       linkRe = fd.linkReferences;
+       
+       contractAdd = fd.contractAddress;
+       if(contractAdd == ""){
+            
+       }
+       bytecode = linker.linkBytecode(mc.bytecode, { 'ConvertLib.sol:ConvertLib': '0xe4daa3e81a8c7c67d868fe21d0070ba29d61e5c9' }); 
+
+    }
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -138,7 +152,7 @@ function waitBlock(txHash, abi) {
 
 }
 
-function localhost_waitBlock(txHash) {
+function localhost_waitBlock(txHash, solfile) {
 
 
     for (var i = 0, len = 5; i < len; i++) {
@@ -156,14 +170,31 @@ function localhost_waitBlock(txHash) {
             if (receipt !== null) {
                 //console.log("receipt:", receipt.stateRoot);
                 //console.log("Your account has been receiver some cfx coin");
-                contractAddress = receipt["contractCreated"]
+                cAddress = receipt["contractCreated"]
                 console.log("Your contract has been deployed at :" + contractAddress);
+                writeJsonto(contractAddress, solfile, cAddress);
                 confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
             } else {
-                return localhost_waitBlock(txHash)
+                return localhost_waitBlock(txHash, solfile)
             }
         })
 }
+
+function writeJsonto(key, solfile, newValues) {
+    var fs = require('fs');
+    var file = require("./build/" + solfile);
+
+    file.key = newValues;
+
+    fs.writeFile("./build/" + solfile, JSON.stringify(file, null, 4), function(err) {
+        if (err) return console.log(err);
+        console.log(JSON.stringify(file));
+        console.log('writing to ' + fileName);
+    });
+
+}
+
+
 
 //-------------------------------------------------------------------------------------------------
 // generateoneblock 
@@ -247,6 +278,14 @@ async function sendBalance_localhost(account) {
 
 
 
+function isEmptyObject(obj) {
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+    ¦ return false;
+    }
+  }
+  return true;
+};
 
 
 module.exports = {

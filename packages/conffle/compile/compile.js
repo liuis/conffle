@@ -14,7 +14,16 @@ async function run() {
     } catch (e) {
         console.error(e);
     }
-}
+};
+
+function isEmptyObject(obj) {
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      return false;
+    }
+  }
+  return true;
+};
 
 function compile() {
 
@@ -26,6 +35,10 @@ function compile() {
         'bytecode': '',
         'linkReferences': {}
     };
+
+    //linkReferences
+    var noNeedlink = [];
+    var Linked = [];
 
     var files = fs.readdirSync("./contracts/");
     var i;
@@ -75,6 +88,20 @@ function compile() {
             teamJson.linkReferences = output.contracts[file][contractName].evm.bytecode.linkReferences;
             wfile = "./build/" + file + ".json"
 
+            if (isEmptyObject(teamJson.linkReferences))
+            {
+                if(!isEmptyObject(teamJson.abi)){
+                 noNeedlink.push(file)
+                } 
+
+            }
+            else
+            {
+                if(!isEmptyObject(teamJson.abi)){
+                Linked.push(file)
+                } 
+            }
+
             fs.writeFile(wfile, JSON.stringify(teamJson, null, 4), function(err) {
                 if (err)
                     console.error(err);
@@ -83,8 +110,15 @@ function compile() {
 
     }
 
+    console.log("\n")
     console.log("--------------------------------------------")
     console.log("See the above content, check whether there are any errors, if there is no error, may be a success!")
+    console.log("--------------------------------------------")
+    console.log("\n")
+    console.log("U need first deploy this contract:", noNeedlink)
+    console.log("\n")
+    console.log("then deploy this contract:", Linked)
+    console.log("\n")
 }
 
 
