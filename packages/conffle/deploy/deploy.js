@@ -5,7 +5,7 @@ var jayson = require('jayson');
 var client = jayson.client.http('http://localhost:12537');
 const ConfluxWeb = require('conflux-web');
 const cfxNum = new BN('3000000000000000000');
-var linker = require('solc/linker'); 
+var linker = require('solc/linker');
 
 // use the testnet 
 //const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:12537');
@@ -85,8 +85,7 @@ async function deployContract(address, privateKeys, name) {
     console.log("bytecode:", "0x" + fd.bytecode)
     code = "0x" + fd.bytecode
     abi = fd.abi
-    if (isHex(code)) 
-    {
+    if (isHex(code)) {
         const add = confluxWeb.cfx.accounts.wallet[0].address;
         confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
             console.log("nonceValue:", nonceValue)
@@ -107,20 +106,33 @@ async function deployContract(address, privateKeys, name) {
                 deploy(txParams, abi, name + ".sol.json");
             }
         })
-    }
-    else 
-    {
-       //link 
-       console.log("----------------------------------------------------")
-       console.log("\n")
-       console.log("The bytecode is not a hex, you may be a reference to other sol file, try to link!!!")   
-       linkRe = fd.linkReferences;
-       
-       contractAdd = fd.contractAddress;
-       if(contractAdd == ""){
-            
-       }
-       bytecode = linker.linkBytecode(mc.bytecode, { 'ConvertLib.sol:ConvertLib': '0xe4daa3e81a8c7c67d868fe21d0070ba29d61e5c9' }); 
+    } else {
+        //link 
+        console.log("----------------------------------------------------")
+        console.log("\n")
+        console.log("The bytecode is not a hex, you may be a reference to other sol file, try to link!!!")
+        linkRe = fd.linkReferences;
+
+        contractAdd = fd.contractAddress;
+        if (contractAdd == "") {
+            cnsole.log("")
+        }
+        //此处我们要挨个获取它的以来的reference, 
+        keys = Object.keys(obj.linkReferences)
+        console.log(keys)
+        for (var i = 0; i < keys.length; i++) {
+            console.log(keys[i]);
+
+            keys2 = Object.keys(obj.linkReferences[keys[i]])
+            k = keys + ":" + keys2,
+                add = '0xe4daa3e81a8c7c67d868fe21d0070ba29d61e5c9';
+            var a = {};
+            a[k] = add;
+            console.log(a)
+        }
+        bytecode = linker.linkBytecode(mc.bytecode, {
+            'ConvertLib.sol:ConvertLib': '0xe4daa3e81a8c7c67d868fe21d0070ba29d61e5c9'
+        });
 
     }
 }
@@ -279,12 +291,12 @@ async function sendBalance_localhost(account) {
 
 
 function isEmptyObject(obj) {
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-    ¦ return false;
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {¦
+            return false;
+        }
     }
-  }
-  return true;
+    return true;
 };
 
 
