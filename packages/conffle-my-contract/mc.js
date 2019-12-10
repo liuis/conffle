@@ -38,7 +38,7 @@ var coin;
 //    privateKey: pk,
 //    address: ad
 //});
-MetaCoin.at(contract_address).then(function(instance) {
+MetaCoin.at(contract_address).then(async function(instance) {
     coin = instance;
 
     //console.log(util.inspect(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"), {
@@ -46,8 +46,9 @@ MetaCoin.at(contract_address).then(function(instance) {
     //    depth: 7
     //}));
     console.log(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"));
-    //console.log(coin.sendCoin(account_three, 3, {from: account_two}))
     console.log(coin.getBalance(account_two));
-    console.log(coin.getBalanceInEth(account_two));
+    await coin.sendCoin(account_two, 3);
+    console.log(coin.getBalance(account_one));
+    console.log(coin.getBalance(account_two));
     console.log("--------------------------------")
 })

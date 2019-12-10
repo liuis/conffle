@@ -33,23 +33,24 @@ function mkdirsSync(dirname) {
 
 async function run() {
 
-    mkdirs("./demo-test/build", function(err) {
-        if (err) console.error(err)
-        else {
-            try {
+    createProjectStructure();
+    //mkdirs("./build", function(err) {
+    //    if (err) console.error(err)
+    //    else {
+    //        try {
 
-                createProjectStructure();
+    //            createProjectStructure();
 
-            } catch (e) {
-                console.error(e);
-            }
-        }
+    //        } catch (e) {
+    //            console.error(e);
+    //        }
+    //    }
 
-    });
+    //});
 
 }
 
-function createProjectStructure(dir = "./demo-test") {
+function createProjectStructure(dir = "./") {
     console.log("start the example procject, pls wait....")
 
     TruffleBox.unbox("https://github.com/liuis/truffle-conflux-init-default", dir, unboxOptions);

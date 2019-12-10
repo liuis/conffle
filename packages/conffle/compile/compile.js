@@ -7,6 +7,8 @@ const {
 
 async function run() {
     try {
+        console.log("start compile all the contracts, pls wait....")
+        console.log("--------------------------------------------")
         await compile();
 
     } catch (e) {
@@ -16,22 +18,21 @@ async function run() {
 
 function compile() {
 
-    /*
-   */
     var input = {};
     var teamJson = {
+        'contractFile': '',
+        'contractAddress': '',
         'abi': {},
         'bytecode': '',
-        'linkReferences':{}
+        'linkReferences': {}
     };
- 
-    //var files = ['FC.sol', 'FCPausable.sol', 'FCRoles.sol', 'IFC.sol', 'Roles.sol', 'SafeMath.sol'];
-    var files = fs.readdirSync("./demo-test/contracts/");
+
+    var files = fs.readdirSync("./contracts/");
     var i;
     for (i in files) {
         var file = files[i];
         input[file] = {
-            content: fs.readFileSync("./demo-test/contracts/" + file, 'utf8')
+            content: fs.readFileSync("./contracts/" + file, 'utf8')
         };
     }
     for (i = 0; i < 10; i++) {
@@ -52,29 +53,38 @@ function compile() {
         })))
     };
 
+    wfile_output = "./build/CompileOutput.json"
+    fs.writeFile(wfile_output, JSON.stringify(output, null, 4), function(err) {
+        if (err)
+            console.error(err);
+    })
 
     console.log("output:", output);
-    console.log(util.inspect(output, {showHidden: false, depth: null}));
+    //console.log(util.inspect(output, {
+    //    showHidden: false,
+    //    depth: null
+    //}));
 
 
-  for (var file in output.contracts) {
+    for (var file in output.contracts) {
         for (var contractName in output.contracts[file]) {
-    //console.log(output.contracts[file][contractName].evm.bytecode.object)
-    //console.log(output.contracts[file][contractName].abi)
-    teamJson.abi = output.contracts[file][contractName].abi;
-    teamJson.bytecode = output.contracts[file][contractName].evm.bytecode.object;
-    teamJson.linkReferences = output.contracts[file][contractName].evm.bytecode.linkReferences;
-    wfile = "./demo-test/build/" + file + ".json"
+            teamJson.contractFile = file;
+            teamJson.contractAddress = '';
+            teamJson.abi = output.contracts[file][contractName].abi;
+            teamJson.bytecode = output.contracts[file][contractName].evm.bytecode.object;
+            teamJson.linkReferences = output.contracts[file][contractName].evm.bytecode.linkReferences;
+            wfile = "./build/" + file + ".json"
 
-    fs.writeFile(wfile, JSON.stringify(teamJson), function(err) {
-            if (err)
-                console.error(err);
-        })
+            fs.writeFile(wfile, JSON.stringify(teamJson, null, 4), function(err) {
+                if (err)
+                    console.error(err);
+            })
+        }
+
     }
 
-   }
-
-    console.log("contract compiled sucessfully")
+    console.log("--------------------------------------------")
+    console.log("See the above content, check whether there are any errors, if there is no error, may be a success!")
 }
 
 
