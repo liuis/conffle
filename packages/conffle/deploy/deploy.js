@@ -35,19 +35,6 @@ async function run(address, privateKeys) {
 }
 
 
-function generate_contract_address(nonce, sender) {
-
-    var input_arr = [sender, nonce];
-    var rlp_encoded = rlp.encode(input_arr);
-
-    var contract_address_long = keccak('keccak256').update(rlp_encoded).digest('hex');
-
-    var contract_address = contract_address_long.substring(24); //Trim the first 24 characters.
-    //console.log("contract_address: " + contract_address);
-    return contract_address;
-}
-
-
 //const Web3 = require('web3');
 //var web3 = new Web3(new Web3.providers.HttpProvider("ropsten.infura.io/v3/67b02109f3174f32a4a5a19c0419f95b"))
 
@@ -124,6 +111,13 @@ async function deployContract(address, privateKeys) {
     })
 }
 
+//-------------------------------------------------------------------------------------------------
+// waitBlock || wait_local_block  
+// Utils function
+//  
+//-------------------------------------------------------------------------------------------------
+
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -144,8 +138,58 @@ function waitBlock(txHash, abi) {
 
 }
 
-async function sendBalance_testnet(address) {
+function localhost_waitBlock(txHash) {
 
+
+    for (var i = 0, len = 5; i < len; i++) {
+        client.request('generateoneblock', [1, 300000], function(err, error, result) {
+            if (err) throw err;
+            //console.log("generateoneblock : " + result);
+        });
+
+    }
+
+
+    return confluxWeb.cfx.getTransactionReceipt(txHash).then(
+        (receipt) => {
+            //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
+            if (receipt !== null) {
+                //console.log("receipt:", receipt.stateRoot);
+                //console.log("Your account has been receiver some cfx coin");
+                contractAddress = receipt["contractCreated"]
+                console.log("Your contract has been deployed at :" + contractAddress);
+                confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
+            } else {
+                return localhost_waitBlock(txHash)
+            }
+        })
+}
+
+//-------------------------------------------------------------------------------------------------
+// generateoneblock 
+// Utils function
+//  
+//-------------------------------------------------------------------------------------------------
+
+function generate_contract_address(nonce, sender) {
+
+    var input_arr = [sender, nonce];
+    var rlp_encoded = rlp.encode(input_arr);
+
+    var contract_address_long = keccak('keccak256').update(rlp_encoded).digest('hex');
+
+    var contract_address = contract_address_long.substring(24); //Trim the first 24 characters.
+    //console.log("contract_address: " + contract_address);
+    return contract_address;
+}
+
+//-------------------------------------------------------------------------------------------------
+// sendBalance testnet or localhost
+// Utils function
+//  
+//-------------------------------------------------------------------------------------------------
+
+async function sendBalance_testnet(address) {
 
     url = "http://testnet-jsonrpc.conflux-chain.org:18082/dev/ask?address=" + address
     request(url, function(error, response, body) {
@@ -200,33 +244,6 @@ async function sendBalance_localhost(account) {
             }).catch(console.error);
     });
 }
-
-function localhost_waitBlock(txHash) {
-
-    for (var i = 0, len = 5; i < len; i++) {
-        client.request('generateoneblock', [1, 300000], function(err, error, result) {
-            if (err) throw err;
-            //console.log("generateoneblock : " + result);
-        });
-
-    }
-
-
-    return confluxWeb.cfx.getTransactionReceipt(txHash).then(
-        (receipt) => {
-            //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
-            if (receipt !== null) {
-                //console.log("receipt:", receipt.stateRoot);
-                //console.log("Your account has been receiver some cfx coin");
-                contractAddress = receipt["contractCreated"]
-                console.log("Your contract has been deployed at :" + contractAddress);
-                confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
-            } else {
-                return localhost_waitBlock(txHash)
-            }
-        })
-}
-
 
 
 
