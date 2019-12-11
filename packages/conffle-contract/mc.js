@@ -45,10 +45,14 @@ MetaCoin.at(contract_address).then(async function(instance) {
     //    showHidden: true,
     //    depth: 7
     //}));
-    console.log(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"));
-    console.log(coin.getBalance(account_two));
-    await coin.sendCoin(account_two, 3);
-    console.log(coin.getBalance(account_one));
-    console.log(coin.getBalance(account_two));
-    console.log("--------------------------------")
+    //console.log("xvfsdfsdfsdfsdfsdfsffsdfsfsdfsds:",coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"));
+    coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(result) {
+
+        console.log("90909090909090909090909:", result)
+            //console.log(coin.getBalance(account_two));
+            //await coin.sendCoin(account_two, 3);
+            //console.log(coin.getBalance(account_one));
+            //console.log(coin.getBalance(account_two));
+            //console.log("--------------------------------")
+    })
 })

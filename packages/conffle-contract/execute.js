@@ -1,5 +1,7 @@
 const reformat = require("./reformat");
 var jayson = require('jayson');
+const PromiEvent = require("./promievent");
+const EventEmitter = require("events")
 const ad = "0xe1680683be13895b59c94eaf61818975a0d105dd";
 //const pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
 const Tx = require("./transaction.js");
@@ -66,7 +68,7 @@ const execute = {
         return nonceValue;
     },
 
-    wait_local_block: function(constructor, txHash) {
+    wait_local_block: async function(constructor, txHash) {
         const web3 = constructor.web3;
         for (var i = 0, len = 5; i < len; i++) {
             client.request('generateoneblock', [100, 300000], function(err, res) {
@@ -136,7 +138,7 @@ const execute = {
 
     call: function(fn, methodABI, address) {
         const constructor = this;
-
+        const promiEvent = PromiEvent();
         return function() {
             const args = Array.prototype.slice.call(arguments);
 
@@ -150,16 +152,26 @@ const execute = {
 
                     params.to = address;
 
+                    promiEvent.eventEmitter.emit("execute:call:method", {
+                        fn: fn,
+                        args: args,
+                        address: address,
+                        abi: methodABI,
+                        contract: constructor
+                    });
                     result = await fn(...args).call(params);
-                    console.log("isConstant:::::::== true:::", result)
+                    console.log("call return values: ", result)
                         //result = reformat.numbers.call(
                         //    constructor,
                         //    result,
                         //    methodABI.outputs
                         //);
-                    return result;
+                        //return result;
+                    return promiEvent.resolve(result);
                 })
+                .catch(promiEvent.reject);
 
+            return promiEvent.eventEmitter;
         };
     },
 
@@ -183,7 +195,7 @@ const execute = {
                         showHidden: false,
                         depth: null
                     }));
-                    execute.signTransaction(constructor, params);
+                    await execute.signTransaction(constructor, params);
 
 
                 })

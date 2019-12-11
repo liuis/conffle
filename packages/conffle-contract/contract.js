@@ -43,8 +43,8 @@ var contract = (function(module) {
                     var isConstant = item.constant; // new form // deprecated case
 
                     var signature = webUtils._jsonInterfaceMethodToString(item);
-                    console.log("isConstant:::::", isConstant);
-                    console.log("item.name::::::;", item.name);
+                    //console.log("isConstant:::::", isConstant);
+                    //console.log("item.name::::::;", item.name);
                     var method = function(constant, web3Method) {
                         var fn;
 
@@ -100,9 +100,8 @@ var contract = (function(module) {
                     break;
             }
         });
-
-        // sendTransaction / send
         /*
+        // sendTransaction / send
         instance.sendTransaction = execute.send.call(
             constructor,
             null,
@@ -183,7 +182,7 @@ var contract = (function(module) {
 
             try {
                 const onChainCode = await this.web3.cfx.getCode(address);
-                console.log("onchainCode:", onChainCode);
+                //console.log("onchainCode:", onChainCode);
                 if (!onChainCode || onChainCode.replace("0x", "").replace(/0/g, "") === "")
                     throw new Error(
                         `Cannot create instance of ${this.contractName}; no code at address ${address}`
