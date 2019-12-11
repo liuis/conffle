@@ -68,7 +68,7 @@ const execute = {
         return nonceValue;
     },
 
-    wait_local_block: async function(constructor, txHash) {
+    wait_local_block: async function(constructor, txHash, promiEvent) {
         const web3 = constructor.web3;
         for (var i = 0, len = 5; i < len; i++) {
             client.request('generateoneblock', [100, 300000], function(err, res) {
@@ -81,25 +81,24 @@ const execute = {
         //return web3.cfx.getTransactionReceipt(txHash).then((receipt) => { 
         client.request('cfx_getTransactionReceipt', [txHash], function(err, res) {
             //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux"
-            console.log("getTransactionReceipt:::::::", res);
-            if (res.result !== null) { //console.log("receipt:", receipt.stateRoot);
-                //console.log("Your account has been receiver some cfx coin");
-
+            //console.log("getTransactionReceipt:::::::", res);
+            if (res.result !== null) { 
+                //console.log("receipt:", receipt.stateRoot);
                 //contractAddress = res.result["contractCreated"];
-                //console.log("Your contract has been deployed at :" + contractAddress);
+                return promiEvent.resolve(res.result.outcomeStatus);
             } else {
-                return execute.wait_local_block(constructor, txHash)
+                return execute.wait_local_block(constructor, txHash, promiEvent)
             }
         })
     },
 
-    signTransaction: async function(constructor, txParams) {
+    signTransaction: async function(constructor, txParams,promiEvent) {
         const web3 = constructor.web3;
 
         txParams.then(async function(res) {
-            console.log("txParams gas::::::::::", res);
+            //console.log("txParams gas::::::::::", res);
             let NonceValue = await web3.cfx.getTransactionCount(ad);
-            console.log("txParams NonceValue::::::::::", NonceValue);
+            //console.log("txParams NonceValue::::::::::", NonceValue);
             var caluGas = {
                 "from": ad,
                 "gasPrice": 5000,
@@ -109,7 +108,7 @@ const execute = {
                 "nonce": NonceValue
             };
             let gas = await web3.cfx.estimateGas(caluGas);
-            console.log("txParams gas::::::::::", gas);
+            //console.log("txParams gas::::::::::", gas);
             var rawTx = {
                 "gas": web3.extend.utils.toHex(gas),
                 "gasPrice": web3.extend.utils.toHex(5000),
@@ -118,7 +117,7 @@ const execute = {
                 "data": txParams.data,
                 "nonce": web3.extend.utils.toHex(NonceValue)
             };
-            console.log("rawTX::::::::", rawTx);
+            //console.log("rawTX::::::::", rawTx);
             var rtx = new Tx(rawTx);
             delete rtx._common;
             rtx.sign(pk);
@@ -126,8 +125,8 @@ const execute = {
             //console.log("rawTransaction", serializedTx);
             client.request('cfx_sendRawTransaction', [serializedTx], function(err, res) {
                 if (err) throw err;
-                //console.log('transaction hash from RPC:', res.result);
-                execute.wait_local_block(constructor, res.result);
+                console.log('transaction hash from RPC:', res.result);
+                execute.wait_local_block(constructor, res.result, promiEvent);
 
             });
 
@@ -160,7 +159,6 @@ const execute = {
                         contract: constructor
                     });
                     result = await fn(...args).call(params);
-                    console.log("call return values: ", result)
                         //result = reformat.numbers.call(
                         //    constructor,
                         //    result,
@@ -176,10 +174,10 @@ const execute = {
     },
 
     send: function(fn, methodABI, address) {
-        //console.log("fn:::args:::::", fn, methodABI, address)
         const constructor = this;
         const web3 = constructor.web3;
-        //console.log("send fun : ", constructor.web3)
+        const promiEvent = PromiEvent();
+
         return function() {
             execute
                 .prepareCall(constructor, methodABI, arguments)
@@ -187,23 +185,30 @@ const execute = {
                     args,
                     params
                 }) => {
-                    console.log("methodABI:::::::::xxxxxxxxxxxx:", args, params)
                     params.to = address;
                     params.data = fn ? fn(...args).encodeABI() : params.data;
-                    console.log("send:::::::::", fn)
-                    console.log(util.inspect(fn, {
-                        showHidden: false,
-                        depth: null
-                    }));
-                    await execute.signTransaction(constructor, params);
+
+                    promiEvent.eventEmitter.emit("execute:send:method", {
+                        fn,
+                        args,
+                        address,
+                        abi: methodABI,
+                        contract: constructor
+                    });
+
+                    //console.log(util.inspect(fn, {
+                    //    showHidden: false,
+                    //    depth: null
+                    //}));
+                    await execute.signTransaction(constructor, params, promiEvent);
 
 
                 })
+                .catch(promiEvent.reject);
 
+            return promiEvent.eventEmitter;
         };
     },
-
-
 
 };
 

@@ -48,11 +48,15 @@ MetaCoin.at(contract_address).then(async function(instance) {
     //console.log("xvfsdfsdfsdfsdfsdfsffsdfsfsdfsds:",coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"));
     coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(result) {
 
-        console.log("90909090909090909090909:", result)
+        console.log("account_one balance is :", result)
+        console.log("--------------------------------")
+        coin.sendCoin(account_two, 3).then(function(res) {
+                console.log("xxxxxvxvxvcxvcxxvcxv:", res)
+            })
             //console.log(coin.getBalance(account_two));
             //await coin.sendCoin(account_two, 3);
             //console.log(coin.getBalance(account_one));
             //console.log(coin.getBalance(account_two));
             //console.log("--------------------------------")
-    })
+    });
 })
