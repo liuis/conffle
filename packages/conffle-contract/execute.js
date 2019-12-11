@@ -147,10 +147,8 @@ const execute = {
                     args,
                     params
                 }) => {
-                    let result;
-
+                    //var result;
                     params.to = address;
-
                     promiEvent.eventEmitter.emit("execute:call:method", {
                         fn: fn,
                         args: args,
@@ -159,12 +157,7 @@ const execute = {
                         contract: constructor
                     });
                     result = await fn(...args).call(params);
-                        //result = reformat.numbers.call(
-                        //    constructor,
-                        //    result,
-                        //    methodABI.outputs
-                        //);
-                        //return result;
+                    console.log("call result:", result)
                     return promiEvent.resolve(result);
                 })
                 .catch(promiEvent.reject);

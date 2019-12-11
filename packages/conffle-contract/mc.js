@@ -50,8 +50,15 @@ MetaCoin.at(contract_address).then(async function(instance) {
 
         console.log("account_one balance is :", result)
         console.log("--------------------------------")
-        coin.sendCoin(account_two, 3).then(function(res) {
-                console.log("xxxxxvxvxvcxvcxxvcxv:", res)
+        coin.sendCoin(account_two, 3).then(async function(res) {
+                console.log("step1:", res)
+                coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(re) {
+                    console.log("step2: ", re)
+                });
+                //baAddTwo = await coin.getBalance(account_three);
+                //console.log("9090909090090:", baAddTwo)
+                //baAddOne = await coin.getBalance(account_one);
+                //console.log("9090909090090:", baAddOne)
             })
             //console.log(coin.getBalance(account_two));
             //await coin.sendCoin(account_two, 3);
