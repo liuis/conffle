@@ -82,10 +82,11 @@ const addDeployOption = (program) => {
         //.option('-n --network [network]', 'Select network', "local")
         .option('--a [account address]', 'Configure your address')
         .option('--pk [privateKey]', 'Configure your privateKey')
+        .option('--name [ContractFile]', 'Configure your ContractSolFile')
         //.option('-s --secretKey [secretKey]', 'Wallet secretKey(privateKey)')
         //.option('--compiler [compiler_url]', 'Url to the desired compiler')
         .action(async (options) => {
-            await deploy.run(options.a, options.pk);
+            await deploy.run(options.a, options.pk, options.name);
         })
 };
 

@@ -26,7 +26,6 @@ async function run(address, privateKeys, name) {
     try {
         console.log("address:" + address, "privateKeys:" + privateKeys)
 
-        //sendBalance_localhost(address);
 
         deployContract(address, privateKeys, name);
 
