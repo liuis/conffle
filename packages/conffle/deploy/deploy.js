@@ -71,6 +71,7 @@ function deploy(argument, abi, solfile) {
 function isHex(num) {
     return Boolean(num.match(/^0x[0-9a-f]+$/i))
 };
+
 async function deployContract(address, privateKeys, name) {
 
 
@@ -120,19 +121,47 @@ async function deployContract(address, privateKeys, name) {
         //此处我们要挨个获取它的以来的reference, 
         keys = Object.keys(obj.linkReferences)
         console.log(keys)
+        var tempJson = {};
         for (var i = 0; i < keys.length; i++) {
+            //获取sol deployed的contract address
             console.log(keys[i]);
-
+            let solRawData = fs.readFileSync("./build/" + keys[i] + ".json");
+            let solFd = JSON.parse(solRawData);
+            cAdd = "0x" + solFd.contractAddress;
             keys2 = Object.keys(obj.linkReferences[keys[i]])
             k = keys + ":" + keys2,
-                add = '0xe4daa3e81a8c7c67d868fe21d0070ba29d61e5c9';
-            var a = {};
-            a[k] = add;
-            console.log(a)
+            tempJson[k] = cAdd;
         }
+        console.log("try to list the link reference object:", tempJson);
+        /* 
+         * example 
         bytecode = linker.linkBytecode(mc.bytecode, {
             'ConvertLib.sol:ConvertLib': '0xe4daa3e81a8c7c67d868fe21d0070ba29d61e5c9'
         });
+        *
+        */
+        NewByteCode = linker.linkBytecode(fd.bytecode, tempJson);
+        writeJsonto(bytecode, name + "sol.json", NewByteCode);
+        const add = confluxWeb.cfx.accounts.wallet[0].address;
+        confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
+            console.log("nonceValue:", nonceValue)
+            const txParams = {
+                from: add,
+                nonce: nonceValue, // make nonce appropriate
+                gasPrice: 5000,
+                value: 0,
+                to: null,
+                data: "0x" + NewByteCode
+            };
+
+            let gas = await confluxWeb.cfx.estimateGas(txParams);
+            console.log("gas : ", gas)
+            txParams.gas = gas;
+            txParams.from = 0;
+            if (abi) {
+                deploy(txParams, abi, name + ".sol.json");
+            }
+        })
 
     }
 }
