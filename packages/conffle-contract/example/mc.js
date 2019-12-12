@@ -1,6 +1,6 @@
 const ConfluxWeb = require('conflux-web');
 var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
-var contractTr = require("./index.js");
+var contractTr = require("../index.js");
 var MC = require("/Users/liping/about_CFX_Work/about_conffle_test/demo-test/build/MetaCoin.sol.json");
 const util = require('util');
 
