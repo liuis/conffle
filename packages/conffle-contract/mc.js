@@ -52,7 +52,8 @@ MetaCoin.at(contract_address).then(async function(instance) {
         console.log("--------------------------------")
         coin.sendCoin(account_two, 3).then(async function(res) {
                 console.log("step1:", res)
-                coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(re) {
+                //coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(re) {
+                coin.getBalance(account_two).then(function(re) {
                     console.log("step2: ", re)
                 });
                 //baAddTwo = await coin.getBalance(account_three);
