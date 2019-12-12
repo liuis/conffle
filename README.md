@@ -151,7 +151,7 @@ Ensure that your account has plenty of cfx coin, if not you can use **conffle se
 
 ```javascript
 example： 
-conffle deploy --a "0xe1680683be13895b59c94eaf61818975a0d105dd"  --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac"
+conffle deploy --a "0xe1680683be13895b59c94eaf61818975a0d105dd"  --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac" --name ConvertLib
         
 ```
 
