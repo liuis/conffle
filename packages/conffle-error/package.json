@@ -16,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/trufflesuite/truffle-conflux-error/issues"
   },
-  "homepage": "https://github.com/trufflesuite/truffle-conflux-error#readme"
+  "homepage": "https://github.com/trufflesuite/truffle-conflux-error#readme",
+  "gitHead": "73c2c49bf19245eba7e0436108a5b395dd5a0876"
 }
