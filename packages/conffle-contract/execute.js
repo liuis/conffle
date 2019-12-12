@@ -137,8 +137,9 @@ const execute = {
 
     call: function(fn, methodABI, address) {
         const constructor = this;
-        const promiEvent = PromiEvent();
-        return function() {
+        
+        return  function() {
+            const promiEvent = PromiEvent();
             const args = Array.prototype.slice.call(arguments);
 
             execute
@@ -157,21 +158,22 @@ const execute = {
                         contract: constructor
                     });
                     result = await fn(...args).call(params);
-                    console.log("call result:", result)
+                    
                     return promiEvent.resolve(result);
+
                 })
                 .catch(promiEvent.reject);
 
-            return promiEvent.eventEmitter;
+             return promiEvent.eventEmitter;
         };
     },
 
     send: function(fn, methodABI, address) {
         const constructor = this;
         const web3 = constructor.web3;
-        const promiEvent = PromiEvent();
-
+        
         return function() {
+            const promiEvent = PromiEvent();
             execute
                 .prepareCall(constructor, methodABI, arguments)
                 .then(async({

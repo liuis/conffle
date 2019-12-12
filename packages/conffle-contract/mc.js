@@ -41,11 +41,12 @@ var coin;
 MetaCoin.at(contract_address).then(async function(instance) {
     coin = instance;
 
-    //console.log(util.inspect(coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"), {
+    //console.log(util.inspect(coin, {
     //    showHidden: true,
     //    depth: 7
     //}));
     //console.log("xvfsdfsdfsdfsdfsdfsffsdfsfsdfsds:",coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd"));
+    debugger
     coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(result) {
 
         console.log("account_one balance is :", result)
@@ -54,7 +55,7 @@ MetaCoin.at(contract_address).then(async function(instance) {
                 console.log("step1:", res)
                 //coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(re) {
                 coin.getBalance(account_two).then(function(re) {
-                    console.log("step2: ", re)
+                    console.log("account_two balance is : ", re)
                 });
                 //baAddTwo = await coin.getBalance(account_three);
                 //console.log("9090909090090:", baAddTwo)
