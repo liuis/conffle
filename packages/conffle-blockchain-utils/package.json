@@ -1,6 +1,6 @@
 {
   "name": "conffle-blockchain-utils",
-  "version": "0.0.24-y.17",
+  "version": "0.0.24-y.18",
   "description": "Utilities for identifying and managing blockchains",
   "main": "index.js",
   "scripts": {

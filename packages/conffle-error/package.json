@@ -1,6 +1,6 @@
 {
   "name": "conffle-error",
-  "version": "0.0.24-y.17",
+  "version": "0.0.24-y.18",
   "description": "Simple module that allows native Error objects to be extended",
   "main": "index.js",
   "scripts": {},

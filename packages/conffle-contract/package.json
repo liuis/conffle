@@ -1,6 +1,6 @@
 {
   "name": "coffle-contract",
-  "version": "0.0.24-y.17",
+  "version": "0.0.24-y.18",
   "description": "A better contract abstraction for Ethereum (formerly EtherPudding)",
   "main": "index.js",
   "scripts": {
