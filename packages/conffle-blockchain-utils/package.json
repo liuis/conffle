@@ -1,6 +1,6 @@
 {
   "name": "truffle-conflux-blockchain-utils",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.24-y.17",
   "description": "Utilities for identifying and managing blockchains",
   "main": "index.js",
   "scripts": {

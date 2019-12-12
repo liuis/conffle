@@ -7,7 +7,7 @@
   "bugs": {
     "url": "https://github.com/liuis/truffle-conflux/issues"
   },
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.24-y.17",
   "main": "dist/index.js",
   "directories": {
     "lib": "lib"

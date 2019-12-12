@@ -1,6 +1,6 @@
 {
   "name": "truffle-conflux-error",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.24-y.17",
   "description": "Simple module that allows native Error objects to be extended",
   "main": "index.js",
   "scripts": {},
