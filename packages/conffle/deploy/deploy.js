@@ -113,12 +113,12 @@ async function deployContract(address, privateKeys, name) {
         console.log("The bytecode is not a hex, you may be a reference to other sol file, try to link!!!")
         linkRe = fd.linkReferences;
 
-        contractAdd = fd.contractAddress;
-        if (contractAdd == "") {
-            cnsole.log("")
-        }
+        //contractAdd = fd.contractAddress;
+        //if (contractAdd == "") {
+        //    console.log("")
+        //}
         //此处我们要挨个获取它的以来的reference, 
-        keys = Object.keys(obj.linkReferences)
+        keys = Object.keys(fd.linkReferences)
         console.log(keys)
         var tempJson = {};
         for (var i = 0; i < keys.length; i++) {
@@ -126,8 +126,8 @@ async function deployContract(address, privateKeys, name) {
             console.log(keys[i]);
             let solRawData = fs.readFileSync("./build/" + keys[i] + ".json");
             let solFd = JSON.parse(solRawData);
-            cAdd = "0x" + solFd.contractAddress;
-            keys2 = Object.keys(obj.linkReferences[keys[i]])
+            cAdd = solFd.contractAddress;
+            keys2 = Object.keys(fd.linkReferences[keys[i]])
             k = keys + ":" + keys2,
             tempJson[k] = cAdd;
         }
@@ -140,7 +140,7 @@ async function deployContract(address, privateKeys, name) {
         *
         */
         NewByteCode = linker.linkBytecode(fd.bytecode, tempJson);
-        writeJsonto(bytecode, name + "sol.json", NewByteCode);
+        writeJsonto("bytecode", name + ".sol.json", NewByteCode);
         const add = confluxWeb.cfx.accounts.wallet[0].address;
         confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
             console.log("nonceValue:", nonceValue)
@@ -211,8 +211,8 @@ function localhost_waitBlock(txHash, solfile) {
                 //console.log("receipt:", receipt.stateRoot);
                 //console.log("Your account has been receiver some cfx coin");
                 cAddress = receipt["contractCreated"]
-                console.log("Your contract has been deployed at :" + contractAddress);
-                writeJsonto(contractAddress, solfile, cAddress);
+                console.log("Your contract has been deployed at :" + cAddress);
+                writeJsonto("contractAddress", solfile, cAddress);
                 confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
             } else {
                 return localhost_waitBlock(txHash, solfile)
@@ -222,14 +222,12 @@ function localhost_waitBlock(txHash, solfile) {
 
 function writeJsonto(key, solfile, newValues) {
     var fs = require('fs');
-    var file = require("./build/" + solfile);
-
-    file.key = newValues;
+    var file = JSON.parse(fs.readFileSync("./build/" + solfile, 'utf8'));
+    file[key] = newValues;
 
     fs.writeFile("./build/" + solfile, JSON.stringify(file, null, 4), function(err) {
         if (err) return console.log(err);
-        console.log(JSON.stringify(file));
-        console.log('writing to ' + fileName);
+        console.log(JSON.stringify(file,null,4));
     });
 
 }
@@ -320,7 +318,7 @@ async function sendBalance_localhost(account) {
 
 function isEmptyObject(obj) {
     for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {¦
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
             return false;
         }
     }

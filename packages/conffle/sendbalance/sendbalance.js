@@ -38,9 +38,9 @@ function sendcfx(address) {
     var TO_ACCOUNT = address;
 
     confluxWeb.cfx.getTransactionCount(GENESIS_ADDRESS).then(async(nonceValue) => {
-        console.log("nonceValue:" + nonceValue)
+        //console.log("nonceValue:" + nonceValue)
         let gasPrice = await confluxWeb.cfx.getGasPrice();
-        console.log("gasPrice : " + gasPrice)
+        //console.log("gasPrice : " + gasPrice)
         let txParms = {
             from: GENESIS_ADDRESS,
             nonce: nonceValue,
@@ -50,7 +50,7 @@ function sendcfx(address) {
             to: TO_ACCOUNT
         };
         let gas = await confluxWeb.cfx.estimateGas(txParms);
-        console.log("gas : ", gas)
+        //console.log("gas : ", gas)
         txParms.gas = gas;
         txParms.from = 0;
         confluxWeb.cfx.signTransaction(txParms)
@@ -58,9 +58,9 @@ function sendcfx(address) {
                 const {
                     rawTransaction
                 } = encodedTransaction;
-                console.log('raw transaction: ', rawTransaction);
+                //console.log('raw transaction: ', rawTransaction);
                 return confluxWeb.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
-                    console.log('transaction hash from RPC: ', transactionHash);
+                    //console.log('transaction hash from RPC: ', transactionHash);
                     //hexNonce = argument.nonce.toString(16);
                     //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
                     //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
@@ -87,7 +87,7 @@ function waitBlock(txHash, TO_ACCOUNT) {
 
     return confluxWeb.cfx.getTransactionReceipt(txHash).then(
         (receipt) => {
-            console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
+            //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
             if (receipt !== null) {
                 console.log("receipt:", receipt);
                 console.log("Your account has been receiver some cfx coin");

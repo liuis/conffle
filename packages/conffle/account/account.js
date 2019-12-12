@@ -14,7 +14,7 @@ function writeJson(mnemonicValue, accountsValue, dir) {
         accounts: accountsValue,
     }
     data.wallet.push(obj)
-    fs.appendFile(dir + "wallet.json", JSON.stringify(data), function(err) {
+    fs.appendFile(dir + "wallet.json", JSON.stringify(data, null, 4), function(err) {
         if (err) throw err;
         console.log('write complete, pls check wallet.json in current directory');
     })
