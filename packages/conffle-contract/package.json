@@ -1,5 +1,5 @@
 {
-  "name": "truffle-contract",
+  "name": "coffle-contract",
   "version": "3.0.6",
   "description": "A better contract abstraction for Ethereum (formerly EtherPudding)",
   "main": "index.js",
