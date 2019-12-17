@@ -174,7 +174,7 @@ Your contract has been deployed at :0xae2b17be6f7d590510fa7db89f86c02f55e73d2a
 
 example:
 
-````
+````javascript
 const ConfluxWeb = require('conflux-web');
 var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
 var contractTr = require('conffle-contract');
