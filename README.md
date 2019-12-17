@@ -42,7 +42,6 @@ docker pull liqiazero/conflux-chain:v0.1.10
 docker run --name conflux-chain  -p 12537:12537 -p 32323:32323 -p 32323:32323/udp -p 14629:14629 -p 12539:12539  -d liqiazero/conflux-chain:v0.1.10
 
 
-~~docker cp conflux-chain:/conflux-rust/run/genesis_accounts.toml .~~
 ```
 ***if u want use docker-compose, just following:***
 
