@@ -89,7 +89,7 @@ function waitBlock(txHash, TO_ACCOUNT) {
         (receipt) => {
             //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
             if (receipt !== null) {
-                console.log("receipt:", receipt);
+                //console.log("receipt:", receipt);
                 console.log("Your account has been receiver some cfx coin");
                 confluxWeb.cfx.getBalance(TO_ACCOUNT).then(console.log)
                     //console.log(confluxWeb.cfx.accounts.wallet)
