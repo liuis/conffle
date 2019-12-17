@@ -178,7 +178,7 @@ example:
 const ConfluxWeb = require('conflux-web');
 var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
 var contractTr = require('conffle-contract');
-var MC = require("../build/MetaCoin.sol.json");
+var MC = require("../build/MetaCoin.sol.json");  //Enter the actual path of the file compiled by your contract
 const util = require('util');
 
 const ad = "0xe1680683be13895b59c94eaf61818975a0d105dd";
@@ -197,7 +197,7 @@ var account_one = "0xe1680683be13895b59c94eaf61818975a0d105dd";
 var account_two = "0x3ba790a9dcf7dd081f6167bc76a1e8279cb7da17";
 var account_three = "0x49a583998b1921eded4f2ade09255648db7672d3";
 
-
+// must be add this code,when you test you contract code
 if (typeof MetaCoin.currentProvider.sendAsync !== "function") {
     MetaCoin.currentProvider.sendAsync = function() {
         return MetaCoin.currentProvider.send.apply(
@@ -228,7 +228,7 @@ MetaCoin.at(contract_address).then(async function(instance) {
         console.log("account_one balance is :", result)
         console.log("--------------------------------")
         coin.sendCoin(account_two, 3).then(async function(res) {
-                console.log("step1:", res)
+                console.log("send account_two 3 coins result:", res) //0 is success, 1 or 2 is something is wrong
                 coin.getBalance(account_two).then(function(re) {
                     console.log("account_two balance is : ", re)
                 });
