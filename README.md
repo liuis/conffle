@@ -160,6 +160,29 @@ example:
       conffle compile 
 ```
 
+if you have multiple contracts, libraries, etc., there is a reference relationship between them. When compiling, conffle will automatically do the linking for you. But you need to deploy your contracts in the order suggested.
+
+````javascript 
+.........
+.........
+--------------------------------------------                                                  │
+output: { contracts:                                                                          │
+   { 'ConvertLib.sol': { ConvertLib: [Object] },                                              │
+     'MetaCoin.sol': { MetaCoin: [Object] },                                                  │
+     'Migrations.sol': { Migrations: [Object] } },                                            │
+  sources:                                                                                    │
+   { 'ConvertLib.sol': { id: 0 },                                                             │
+     'MetaCoin.sol': { id: 1 },                                                               │
+     'Migrations.sol': { id: 2 } } }
+
+U need first deploy this contract: [ 'ConvertLib.sol', 'Migrations.sol' ]
+
+
+then deploy this contract: [ 'MetaCoin.sol' ]
+
+
+````
+
 To compile your contract, will generate build directory down generated abi and the bytecode.
 
 #### Step4. conffle sendbalance 
