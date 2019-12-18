@@ -6,7 +6,7 @@ Table of Contents
       * [Documentation](#documentation)
          * [start a  local node](#start-a--local-node)
          * [use docker-compose](#use-docker-compose)
-         * [conffle use:](#conffle-use)
+         * [conffle commander:](#conffle-use)
             * [Step1. conffle init](#step1-conffle-init)
             * [Step2. conffle account](#step2-conffle-account)
             * [Step3. conffle compile](#step3-conffle-compile)
@@ -83,7 +83,7 @@ To cleanup the associated docker volumes, `-v` option could be used:
 docker-compose down -v
 ```
 
-### conffle use:
+### conffle commander:
 
 #### Step1. conffle init
 
