@@ -1,3 +1,19 @@
+Table of Contents
+=================
+
+   * [conffle](#conffle)
+      * [Installing](#installing)
+      * [Documentation](#documentation)
+         * [start a  local node](#start-a--local-node)
+         * [use docker-compose](#use-docker-compose)
+         * [conffle use:](#conffle-use)
+            * [Step1. conffle init](#step1-conffle-init)
+            * [Step2. conffle account](#step2-conffle-account)
+            * [Step3. conffle compile](#step3-conffle-compile)
+            * [Step4. conffle sendbalance](#step4-conffle-sendbalance)
+            * [Step5. conffle  deploy](#step5-conffle--deploy)
+      * [Interacting with your contract](#interacting-with-your-contract)
+         * [Use a contract at a specific address](#use-a-contract-at-a-specific-address)
 # conffle
 
 ![Build Status](https://api.travis-ci.org/liuis/conflux-dapp-js.svg?branch=refactor) [![npm](https://img.shields.io/npm/dm/conffle.svg)](https://www.npmjs.com/package/conffle) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
@@ -20,19 +36,19 @@ conffle consists of 5 separated packages. There are two main packages.
 
 
 
-### Installing
+## Installing
 
 ```javascript
 npm i -g conffle
 ```
 -----------------
 
-### Documentation
-##  **warning** 
+## Documentation
+###  **warning** 
 
 All tests are run on mac, because of the case-sensitive nature of Linux, so you can't run it on Linux for the time being.
 
-## start a  local node
+### start a  local node
 Before you start you must locally run a our conflux chain node. https://github.com/liuis/conflux-local-network
 
 ```bash
@@ -47,7 +63,7 @@ docker run --name conflux-chain  -p 12537:12537 -p 32323:32323 -p 32323:32323/ud
 
 -----------------
 
-### docker-compose
+### use docker-compose
 
 To start the network:
 
@@ -67,7 +83,7 @@ To cleanup the associated docker volumes, `-v` option could be used:
 docker-compose down -v
 ```
 
-## conffle use:
+### conffle use:
 
 #### Step1. conffle init
 
@@ -196,7 +212,7 @@ example:
 
 #### Step5. conffle  deploy 
 
-##  **default:**  
+######  **default:**  
 wallet addressIndex[0] as the default deploy address
 
 Select the address and privatekey you want to deploy in the wallet.json file.
@@ -225,7 +241,7 @@ Your contract has been deployed at :0xae2b17be6f7d590510fa7db89f86c02f55e73d2a
 ````
 
 
-# Interacting with your contract
+## Interacting with your contract
 
 contract:  MetaCoin.sol
 
