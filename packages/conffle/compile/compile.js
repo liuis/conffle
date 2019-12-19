@@ -115,9 +115,9 @@ function compile() {
     console.log("See the above content, check whether there are any errors, if there is no error, may be a success!")
     console.log("--------------------------------------------")
     console.log("\n")
-    console.log("U need first deploy this contract:", noNeedlink)
+    console.log("U need first deploy this contract:", [...new Set(noNeedlink)])
     console.log("\n")
-    console.log("then deploy this contract:", Linked)
+    console.log("then deploy this contract:",  [...new Set(Linked)])
     console.log("\n")
 }
 
