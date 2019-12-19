@@ -111,13 +111,7 @@ async function deployContract(address, privateKeys, name) {
         console.log("----------------------------------------------------")
         console.log("\n")
         console.log("The bytecode is not a hex, you may be a reference to other sol file, try to link!!!")
-        linkRe = fd.linkReferences;
 
-        //contractAdd = fd.contractAddress;
-        //if (contractAdd == "") {
-        //    console.log("")
-        //}
-        //此处我们要挨个获取它的以来的reference, 
         keys = Object.keys(fd.linkReferences)
         console.log(keys)
         var tempJson = {};
