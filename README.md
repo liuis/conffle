@@ -1,3 +1,19 @@
+Table of Contents
+=================
+
+   * [conffle](#conffle)
+      * [Installing](#installing)
+      * [Documentation](#documentation)
+         * [start a  local node](#start-a--local-node)
+         * [use docker-compose](#use-docker-compose)
+         * [conffle commander:](#conffle-use)
+            * [Step1. conffle init](#step1-conffle-init)
+            * [Step2. conffle account](#step2-conffle-account)
+            * [Step3. conffle compile](#step3-conffle-compile)
+            * [Step4. conffle sendbalance](#step4-conffle-sendbalance)
+            * [Step5. conffle  deploy](#step5-conffle--deploy)
+      * [Interacting with your contract](#interacting-with-your-contract)
+         * [Use a contract at a specific address](#use-a-contract-at-a-specific-address)
 # conffle
 
 ![Build Status](https://api.travis-ci.org/liuis/conflux-dapp-js.svg?branch=refactor) [![npm](https://img.shields.io/npm/dm/conffle.svg)](https://www.npmjs.com/package/conffle) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
@@ -20,19 +36,19 @@ conffle consists of 5 separated packages. There are two main packages.
 
 
 
-### Installing
+## Installing
 
 ```javascript
 npm i -g conffle
 ```
 -----------------
 
-### Documentation
-##  **warning** 
+## Documentation
+###  **warning** 
 
 All tests are run on mac, because of the case-sensitive nature of Linux, so you can't run it on Linux for the time being.
 
-## start a  local node
+### start a  local node
 Before you start you must locally run a our conflux chain node. https://github.com/liuis/conflux-local-network
 
 ```bash
@@ -47,7 +63,7 @@ docker run --name conflux-chain  -p 12537:12537 -p 32323:32323 -p 32323:32323/ud
 
 -----------------
 
-### docker-compose
+### use docker-compose
 
 To start the network:
 
@@ -67,7 +83,7 @@ To cleanup the associated docker volumes, `-v` option could be used:
 docker-compose down -v
 ```
 
-## conffle use:
+### conffle commander:
 
 #### Step1. conffle init
 
@@ -75,8 +91,7 @@ docker-compose down -v
 conffle init
 ```
 
-Generates the ***demo-test*** directory, the directory include contract dir.
-Put your own contract.
+Put your own contract under the current directory
 
 #### Step2. conffle account
 
@@ -91,34 +106,66 @@ You can find the generated **wallet.json** file in the current directory. All ad
 The following content :
 
 ```javascript
-----------------------mnemonic--------------------------
-
-mnemonic:
-lecture stage legend tonight portion virtual behave picture vivid language hammer float
-----------------------accounts--------------------------
-accounts:
-[ '0x3ba790a9dcf7dd081f6167bc76a1e8279cb7da17',
-  '0x71b407f8b74a89552cf9deea21df60ffc6a175f1',
-  '0x49a583998b1921eded4f2ade09255648db7672d3',
-  '0xf21a33854f890696160b448181811593803f62a0',
-  '0xbe0e2bd1b062881b382a556e552300d23faddc12',
-  '0xb9f262eb75c6722c44e39af6a7a5862248dcb988',
-  '0x71e012b2b0041fc80a6f4212344b56df24023b28',
-  '0xa71c677f22cdb21cedd83448a8b04efa4def8768',
-  '0x1a5adb2c44a22ec3c09d14d46649f8efea6092d1',
-  '0x8312783e4571188075902c31e6fe32935b1ed3b9' ]
-----------------------privateKeys--------------------------
-privateKeys:
-[ '3afdd9b132fef52c7a7aed692c64622146965549b4f19052fde4e2ede1723b05',
-  '0a3b6349b142b47d4bc0ff77dc3d4f266b63019bd44bbf5c33487c59252ed470',
-  'f00601ed7e607da8bfa9772aca3472d26b1a86fd975c1dcb748e5fdbe75ec13b',
-  'b78848368381adc73d6c1ec4d95401fe4c92441859ba97fb88bdf1012861cfe1',
-  '64a9c5b55ef15e63830c47693395601961c8e979c06dab8c4f865524812233e9',
-  'c651188453c08403e573eadbdce33b1ee7fa6f5c005bd43a1e241b70049e9829',
-  'ccd0f9f34718dd3d509407e09e9b37495888d464f753cff225cb8899bc5b5d2d',
-  '8fcb33e67d6b0a767dc1e3df51858d0d071b936d226710625c101ec94a7dfb6c',
-  '2ffa7deef4a7a227306068d49ffcdf0dbb48bec360d4f373b55524373ddb701d',
-  'e191452c8ff38a9bb0edf693570f147ec37e2529932143c628cc68f19a01a4b9' ]
+{
+  "wallet": [
+    {
+      "time": "2019-12-13 11:49:43",
+      "mnemonic": "accuse erosion version giant surprise hour course devote frozen cabbage birth fog",
+      "accounts": [
+        {
+          "address": "0xa7b4e98db3d570bd6cf01141dfc69a58b0eba3d7",
+          "publicKey": "0x3f2b115a74c0cecf197b8608d71890f3801c3ddc54bb5e50c2c83be9169b5c0224a70f5381a8c3ae2ea8065c476498c774b39f4093ecd6b687912d5ebd83452e",
+          "privateKey": "0x4270f5706de09280ff78cc91d3e02ce7a209538ce4fcf9b21d55196d5c89ac01"
+        },
+        {
+          "address": "0xd886f98626094a77d831a91ed15e2b0e2d463416",
+          "publicKey": "0xa3029052cd227709e2cdaefec0088a0248f00934bfe70022ec24c8b7f6bdd8c9de85b16a21632b536ca22f917eb3798c5b20644720667cd9bffe3fd7c12a5ec1",
+          "privateKey": "0xe5a0ddb5bae3cd7649981a5735c4eef3680969aa9e1852e0946e5313117f29d4"
+        },
+        {
+          "address": "0x297d58cc2f7bb0fd14c65e1b040d7c7d30f4db69",
+          "publicKey": "0x44c861480c5a0d45a8c56bbe95dac6ab933956d60e997c8acb866654a9584a4c47b77bc0f85ff031dfdce3df32318ad509ff5a1fbe71982e9a3030a1cea3b8aa",
+          "privateKey": "0x09a2975c885f4c9861c7cb4f9912b12c476fef35b9415e551d162143adfcc799"
+        },
+        {
+          "address": "0xd5ac5b46d4a1e18e41082e6e87939d38258dcd10",
+          "publicKey": "0x235a3e11267bf73dd652af3eea95eb7a757a535945a296a9f0c5c362f851f2335cec8beddaf51fd10c2ce88c760b2be1d2fd78537914b3fa473b6cd105fd4803",
+          "privateKey": "0xaa7197c6cac1950dd1ccef2f6af2372e4e66ea14f7b47f53ba25d7daa2f8d211"
+        },
+        {
+          "address": "0x93dccd823eb68f7739ab67990afeaf1b25729773",
+          "publicKey": "0x4610b40ada45976ae58d191ca8a7e0b088aa5148437bb1cb89c20d1c53587159721fd5301192bf44c6101e23d2b816f0c5c6ec7318933bf79d693b435310c461",
+          "privateKey": "0xfe4db093fecafb026396731e0489ce7d2263fb0958d7487c124985eabe173b5d"
+        },
+        {
+          "address": "0x5d38e928f2ed257a444a03fbc0fbf8e3eeb09fde",
+          "publicKey": "0x8a677fae9f146340641cf6d69b2ad7f474f4451ed41a1062c339eba4bf488f6ddf16bf663777ad4aadff592e9c062a0a2221d4fbc75349c5ab21ca02ffd72700",
+          "privateKey": "0xea337ea5dfca6f1e113f5cb0837987c88c089daa522234bea55d1dc77fd54eff"
+        },
+        {
+          "address": "0x1ecc9404876f127e422e06ad1ff4cd9d2a282ee4",
+          "publicKey": "0x205e612bf30e206f1509f93571a675c2d10a2d1330de4c85996edeafcaccb3d77aabe20c36c564eb32f7f39d66e60c7006c213f87ce26d17407f206a0925bdee",
+          "privateKey": "0xfbede3f6f97b625a692b45ef5bdc3ac03cdfe88ca00eb340b69f06e7aaa54904"
+        },
+        {
+          "address": "0x71fd598723355d0d3a25aed255a6075e5fa5394c",
+          "publicKey": "0x8a7599e25d4f073a99cc5f65bfb118c767d33be465da85af4b1087a3680286b30c4aa806abf491bb4c60f9ec051258feb57995be66a4ed8c50c21bda671be90c",
+          "privateKey": "0x4117984ea58a4741f068ef6e78844a74d6ff2a890cf2c5413b069e9d9ee64831"
+        },
+        {
+          "address": "0x79305dc2b3509212bb043befebb12a46d3cb190b",
+          "publicKey": "0xe18a6387b06092bb7cdfb56f18759a5088b748b0c1c0fb2618cff0ea024c0d5d50256b81e2e9f687ce6758864daafebe406bdab5a8ad71decf3afe15d9b239b6",
+          "privateKey": "0x556bbe7db0055f894179efe6bbbfa9274dfb2bbde8ca063113318fea435247c0"
+        },
+        {
+          "address": "0x9535ad60bf720baac2e8ab3a9308c46879241968",
+          "publicKey": "0xccb514ddafd7e6238923d4ea2f09a27b4f852a855d307efec938fb3c68862deb0058ccca8a799df360ca13cc1979117e2cbbc0f7180c5f57af08828a89e16da5",
+          "privateKey": "0x998340f60cbcb8b26b5cd3b851fc0546c2adf7daad6ac30ab1fb227424ade67f"
+        }
+      ]
+    }
+  ]
+}
 
 ```
 #### Step3. conffle compile 
@@ -127,6 +174,29 @@ privateKeys:
 example:
       conffle compile 
 ```
+
+if you have multiple contracts, libraries, etc., there is a reference relationship between them. When compiling, conffle will automatically do the linking for you. But you need to deploy your contracts in the order suggested.
+
+````javascript 
+.........
+.........
+--------------------------------------------                                                  │
+output: { contracts:                                                                          │
+   { 'ConvertLib.sol': { ConvertLib: [Object] },                                              │
+     'MetaCoin.sol': { MetaCoin: [Object] },                                                  │
+     'Migrations.sol': { Migrations: [Object] } },                                            │
+  sources:                                                                                    │
+   { 'ConvertLib.sol': { id: 0 },                                                             │
+     'MetaCoin.sol': { id: 1 },                                                               │
+     'Migrations.sol': { id: 2 } } }
+
+U need first deploy this contract: [ 'ConvertLib.sol', 'Migrations.sol' ]
+
+
+then deploy this contract: [ 'MetaCoin.sol' ]
+
+
+````
 
 To compile your contract, will generate build directory down generated abi and the bytecode.
 
@@ -141,7 +211,7 @@ example:
 
 #### Step5. conffle  deploy 
 
-##  **default:**  
+######  **default:**  
 wallet addressIndex[0] as the default deploy address
 
 Select the address and privatekey you want to deploy in the wallet.json file.
@@ -166,5 +236,128 @@ you can find the transaction details on : http://www.confluxscan.io/transactions
 ..............
 
 Your contract has been deployed at :0xae2b17be6f7d590510fa7db89f86c02f55e73d2a
+
+````
+
+
+## Interacting with your contract
+
+contract:  MetaCoin.sol
+
+````javascript
+
+pragma solidity >=0.4.25 <0.6.0;
+
+import "./ConvertLib.sol";
+
+// This is just a simple example of a coin-like contract.
+// It is not standards compatible and cannot be expected to talk to other
+// coin/token contracts. If you want to create a standards-compliant
+// token, see: https://github.com/ConsenSys/Tokens. Cheers!
+
+contract MetaCoin {
+    mapping (address => uint) balances;
+
+    event Transfer(address indexed _from, address indexed _to, uint256 _value);
+
+    constructor() public {
+        balances[tx.origin] = 10000;
+    }
+
+    function sendCoin(address receiver, uint amount) public returns(bool sufficient) {
+        if (balances[msg.sender] < amount) return false;
+        balances[msg.sender] -= amount;
+        balances[receiver] += amount;
+        emit Transfer(msg.sender, receiver, amount);
+        return true;
+    }
+
+    function getBalanceInEth(address addr) public view returns(uint){
+        return ConvertLib.convert(getBalance(addr),2);
+    }
+
+    function getBalance(address addr) public view returns(uint) {
+        return balances[addr];
+    }
+}
+
+````
+### Use a contract at a specific address
+
+If you already have an address for a contract, you can create a new abstraction to represent the contract at that address.
+
+````javascript 
+
+MetaCoin.at("0x1234...").then(async function(instance) {
+    coin = instance;
+    ..........
+    )}
+    
+````
+
+example:
+
+````javascript
+const ConfluxWeb = require('conflux-web');
+var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
+var contractTr = require('conffle-contract');
+var MC = require("../build/MetaCoin.sol.json");  //Enter the actual path of the file compiled by your contract
+const util = require('util');
+
+const ad = "0xe1680683be13895b59c94eaf61818975a0d105dd";
+const pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
+
+var MetaCoin = contractTr({
+    contractName: "MetaCoin",
+    abi: MC.abi,
+    bytecode: MC.bytecode,
+    address: MC.contractAddress, // optional
+});
+
+MetaCoin.setProvider(provider);
+
+var account_one = "0xe1680683be13895b59c94eaf61818975a0d105dd";
+var account_two = "0x3ba790a9dcf7dd081f6167bc76a1e8279cb7da17";
+var account_three = "0x49a583998b1921eded4f2ade09255648db7672d3";
+
+// must be add this code,when you test you contract code
+if (typeof MetaCoin.currentProvider.sendAsync !== "function") {
+    MetaCoin.currentProvider.sendAsync = function() {
+        return MetaCoin.currentProvider.send.apply(
+            MetaCoin.currentProvider,
+            arguments
+        );
+    };
+}
+
+
+var contract_address = MC.contractAddress;
+var coin;
+
+//coin.constructor.web3.cfx.accounts.wallet.add({
+//    privateKey: pk,
+//    address: ad
+//});
+MetaCoin.at(contract_address).then(async function(instance) {
+    coin = instance;
+
+    //console.log(util.inspect(coin, {
+    //    showHidden: true,
+    //    depth: 7
+    //}));
+    debugger
+    coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(result) {
+
+        console.log("account_one balance is :", result)
+        console.log("--------------------------------")
+        coin.sendCoin(account_two, 3).then(async function(res) {
+                console.log("send account_two 3 coins result:", res) //0 is success, 1 or 2 is something is wrong
+                coin.getBalance(account_two).then(function(re) {
+                    console.log("account_two balance is : ", re)
+                });
+            })
+    });
+})
+
 
 ````
