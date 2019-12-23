@@ -14,7 +14,6 @@ const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
 
 const mnemonicInfo = require("conffle-utils/mnemonic");
 
-var CircularJSON = require('circular-json');
 var fs = require('fs');
 var request = require('request');
 
@@ -35,19 +34,6 @@ async function run(address, privateKeys, name) {
 }
 
 
-//const Web3 = require('web3');
-//var web3 = new Web3(new Web3.providers.HttpProvider("ropsten.infura.io/v3/67b02109f3174f32a4a5a19c0419f95b"))
-
-//const addressList = CircularJSON.parse(CircularJSON.stringify(web3.eth.accounts.wallet.create(1)));
-//const privateKey = '0x1b7a722b5f729995135560a46296e32444b80ce70948d16158c617187b797cb8';
-//const privateKey = '0x759ce35c913683dc55c606fb4f3be99610002beb58768e9054605652814c4dcb';
-//console.log(addressList)
-//const privateKey = addressList[0].privateKey.toString();
-//console.log("privateKey:", privateKey)
-//const address = addressList[0].address;
-
-//confluxWeb.cfx.accounts.wallet.add(privateKey);
-//confluxWeb.cfx.accounts.wallet.add(privateKeys[0]);
 function deploy(argument, abi, solfile) {
     confluxWeb.cfx.signTransaction(argument)
         .then((encodedTransaction) => {
@@ -57,11 +43,6 @@ function deploy(argument, abi, solfile) {
             console.log('raw transaction: ', rawTransaction);
             return confluxWeb.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
                 console.log('transaction hash from RPC: ', transactionHash);
-                //console.log("you can find the transaction details on : http://www.confluxscan.io/transactionsdetail/" + transactionHash)
-                //hexNonce = argument.nonce.toString(16);
-                //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
-                //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
-                //waitBlock(transactionHash, abi)
                 localhost_waitBlock(transactionHash, solfile)
             })
         }).catch(console.error);
@@ -137,7 +118,6 @@ async function deployContract(address, privateKeys, name) {
         writeJsonto("bytecode", name + ".sol.json", NewByteCode);
         const add = confluxWeb.cfx.accounts.wallet[0].address;
         confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
-            console.log("nonceValue:", nonceValue)
             const txParams = {
                 from: add,
                 nonce: nonceValue, // make nonce appropriate
@@ -148,7 +128,6 @@ async function deployContract(address, privateKeys, name) {
             };
 
             let gas = await confluxWeb.cfx.estimateGas(txParams);
-            console.log("gas : ", gas)
             txParams.gas = gas;
             txParams.from = 0;
             if (abi) {
@@ -218,7 +197,6 @@ function writeJsonto(key, solfile, newValues) {
     var fs = require('fs');
     var file = JSON.parse(fs.readFileSync("./build/" + solfile, 'utf8'));
     file[key] = newValues;
-
     fs.writeFile("./build/" + solfile, JSON.stringify(file, null, 4), function(err) {
         if (err) return console.log(err);
         console.log(JSON.stringify(file,null,4));
@@ -295,13 +273,8 @@ async function sendBalance_localhost(account) {
                 const {
                     rawTransaction
                 } = encodedTransaction;
-                //console.log('raw transaction: ', rawTransaction);
                 return confluxWeb.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
                     console.log('transaction hash from RPC: ', transactionHash);
-                    //hexNonce = argument.nonce.toString(16);
-                    //contractAdd = generate_contract_address(hexNonce +1, confluxWeb.cfx.accounts.wallet[0].address);
-                    //console.log("Waiting a mined block to include your contract... contract address will be at:" + "0x" + contractAdd);
-
                     localhost_waitBlock(transactionHash)
                 })
             }).catch(console.error);
