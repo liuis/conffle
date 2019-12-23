@@ -192,6 +192,46 @@ var contract = (function(module) {
                 throw error;
             }
         },
+        deployed: async function() {
+
+            //add something fn to check 
+            try {
+                utils.checkNetworkArtifactMatch(this);
+                utils.checkDeployment(this);
+                return new this(this.address);
+            } catch (error) {
+                throw error;
+            }
+
+
+        },
+        new: function(){
+        // try to new deploy, then get the new contract address
+        // then return new this(contract address); 
+
+        },
+        parallel: function(arr, callback) {
+            callback = callback || function() {};
+            if (!arr.length) {
+                return callback(null, []);
+            }
+            var index = 0;
+            var results = new Array(arr.length);
+            arr.forEach(function(fn, position) {
+                fn(function(err, result) {
+                    if (err) {
+                        callback(err);
+                        callback = function() {};
+                    } else {
+                        index++;
+                        results[position] = result;
+                        if (index >= arr.length) {
+                            callback(null, results);
+                        }
+                    }
+                });
+            });
+        },
 
         clone: function(json) {
             json = json || {};
