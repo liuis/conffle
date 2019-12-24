@@ -27,7 +27,7 @@
   "dependencies": {
     "bignumber.js": "^9.0.0",
     "bn.js": "^5.1.0",
-    "conflux-lib": "../conffle-lib",
+    "conflux-lib": "0.0.24-y.24",
     "conflux-web": "1.2.2-alpha.0",
     "ethereumjs-tx": "^2.1.1",
     "ethjs-abi": "0.1.8",
