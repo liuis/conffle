@@ -65,7 +65,7 @@ keythereum.dump(password, dk.privateKey, dk.salt, dk.iv, options, function (keyO
 //
 
 // Specify a data directory (optional; defaults to ~/.ethereum)
-var datadir = "/home/jack/.ethereum-test";
+var datadir = ".ethereum-test";
 
 // Synchronous
 var keyObject = keythereum.importFromFile(address, datadir);

@@ -35,7 +35,10 @@ function compile() {
         'bytecode': '',
         'linkReferences': {}
     };
-
+    var Link = {
+        'noNeedlink':'',
+        'Linked':''
+    };
     //linkReferences
     var noNeedlink = [];
     var Linked = [];
@@ -118,6 +121,11 @@ function compile() {
     console.log("U need first deploy this contract:", [...new Set(noNeedlink)])
     console.log("\n")
     console.log("then deploy this contract:",  [...new Set(Linked)])
+    Link.noNeedlink = [...new Set(noNeedlink)];
+    Link.Linked = [...new Set(Linked)];
+    fs.writeFile('./build/Link.json', JSON.stringify(Link,null, 4), function(err) {
+            if (err) console.error(err);
+    })
     console.log("\n")
 }
 

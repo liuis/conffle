@@ -1,6 +1,7 @@
 var ethJSABI = require("ethjs-abi");
 var BlockchainUtils = require("truffle-blockchain-utils");
 var Web3 = require("conflux-web");
+const newContract = require("conffle-lib");
 const webUtils = require("web3-utils");
 //var StatusError = require("./statuserror.js")
 var util = require("util");
@@ -195,6 +196,7 @@ var contract = (function(module) {
         deployed: async function() {
 
             //add something fn to check 
+            /*
             try {
                 utils.checkNetworkArtifactMatch(this);
                 utils.checkDeployment(this);
@@ -202,12 +204,15 @@ var contract = (function(module) {
             } catch (error) {
                 throw error;
             }
+            */
 
 
         },
         new: function(){
-        // try to new deploy, then get the new contract address
-        // then return new this(contract address); 
+        // try to new deploy, then get the new contract address,return new this(contract address); 
+        // warning : this function will be deploy the build dir all the contract ,get the new contract address
+        let newAddress = newContract();
+        this.at(newAddress)
 
         },
         parallel: function(arr, callback) {

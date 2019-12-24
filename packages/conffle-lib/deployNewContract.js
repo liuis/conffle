@@ -1,6 +1,6 @@
 const BN = require('bn.js');
-var jayson = require('jayson');
-var client = jayson.client.http('http://localhost:12537');
+const jayson = require('jayson');
+const client = jayson.client.http('http://localhost:12537');
 const ConfluxWeb = require('conflux-web');
 const cfxNum = new BN('3000000000000000000');
 var linker = require('solc/linker');
@@ -14,8 +14,6 @@ var request = require('request');
 const GENESIS_PRI_KEY = "46b9e861b63d3509c88b7817275a30d22d62c8cd8fa6486ddee35ef0d8e0495f";
 const GENESIS_ADDRESS = "0xfbe45681ac6c53d5a40475f7526bac1fe7590fb8";
 
-
-//deployContract(address, privateKeys, name);
 
 /**
  * check num is hex
@@ -63,6 +61,17 @@ function sleep(ms) {
 }
 
 
+/**
+ * write some key to json file
+ *
+ * @name writeJsonto
+ * @function
+ * @access public
+ * @param {string} key want to write json key to file
+ * @param {solidity file name} solfile solidity file name 
+ * @param {string} newValues put the new value 
+ * @returns {err| promise the new json} return the pretty format json 
+ */
 async function writeJsonto(key, solfile, newValues) {
     var fs = require('fs');
     var file = JSON.parse(fs.readFileSync("./build/" + solfile, 'utf8'));
@@ -79,20 +88,30 @@ async function writeJsonto(key, solfile, newValues) {
     })
 }
 
-async function deployContract(address, privateKeys, name) {
+/**
+ * deploy the compiled the contract to the conflux-chain 
+ *
+ * @name deployContract
+ * @function
+ * @access public
+ * @param {hex} address hex prefix - '0x'
+ * @param {hex} privateKeys private keys  prefix - '0x'
+ * @param {string} name conpiled the contract file name
+ */
+async function deployContract(name) {
 
 
-    await confluxWeb.cfx.accounts.wallet.add({
-        privateKey: privateKeys,
-        address: address
-    });
+    //await confluxWeb.cfx.accounts.wallet.add({
+    //    privateKey: privateKeys,
+    //    address: address
+    //});
 
 
     let rawdata = fs.readFileSync("./build/" + name + ".json");
     let fd = JSON.parse(rawdata);
     //console.log("bytecode:", "0x" + fd.bytecode)
-    code = "0x" + fd.bytecode
-    abi = fd.abi
+    code = "0x" + fd.bytecode;
+    abi = fd.abi;
     if (isHex(code)) {
         const add = confluxWeb.cfx.accounts.wallet[0].address;
         return confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
@@ -176,7 +195,7 @@ async function deployContract(address, privateKeys, name) {
                         await confluxWeb.cfx.sendSignedTransaction(rawTransaction).then(async(transactionHash) => {
                             console.log('transaction hash from RPC: ', transactionHash);
                             await localhost_waitBlock(transactionHash, name + ".json")
-                            //
+                                //
                         })
                     }).catch(console.error);
 
@@ -186,6 +205,16 @@ async function deployContract(address, privateKeys, name) {
     }
 }
 
+/**
+ * want to package the block, try to 15, must be the promise
+ *
+ * @name package
+ * @function
+ * @access public
+ * @returns {Promise} Promise
+ */
+/**
+ */
 function package() {
     array = [];
     for (var i = 0, len = 15; i < len; i++) {
@@ -202,6 +231,16 @@ function package() {
     return Promise.all(array);
 }
 
+/**
+ * when the docker chain package the transaction, get the transaction receipt
+ *
+ * @name localhost_waitBlock
+ * @function
+ * @access public
+ * @param {hex } txHash transaction hex values
+ * @param {want to update the contract compiled sol.json file name} solfile contract name sol filename
+ * @returns {Promise resolve | reject} Promise return
+ */
 async function localhost_waitBlock(txHash, solfile) {
     await package();
     await confluxWeb.cfx.getTransactionReceipt(txHash).then(async(receipt) => {
@@ -209,32 +248,53 @@ async function localhost_waitBlock(txHash, solfile) {
             cAddress = receipt["contractCreated"]
             console.log("Your contract has been deployed at :" + cAddress);
             await writeJsonto("contractAddress", solfile, cAddress);
-            return Promise.resolve(solfile + " done");
+            return Promise.resolve(cAddress);
         } else {
-            return Promise.reject("generateBlock err, 15 epochs");
+            return Promise.reject("generateBlock err, 15 blocks");
         }
     })
 
 }
 
-var add = "0xe1680683be13895b59c94eaf61818975a0d105dd";
-var pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
 
-const contracts = ['ConvertLib.sol', 'MetaCoin.sol'];
-
+/**
+ * paralle the array 
+ *
+ * @name asyncForEach
+ * @function
+ * @access public
+ * @param {array} array want to paralle the array, eg:[1,2,3,4]
+          const contracts = ['ConvertLib.sol', 'MetaCoin.sol'];
+ * @param {function} callback callback function
+ * @returns {callback fun} function
+ */
 async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
         await callback(array[index], index, array)
     }
 }
 
-async function test() {
-    //var nums = await getNumbers()
-    asyncForEach(contracts, async x => {
-        await deployContract(add, pk, x)
-    })
+/**
+ * deploy the contract, warning: all the contract will be deploy
+ *
+ * @name new
+ * @function
+ * @access public
+ * @param {hex|address hex value} add address hex values
+ * @param {private key | hex values} pk private key hex values
+ *        var add = "0xe1680683be13895b59c94eaf61818975a0d105dd";
+          var pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
+ */
+async function new() {
+    fs.readFile('./build/Link.json', (err, data) => {
+        if (err) throw err;
+        let RawData = JSON.parse(data);
+        contracts = RawData.noNeedlink.concat(RawData.Linked);
+        asyncForEach(contracts, async x => {
+            await deployContract(x)
+        })
+    });
 }
 
+module.exports = new;
 
-
-test()
