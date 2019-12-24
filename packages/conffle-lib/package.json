@@ -39,7 +39,6 @@
     "url": "https://github.com/liuis/conffle/issues"
   },
   "homepage": "https://github.com/liuis/conffle#readme",
-  "gitHead": "73c2c49bf19245eba7e0436108a5b395dd5a0876",
   "devDependencies": {
     "mkdirp": "^0.5.1",
     "tap-nyc": "^1.0.3",
