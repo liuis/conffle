@@ -284,6 +284,14 @@ contract MetaCoin {
 ````
 ### Use a contract at a specific address
 
+
+In the test directory, you can use/write javascript to test your contract.
+
+````shell
+cd test
+node mc.js / mc_new.js
+````
+
 #### myContract.at('0x1234....')
 
 If you already have an address for a contract, you can create a new abstraction to represent the contract at that address.
