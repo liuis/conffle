@@ -284,6 +284,8 @@ contract MetaCoin {
 ````
 ### Use a contract at a specific address
 
+#### myContract.at('0x1234....')
+
 If you already have an address for a contract, you can create a new abstraction to represent the contract at that address.
 
 ````javascript 
@@ -361,3 +363,16 @@ MetaCoin.at(contract_address).then(async function(instance) {
 
 
 ````
+#### myContract.new('....')
+This function returns a Promise that resolves into a new instance of the contract abstraction at the newly deployed address.
+
+````javascript
+
+MetaCoin.at(contract_address).then(async function(instance) {
+    coin = instance;
+
+    //console.log(util.inspect(coin, {
+    //    showHidden: true,
+    //    depth: 7
+    //}));
+ ````
