@@ -51,11 +51,6 @@ async function run() {
 }
 
 function createProjectStructure(dir = "./") {
-    config = {};
-    config.projectPath = __dirname;
-    fs.writeFile('./build/config.json', JSON.stringify(config,null, 4), function(err) {
-            if (err) console.error(err);
-    })
     console.log("start the example procject, pls wait....")
 
     TruffleBox.unbox("https://github.com/liuis/truffle-conflux-init-default", dir, unboxOptions);

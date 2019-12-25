@@ -1,6 +1,8 @@
 var solc = require('solc');
 var fs = require('fs');
 var util = require('util');
+var path = require('path');
+
 const {
     findImports
 } = require('conffle-utils/utils');
@@ -17,12 +19,12 @@ async function run() {
 };
 
 function isEmptyObject(obj) {
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      return false;
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            return false;
+        }
     }
-  }
-  return true;
+    return true;
 };
 
 function compile() {
@@ -36,8 +38,11 @@ function compile() {
         'linkReferences': {}
     };
     var Link = {
-        'noNeedlink':'',
-        'Linked':''
+        'noNeedlink': '',
+        'Linked': ''
+    };
+    var Config = {
+        'projectPath': ''
     };
     //linkReferences
     var noNeedlink = [];
@@ -91,18 +96,15 @@ function compile() {
             teamJson.linkReferences = output.contracts[file][contractName].evm.bytecode.linkReferences;
             wfile = "./build/" + file + ".json"
 
-            if (isEmptyObject(teamJson.linkReferences))
-            {
-                if(!isEmptyObject(teamJson.abi)){
-                 noNeedlink.push(file)
-                } 
+            if (isEmptyObject(teamJson.linkReferences)) {
+                if (!isEmptyObject(teamJson.abi)) {
+                    noNeedlink.push(file)
+                }
 
-            }
-            else
-            {
-                if(!isEmptyObject(teamJson.abi)){
-                Linked.push(file)
-                } 
+            } else {
+                if (!isEmptyObject(teamJson.abi)) {
+                    Linked.push(file)
+                }
             }
 
             fs.writeFile(wfile, JSON.stringify(teamJson, null, 4), function(err) {
@@ -120,11 +122,15 @@ function compile() {
     console.log("\n")
     console.log("U need first deploy this contract:", [...new Set(noNeedlink)])
     console.log("\n")
-    console.log("then deploy this contract:",  [...new Set(Linked)])
+    console.log("then deploy this contract:", [...new Set(Linked)])
     Link.noNeedlink = [...new Set(noNeedlink)];
     Link.Linked = [...new Set(Linked)];
-    fs.writeFile('./build/Link.json', JSON.stringify(Link,null, 4), function(err) {
-            if (err) console.error(err);
+    fs.writeFile('./build/Link.json', JSON.stringify(Link, null, 4), function(err) {
+        if (err) console.error(err);
+    })
+    Config.projectPath = process.cwd();
+    fs.writeFile('./build/config.json', JSON.stringify(Config, null, 4), function(err) {
+        if (err) console.error(err);
     })
     console.log("\n")
 }
