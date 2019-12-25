@@ -1,6 +1,6 @@
-var new = require('./deployNewContract');
+var newContract = require('./deployNewContract').newContract;
 
 module.exports = {
-    new,
+    newContract,
 
 }

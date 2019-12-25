@@ -74,10 +74,10 @@ function sleep(ms) {
  */
 async function writeJsonto(key, solfile, newValues) {
     var fs = require('fs');
-    var file = JSON.parse(fs.readFileSync("./build/" + solfile, 'utf8'));
+    var file = JSON.parse(fs.readFileSync("../build/" + solfile, 'utf8'));
     file[key] = newValues;
     return new Promise(function(resolve, reject) {
-        fs.writeFile("./build/" + solfile, JSON.stringify(file, null, 4), function(err) {
+        fs.writeFile("../build/" + solfile, JSON.stringify(file, null, 4), function(err) {
             if (err) reject(err);
             resolve(JSON.stringify(file, null, 4));
         });
@@ -107,7 +107,7 @@ async function deployContract(name) {
     //});
 
 
-    let rawdata = fs.readFileSync("./build/" + name + ".json");
+    let rawdata = fs.readFileSync("../build/" + name + ".json");
     let fd = JSON.parse(rawdata);
     //console.log("bytecode:", "0x" + fd.bytecode)
     code = "0x" + fd.bytecode;
@@ -153,7 +153,7 @@ async function deployContract(name) {
         keys = Object.keys(fd.linkReferences)
         var tempJson = {};
         for (var i = 0; i < keys.length; i++) {
-            let solRawData = fs.readFileSync("./build/" + keys[i] + ".json");
+            let solRawData = fs.readFileSync("../build/" + keys[i] + ".json");
             let solFd = JSON.parse(solRawData);
             cAdd = solFd.contractAddress;
             keys2 = Object.keys(fd.linkReferences[keys[i]])
@@ -277,7 +277,7 @@ async function asyncForEach(array, callback) {
 /**
  * deploy the contract, warning: all the contract will be deploy
  *
- * @name new
+ * @name newContract
  * @function
  * @access public
  * @param {hex|address hex value} add address hex values
@@ -285,8 +285,8 @@ async function asyncForEach(array, callback) {
  *        var add = "0xe1680683be13895b59c94eaf61818975a0d105dd";
           var pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
  */
-async function new() {
-    fs.readFile('./build/Link.json', (err, data) => {
+async function newContract() {
+    fs.readFile('../build/Link.json', (err, data) => {
         if (err) throw err;
         let RawData = JSON.parse(data);
         contracts = RawData.noNeedlink.concat(RawData.Linked);
@@ -294,7 +294,9 @@ async function new() {
             await deployContract(x)
         })
     });
-}
+};
 
-module.exports = new;
+module.exports = {
+    newContract: newContract
+}
 

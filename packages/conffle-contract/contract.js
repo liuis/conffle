@@ -1,7 +1,7 @@
 var ethJSABI = require("ethjs-abi");
 var BlockchainUtils = require("truffle-blockchain-utils");
 var Web3 = require("conflux-web");
-const newContract = require("conffle-lib");
+const newContract = require("conffle-lib").newContract;
 const webUtils = require("web3-utils");
 //var StatusError = require("./statuserror.js")
 var util = require("util");
@@ -211,8 +211,9 @@ var contract = (function(module) {
         new: function(){
         // try to new deploy, then get the new contract address,return new this(contract address); 
         // warning : this function will be deploy the build dir all the contract ,get the new contract address
-        let newAddress = newContract();
-        this.at(newAddress)
+        newContract();
+        let rawdata = fs.readFileSync("./build/" + this.contractName + ".sol.json");
+        this.at(rawdata.contractAddress)
 
         },
         parallel: function(arr, callback) {
