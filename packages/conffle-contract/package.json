@@ -1,6 +1,6 @@
 {
   "name": "conffle-contract",
-  "version": "0.0.24-y.27",
+  "version": "0.0.24-y.28",
   "description": "A better contract abstraction for Ethereum (formerly EtherPudding)",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "dependencies": {
     "bignumber.js": "^9.0.0",
     "bn.js": "^5.1.0",
-    "conffle-lib": "^0.0.24-y.27",
+    "conffle-lib": "^0.0.24-y.28",
     "conflux-web": "1.2.2-alpha.0",
     "ethereumjs-tx": "^2.1.1",
     "ethjs-abi": "0.1.8",
