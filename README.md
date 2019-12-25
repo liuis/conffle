@@ -374,11 +374,12 @@ MetaCoin.at(contract_address).then(async function(instance) {
 #### myContract.new('....')
 This function returns a Promise that resolves into a new instance of the contract abstraction at the newly deployed address.
 
+you can find the example in the test directory.
 ````javascript
 
 ......................
 
-MetaCoin.at(contract_address).then(async function(instance) {
+MetaCoin.new(....).then(async function(instance) {
     coin = instance;
     coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(result) {
 
