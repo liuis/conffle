@@ -8,9 +8,10 @@ const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
 const mnemonicInfo = require("conffle-utils/mnemonic");
 var fs = require('fs');
 var request = require('request');
+const path = require('path');
 
 
-
+const solpath = path.resolve(process.cwd(), '..');
 const GENESIS_PRI_KEY = "46b9e861b63d3509c88b7817275a30d22d62c8cd8fa6486ddee35ef0d8e0495f";
 const GENESIS_ADDRESS = "0xfbe45681ac6c53d5a40475f7526bac1fe7590fb8";
 
@@ -74,10 +75,10 @@ function sleep(ms) {
  */
 async function writeJsonto(key, solfile, newValues) {
     var fs = require('fs');
-    var file = JSON.parse(fs.readFileSync("../build/" + solfile, 'utf8'));
+    var file = JSON.parse(fs.readFileSync(solpath + "/build/" + solfile, 'utf8'));
     file[key] = newValues;
     return new Promise(function(resolve, reject) {
-        fs.writeFile("../build/" + solfile, JSON.stringify(file, null, 4), function(err) {
+        fs.writeFile(solpath + "/build/" + solfile, JSON.stringify(file, null, 4), function(err) {
             if (err) reject(err);
             resolve(JSON.stringify(file, null, 4));
         });
@@ -98,16 +99,16 @@ async function writeJsonto(key, solfile, newValues) {
  * @param {hex} privateKeys private keys  prefix - '0x'
  * @param {string} name conpiled the contract file name
  */
-async function deployContract(name) {
+async function deployContract(address, privateKeys, name) {
 
 
-    //await confluxWeb.cfx.accounts.wallet.add({
-    //    privateKey: privateKeys,
-    //    address: address
-    //});
+    await confluxWeb.cfx.accounts.wallet.add({
+        privateKey: privateKeys,
+        address: address
+    });
 
 
-    let rawdata = fs.readFileSync("../build/" + name + ".json");
+    let rawdata = fs.readFileSync(solpath + "/build/" + name + ".json");
     let fd = JSON.parse(rawdata);
     //console.log("bytecode:", "0x" + fd.bytecode)
     code = "0x" + fd.bytecode;
@@ -153,7 +154,7 @@ async function deployContract(name) {
         keys = Object.keys(fd.linkReferences)
         var tempJson = {};
         for (var i = 0; i < keys.length; i++) {
-            let solRawData = fs.readFileSync("../build/" + keys[i] + ".json");
+            let solRawData = fs.readFileSync(solpath + "/build/" + keys[i] + ".json");
             let solFd = JSON.parse(solRawData);
             cAdd = solFd.contractAddress;
             keys2 = Object.keys(fd.linkReferences[keys[i]])
@@ -285,18 +286,20 @@ async function asyncForEach(array, callback) {
  *        var add = "0xe1680683be13895b59c94eaf61818975a0d105dd";
           var pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
  */
-async function newContract() {
-    fs.readFile('../build/Link.json', (err, data) => {
-        if (err) throw err;
-        let RawData = JSON.parse(data);
-        contracts = RawData.noNeedlink.concat(RawData.Linked);
-        asyncForEach(contracts, async x => {
-            await deployContract(x)
-        })
-    });
+async function newContract(add, pk) {
+    rp = solpath + '/build/Link.json';
+    var data = fs.readFileSync(rp);
+    let RawData = JSON.parse(data);
+    contracts = RawData.noNeedlink.concat(RawData.Linked);
+    console.log("new deployed contract order:", contracts)
+    for (let x of contracts) {
+         await deployContract(add, pk, x)
+    }
+    // await asyncForEach(contracts, async x => {
+    //      await deployContract(add, pk, x)
+    // })
 };
 
 module.exports = {
     newContract: newContract
 }
-

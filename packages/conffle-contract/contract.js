@@ -6,6 +6,9 @@ const webUtils = require("web3-utils");
 //var StatusError = require("./statuserror.js")
 var util = require("util");
 var execute = require("./execute");
+var fs = require("fs");
+const path = require("path");
+const solpath = path.resolve(process.cwd(), '..');
 //const bootstrap = require("./bootstrap");
 var contract = (function(module) {
 
@@ -196,25 +199,22 @@ var contract = (function(module) {
         deployed: async function() {
 
             //add something fn to check 
-            /*
             try {
-                utils.checkNetworkArtifactMatch(this);
-                utils.checkDeployment(this);
+                //utils.checkNetworkArtifactMatch(this);
+                //utils.checkDeployment(this);
                 return new this(this.address);
             } catch (error) {
                 throw error;
             }
-            */
-
-
         },
-        new: function(){
-        // try to new deploy, then get the new contract address,return new this(contract address); 
-        // warning : this function will be deploy the build dir all the contract ,get the new contract address
-        newContract();
-        let rawdata = fs.readFileSync("./build/" + this.contractName + ".sol.json");
-        this.at(rawdata.contractAddress)
-
+        new: async function(add, pk) {
+            // try to new deploy, then get the new contract address,return new this(contract address); 
+            // warning : this function will be deploy the contract dir all the contracts ,get the new contract address
+            await newContract(add, pk);
+            let contents = fs.readFileSync(solpath + "/build/" + this.contractName + ".sol.json");
+            data = JSON.parse(contents);
+            return new this(data.contractAddress);
+            
         },
         parallel: function(arr, callback) {
             callback = callback || function() {};
