@@ -368,11 +368,23 @@ This function returns a Promise that resolves into a new instance of the contrac
 
 ````javascript
 
+......................
+
 MetaCoin.at(contract_address).then(async function(instance) {
     coin = instance;
+    coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(result) {
 
-    //console.log(util.inspect(coin, {
-    //    showHidden: true,
-    //    depth: 7
-    //}));
+        console.log("account_one balance is :", result)
+        console.log("--------------------------------")
+        coin.sendCoin(account_two, 3).then(async function(res) {
+                console.log("send account_two 3 coins result:", res) //0 is success, 1 or 2 is something is wrong
+                coin.getBalance(account_two).then(function(re) {
+                    console.log("account_two balance is : ", re)
+                });
+            })
+    });
+})
+
+......................
+
  ````
