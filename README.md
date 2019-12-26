@@ -284,6 +284,16 @@ contract MetaCoin {
 ````
 ### Use a contract at a specific address
 
+
+In the test directory, you can use/write javascript to test your contract.
+
+````shell
+cd test
+node mc.js / mc_new.js
+````
+
+#### myContract.at('0x1234....')
+
 If you already have an address for a contract, you can create a new abstraction to represent the contract at that address.
 
 ````javascript 
@@ -361,3 +371,29 @@ MetaCoin.at(contract_address).then(async function(instance) {
 
 
 ````
+#### myContract.new('....')
+This function returns a Promise that resolves into a new instance of the contract abstraction at the newly deployed address.
+
+you can find the example in the test directory.
+````javascript
+
+......................
+
+MetaCoin.new(....).then(async function(instance) {
+    coin = instance;
+    coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(result) {
+
+        console.log("account_one balance is :", result)
+        console.log("--------------------------------")
+        coin.sendCoin(account_two, 3).then(async function(res) {
+                console.log("send account_two 3 coins result:", res) //0 is success, 1 or 2 is something is wrong
+                coin.getBalance(account_two).then(function(re) {
+                    console.log("account_two balance is : ", re)
+                });
+            })
+    });
+})
+
+......................
+
+ ````
