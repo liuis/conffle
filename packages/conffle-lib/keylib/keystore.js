@@ -1,6 +1,4 @@
 // use the keystore to manage the account & recover
-
-
 var keythereum = require("keythereum");
 var pbkdf2 = keythereum.crypto.pbkdf2;
 var pbkdf2Sync = keythereum.crypto.pbkdf2Sync;
@@ -9,10 +7,16 @@ var pbkdf2Sync = keythereum.crypto.pbkdf2Sync;
 
 function createEthereumKey(passphrase) {
   var dk = keythereum.create();
+  console.log("dk:", dk.privateKey.toString('hex'));
   var key = keythereum.dump(passphrase, dk.privateKey, dk.salt, dk.iv);
-  return JSON.stringify(key);
+  //return JSON.stringify(key, null, 4);
+  return key;
 }
 
+keythereum.exportToFile(createEthereumKey("conflux"));
+//console.log(createEthereumKey("conflux"))
+
+/*
 keythereum.constants.quiet = true;
 
 // Note: if options is unspecified, the values in keythereum.constants are used.
@@ -28,6 +32,7 @@ var options = {
 
 // synchronous
 var keyObject = keythereum.dump(password, dk.privateKey, dk.salt, dk.iv, options);
+
 // keyObject:
 {
   address: "008aeeda4d805471df9b2a5b0f38a0c3bcba786b",
@@ -74,3 +79,5 @@ var keyObject = keythereum.importFromFile(address, datadir);
 keythereum.importFromFile(address, datadir, function (keyObject) {
   // do stuff
 });
+
+*/
