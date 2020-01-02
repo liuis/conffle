@@ -17,8 +17,8 @@ const addInitOption = (program) => {
         .option('--update [update]', 'Update project files')
         .action(async (option) => {
             await init.run(option.update);
-        })
-}
+        });
+};
 
 const addSendBalanceOption = (program) => {
     program
@@ -27,8 +27,8 @@ const addSendBalanceOption = (program) => {
         .option('--a [account address]', 'Configure your address')
         .action(async (option) => {
             await sendbalance.run(option.a);
-        })
-}
+        });
+};
 
 
 const addAccountOption = (program) => {

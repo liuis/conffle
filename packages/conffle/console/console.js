@@ -1,14 +1,16 @@
 const ReplManager = require("./repl");
-const Command = require("./command");
+const Command = require("./command_task");
+// We don't load web3 temporarily
 const provision = require("@truffle/provisioner");
-const {
-  Web3Shim,
-  createInterfaceAdapter
-} = require("@truffle/interface-adapter");
-const contract = require("@truffle/contract");
+//const {
+//  Web3Shim,
+//  createInterfaceAdapter
+//} = require("@truffle/interface-adapter");
+//load conffle  contract object 
+//const contract = require("@truffle/contract");
 const vm = require("vm");
 const expect = require("@truffle/expect");
-const TruffleError = require("@truffle/error");
+const ConffleError = require("@truffle/error");
 const fse = require("fs-extra");
 const path = require("path");
 const EventEmitter = require("events");
@@ -17,7 +19,7 @@ const processInput = input => {
   const inputComponents = input.trim().split(" ");
   if (inputComponents.length === 0) return input;
 
-  if (inputComponents[0] === "truffle") {
+  if (inputComponents[0] === "conffle") {
     return inputComponents.slice(1).join(" ");
   }
   return input.trim();
@@ -31,14 +33,7 @@ class Console extends EventEmitter {
     expect.options(options, [
       "working_directory",
       "contracts_directory",
-      "contracts_build_directory",
-      "migrations_directory",
-      "networks",
-      "network",
-      "network_id",
-      "provider",
-      "resolver",
-      "build_directory"
+      "contracts_build_directory"
     ]);
 
     this.options = options;
@@ -46,14 +41,15 @@ class Console extends EventEmitter {
     this.repl = options.repl || new ReplManager(options);
     this.command = new Command(tasks);
 
-    this.interfaceAdapter = createInterfaceAdapter({
-      provider: options.provider,
-      networkType: options.networks[options.network].type
-    });
-    this.web3 = new Web3Shim({
-      provider: options.provider,
-      networkType: options.networks[options.network].type
-    });
+    // not load the web3
+    //this.interfaceAdapter = createInterfaceAdapter({
+    //  provider: options.provider,
+    //  networkType: options.networks[options.network].type
+    //});
+    //this.web3 = new Web3Shim({
+    //  provider: options.provider,
+    //  networkType: options.networks[options.network].type
+    //});
 
     // Bubble the ReplManager's exit event
     this.repl.on("exit", () => this.emit("exit"));
@@ -72,7 +68,7 @@ class Console extends EventEmitter {
         const abstractions = this.provision();
 
         this.repl.start({
-          prompt: "truffle(" + this.options.network + ")> ",
+          prompt: "conffle(" + this.options.network + ")> ",
           context: {
             web3: this.web3,
             interfaceAdapter: this.interfaceAdapter,
@@ -152,7 +148,7 @@ class Console extends EventEmitter {
       return this.command.run(processedInput, this.options, error => {
         if (error) {
           // Perform error handling ourselves.
-          if (error instanceof TruffleError) {
+          if (error instanceof ConffleError) {
             console.log(error.message);
           } else {
             // Bubble up all other unexpected errors.
@@ -163,7 +159,7 @@ class Console extends EventEmitter {
 
         // Reprovision after each command as it may change contracts.
         try {
-          this.provision();
+          //this.provision();
           callback();
         } catch (error) {
           // Don't pass abstractions to the callback if they're there or else
