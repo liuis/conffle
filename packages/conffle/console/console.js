@@ -1,13 +1,16 @@
 const ReplManager = require("./repl");
 const Command = require("./command_task");
 // We don't load web3 temporarily
+const ConfluxWeb = require('conflux-web');
+const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
+var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
 const provision = require("@truffle/provisioner");
 //const {
 //  Web3Shim,
 //  createInterfaceAdapter
 //} = require("@truffle/interface-adapter");
 //load conffle  contract object 
-//const contract = require("@truffle/contract");
+const contract = require("conffle-contract");
 const vm = require("vm");
 const expect = require("@truffle/expect");
 const ConffleError = require("@truffle/error");
@@ -16,186 +19,207 @@ const path = require("path");
 const EventEmitter = require("events");
 
 const processInput = input => {
-  const inputComponents = input.trim().split(" ");
-  if (inputComponents.length === 0) return input;
+    const inputComponents = input.trim().split(" ");
+    if (inputComponents.length === 0) return input;
 
-  if (inputComponents[0] === "conffle") {
-    return inputComponents.slice(1).join(" ");
-  }
-  return input.trim();
+    if (inputComponents[0] === "conffle") {
+        return inputComponents.slice(1).join(" ");
+    }
+    return input.trim();
 };
 
 class Console extends EventEmitter {
-  constructor(tasks, options) {
-    super();
-    EventEmitter.call(this);
+    constructor(tasks, options) {
+        super();
+        EventEmitter.call(this);
 
-    expect.options(options, [
-      "working_directory",
-      "contracts_directory",
-      "contracts_build_directory"
-    ]);
+        ///expect.options(options, [
+        ///  "working_directory",
+        ///  "contracts_directory",
+        ///  "contracts_build_directory"
+        ///]);
 
-    this.options = options;
+        this.options = options;
 
-    this.repl = options.repl || new ReplManager(options);
-    this.command = new Command(tasks);
+        this.repl = options.repl || new ReplManager(options);
+        this.command = new Command(tasks);
 
-    // not load the web3
-    //this.interfaceAdapter = createInterfaceAdapter({
-    //  provider: options.provider,
-    //  networkType: options.networks[options.network].type
-    //});
-    //this.web3 = new Web3Shim({
-    //  provider: options.provider,
-    //  networkType: options.networks[options.network].type
-    //});
+        // not load the web3
+        //this.interfaceAdapter = createInterfaceAdapter({
+        //  provider: options.provider,
+        //  networkType: options.networks[options.network].type
+        //});
+        //this.web3 = new Web3Shim({
+        //  provider: options.provider,
+        //  networkType: options.networks[options.network].type
+        //});
+        this.web3 = confluxWeb;
 
-    // Bubble the ReplManager's exit event
-    this.repl.on("exit", () => this.emit("exit"));
-  }
+        // Bubble the ReplManager's exit event
+        this.repl.on("exit", () => this.emit("exit"));
+    }
 
-  start(callback) {
-    if (!this.repl) this.repl = new Repl(this.options);
+    start(callback) {
+        if (!this.repl) this.repl = new Repl(this.options);
 
-    // TODO: This should probalby be elsewhere.
-    // It's here to ensure the repl manager instance gets
-    // passed down to commands.
-    this.options.repl = this.repl;
+        // TODO: This should probalby be elsewhere.
+        // It's here to ensure the repl manager instance gets
+        // passed down to commands.
+        this.options.repl = this.repl;
 
-    try {
-      this.interfaceAdapter.getAccounts().then(fetchedAccounts => {
-        const abstractions = this.provision();
+        try {
+            //this.interfaceAdapter.getAccounts().then(fetchedAccounts => {
 
-        this.repl.start({
-          prompt: "conffle(" + this.options.network + ")> ",
-          context: {
-            web3: this.web3,
-            interfaceAdapter: this.interfaceAdapter,
-            accounts: fetchedAccounts
-          },
-          interpreter: this.interpret.bind(this),
-          done: callback
+            const abstractions = this.provision();
+            console.log("abstractions: " + abstractions);
+            this.repl.start({
+                //not prompt anything
+                //prompt: "conffle(" + this.options.network + ")> ",
+                prompt: "conffle(localhost_docker)> ",
+                context: {
+                    web3: this.web3
+                        //interfaceAdapter: this.interfaceAdapter,
+                        //accounts: fetchedAccounts
+                },
+                interpreter: this.interpret.bind(this),
+                done: callback
+            });
+
+            this.resetContractsInConsoleContext(abstractions);
+            //});
+        } catch (error) {
+            console.log(
+                "Unexpected error: Cannot provision contracts while instantiating the console."
+            );
+            console.log(error.stack || error.message || error);
+        }
+    }
+
+    provision() {
+        let files;
+        /*
+        try {
+          const unfilteredFiles = fse.readdirSync(
+            this.options.contracts_build_directory
+          );
+          files = unfilteredFiles.filter(file => file.match(".json") !== null);
+        } catch (error) {
+          // Error reading the build directory? Must mean it doesn't exist or we don't have access to it.
+          // Couldn't provision the contracts if we wanted. It's possible we're hiding very rare FS
+          // errors, but that's better than showing the user error messages that will be "build folder
+          // doesn't exist" 99.9% of the time.
+        }
+        */
+        let jsonBlobs = [];
+        files = files || [];
+
+        //files.forEach(file => {
+        //  try {
+        //const body = fse.readFileSync(
+        //  path.join(this.options.contracts_build_directory, file),
+        //  "utf8"
+        //);
+        const body = fse.readFileSync("./MetaCoin.sol.json", "utf8");
+        //console.log("body:", MC);
+        jsonBlobs.push(JSON.parse(body));
+        //  } catch (error) {
+        //    throw new Error(`Error parsing or reading ${file}: ${error.message}`);
+        //  }
+        //});
+
+        const abstractions = jsonBlobs.map(json => {
+
+            const abstraction = contract({
+                    contractName: "MetaCoin",
+                    abi: json.abi, // optional
+                    bytecode: json.bytecode, // optional
+                    address: json.contractAddress, // optional
+                });
+            abstraction.setProvider(provider);
+            if (typeof abstraction.currentProvider.sendAsync !== "function") {
+                abstraction.currentProvider.sendAsync = function() {
+                    return abstraction.currentProvider.send.apply(abstraction.currentProvider, arguments);
+                };
+            };
+            console.log("abstraction::", abstraction)
+            provision(abstraction, this.options);
+            return abstraction;
         });
 
         this.resetContractsInConsoleContext(abstractions);
-      });
-    } catch (error) {
-      this.options.logger.log(
-        "Unexpected error: Cannot provision contracts while instantiating the console."
-      );
-      this.options.logger.log(error.stack || error.message || error);
-    }
-  }
 
-  provision() {
-    let files;
-    try {
-      const unfilteredFiles = fse.readdirSync(
-        this.options.contracts_build_directory
-      );
-      files = unfilteredFiles.filter(file => file.match(".json") !== null);
-    } catch (error) {
-      // Error reading the build directory? Must mean it doesn't exist or we don't have access to it.
-      // Couldn't provision the contracts if we wanted. It's possible we're hiding very rare FS
-      // errors, but that's better than showing the user error messages that will be "build folder
-      // doesn't exist" 99.9% of the time.
+        return abstractions;
     }
 
-    let jsonBlobs = [];
-    files = files || [];
+    resetContractsInConsoleContext(abstractions) {
+        abstractions = abstractions || [];
 
-    files.forEach(file => {
-      try {
-        const body = fse.readFileSync(
-          path.join(this.options.contracts_build_directory, file),
-          "utf8"
-        );
-        jsonBlobs.push(JSON.parse(body));
-      } catch (error) {
-        throw new Error(`Error parsing or reading ${file}: ${error.message}`);
-      }
-    });
+        const contextVars = {};
 
-    const abstractions = jsonBlobs.map(json => {
-      const abstraction = contract(json);
-      provision(abstraction, this.options);
-      return abstraction;
-    });
+        abstractions.forEach(abstraction => {
+            //contextVars[abstraction.contract_name] = abstraction;
+            contextVars[abstraction.contract_name] = abstraction;
+        });
 
-    this.resetContractsInConsoleContext(abstractions);
-
-    return abstractions;
-  }
-
-  resetContractsInConsoleContext(abstractions) {
-    abstractions = abstractions || [];
-
-    const contextVars = {};
-
-    abstractions.forEach(abstraction => {
-      contextVars[abstraction.contract_name] = abstraction;
-    });
-
-    this.repl.setContextVars(contextVars);
-  }
-
-  interpret(input, context, filename, callback) {
-    const processedInput = processInput(input);
-    if (
-      this.command.getCommand(processedInput, this.options.noAliases) != null
-    ) {
-      return this.command.run(processedInput, this.options, error => {
-        if (error) {
-          // Perform error handling ourselves.
-          if (error instanceof ConffleError) {
-            console.log(error.message);
-          } else {
-            // Bubble up all other unexpected errors.
-            console.log(error.stack || error.toString());
-          }
-          return callback();
-        }
-
-        // Reprovision after each command as it may change contracts.
-        try {
-          //this.provision();
-          callback();
-        } catch (error) {
-          // Don't pass abstractions to the callback if they're there or else
-          // they'll get printed in the repl.
-          callback(error);
-        }
-      });
+        this.repl.setContextVars(contextVars);
     }
 
-    // Much of the following code is from here, though spruced up:
-    // https://github.com/nfcampos/await-outside
+    interpret(input, context, filename, callback) {
+            const processedInput = processInput(input);
+            if (
+                this.command.getCommand(processedInput, this.options.noAliases) != null
+            ) {
+                return this.command.run(processedInput, this.options, error => {
+                    if (error) {
+                        // Perform error handling ourselves.
+                        if (error instanceof ConffleError) {
+                            console.log(error.message);
+                        } else {
+                            // Bubble up all other unexpected errors.
+                            console.log(error.stack || error.toString());
+                        }
+                        return callback();
+                    }
 
-    /*
-    - allow whitespace before everything else
-    - optionally capture `var|let|const <varname> = `
-      - varname only matches if it starts with a-Z or _ or $
-        and if contains only those chars or numbers
-      - this is overly restrictive but is easier to maintain
-    - capture `await <anything that follows it>`
-    */
-    let includesAwait = /^\s*((?:(?:var|const|let)\s+)?[a-zA-Z_$][0-9a-zA-Z_$]*\s*=\s*)?(\(?\s*await[\s\S]*)/;
+                    // Reprovision after each command as it may change contracts.
+                    try {
+                        this.provision();
+                        callback();
+                    } catch (error) {
+                        // Don't pass abstractions to the callback if they're there or else
+                        // they'll get printed in the repl.
+                        callback(error);
+                    }
+                });
+            }
 
-    const match = processedInput.match(includesAwait);
-    let source = processedInput;
-    let assignment = null;
+            // Much of the following code is from here, though spruced up:
+            // https://github.com/nfcampos/await-outside
 
-    // If our code includes an await, add special processing to ensure it's evaluated properly.
-    if (match) {
-      let assign = match[1];
-      const expression = match[2];
+            /*
+            - allow whitespace before everything else
+            - optionally capture `var|let|const <varname> = `
+              - varname only matches if it starts with a-Z or _ or $
+                and if contains only those chars or numbers
+              - this is overly restrictive but is easier to maintain
+            - capture `await <anything that follows it>`
+            */
+            let includesAwait = /^\s*((?:(?:var|const|let)\s+)?[a-zA-Z_$][0-9a-zA-Z_$]*\s*=\s*)?(\(?\s*await[\s\S]*)/;
 
-      const RESULT = "__await_outside_result";
+            const match = processedInput.match(includesAwait);
+            let source = processedInput;
+            let assignment = null;
 
-      // Wrap the await inside an async function.
-      // Strange indentation keeps column offset correct in stack traces
-      source = `(async function() { try { ${
+            // If our code includes an await, add special processing to ensure it's evaluated properly.
+            if (match) {
+                let assign = match[1];
+                const expression = match[2];
+
+                const RESULT = "__await_outside_result";
+
+                // Wrap the await inside an async function.
+                // Strange indentation keeps column offset correct in stack traces
+                source = `(async function() { try { ${
         assign ? `global.${RESULT} =` : "return"
       } (
   ${expression.trim()}

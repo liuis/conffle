@@ -12,6 +12,7 @@
     "@truffle/error": "0.0.8",
     "@truffle/expect": "0.0.13",
     "@truffle/provisioner": "^0.2.0",
+    "conffle-contract": "0.0.24-y.28",
     "fs-extra": "^8.1.0",
     "yargs": "^15.0.2"
   }

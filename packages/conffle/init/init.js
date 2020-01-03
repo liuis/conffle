@@ -57,6 +57,5 @@ function createProjectStructure(dir = "./") {
 }
 
 module.exports = {
-    run,
-    createProjectStructure
+    run
 }

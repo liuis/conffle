@@ -63,6 +63,5 @@ function generatePK(dir="") {
 }
 
 module.exports = {
-    run,
-    generatePK
+    run
 }

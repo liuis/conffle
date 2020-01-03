@@ -5,10 +5,9 @@ const init = require('./init/init.js');
 const sendbalance = require('./sendbalance/sendbalance.js');
 
 const account = require('./account/account.js');
-//const testConfig = require('./test/test.js');
 //const node = require('./node/node.js');
 const deploy = require('./deploy/deploy.js');
-//const config = require('conflux-dapp-config');
+const console = require('./console/index.js');
 
 const addInitOption = (program) => {
     program
@@ -27,6 +26,17 @@ const addSendBalanceOption = (program) => {
         .option('--a [account address]', 'Configure your address')
         .action(async (option) => {
             await sendbalance.run(option.a);
+        });
+};
+
+
+const addConsoleOption = (program) => {
+    program
+        .command('console')
+        .description('conflux RELP conffle console')
+        .option()
+        .action(async (option) => {
+            await console.run(option);
         });
 };
 
@@ -78,13 +88,9 @@ const addDeployOption = (program) => {
     program
         .command('deploy')
         .description('Run deploy script')
-        //.option('--path [deploy path]', 'Path to deployment file', './deployment/deploy.js')
-        //.option('-n --network [network]', 'Select network', "local")
         .option('--a [account address]', 'Configure your address')
         .option('--pk [privateKey]', 'Configure your privateKey')
         .option('--name [ContractFile]', 'Configure your ContractSolFile')
-        //.option('-s --secretKey [secretKey]', 'Wallet secretKey(privateKey)')
-        //.option('--compiler [compiler_url]', 'Url to the desired compiler')
         .action(async (options) => {
             await deploy.run(options.a, options.pk, options.name);
         })
@@ -97,6 +103,7 @@ const initCommands = (program) => {
     addAccountOption(program);
     addDeployOption(program);
     addSendBalanceOption(program);
+    addConsoleOption(program);
 }
 
 module.exports = {
