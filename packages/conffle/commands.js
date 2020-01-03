@@ -34,9 +34,9 @@ const addConsoleOption = (program) => {
     program
         .command('console')
         .description('conflux RELP conffle console')
-        .option()
+        .option('--c [color]', 'Configure your color')
         .action(async (option) => {
-            await console.run(option);
+            await console.run(option.c);
         });
 };
 
