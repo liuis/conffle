@@ -1,6 +1,6 @@
 {
     "name": "conffle",
-    "version": "0.0.24-y.28",
+    "version": "0.0.24-y.29",
     "description": "commands for conflux-chain-dapp-js",
     "main": "index.js",
     "bin": {
@@ -20,17 +20,16 @@
         "@truffle/error": "0.0.8",
         "@truffle/expect": "0.0.13",
         "@truffle/provisioner": "^0.2.0",
-        "conffle-contract": "0.0.24-y.28",
-        "fs-extra": "^8.1.0",
-        "yargs": "^15.0.2",
         "bn.js": "^5.0.0",
         "chai": "^4.1.2",
         "chai-as-promised": "^7.1.1",
         "commander": "^2.19.0",
+        "conffle-contract": "^0.0.24-y.29",
         "conffle-utils": "^0.0.23-alpha.2",
         "conflux-web": "^0.1.22-alpha.0",
         "esm": "^3.0.77",
         "ethereumjs-vm": "^4.1.2",
+        "fs-extra": "^8.1.0",
         "hdwallet-accounts": "0.0.1",
         "inquirer": "^7.0.0",
         "jayson": "^3.1.1",
@@ -48,7 +47,8 @@
         "truffle-conflux-migrate": "0.0.2-alpha.1",
         "truffle-conflux-resolver": "0.0.2-alpha.3",
         "truffle-conflux-workflow-compile": "0.0.2-alpha.0",
-        "web3": "^1.2.1"
+        "web3": "^1.2.1",
+        "yargs": "^15.0.2"
     },
     "author": "ping.li@conflux-chain.org",
     "license": "ISC",

@@ -1,6 +1,6 @@
 {
   "name": "conffle-lib",
-  "version": "0.0.24-y.28",
+  "version": "0.0.24-y.29",
   "description": "lib",
   "main": "index.js",
   "scripts": {
