@@ -31,6 +31,7 @@ function compile() {
 
     var input = {};
     var teamJson = {
+        'contractName':'',
         'contractFile': '',
         'contractAddress': '',
         'abi': {},
@@ -90,6 +91,7 @@ function compile() {
     for (var file in output.contracts) {
         for (var contractName in output.contracts[file]) {
             teamJson.contractFile = file;
+            teamJson.contractName = contractName;
             teamJson.contractAddress = '';
             teamJson.abi = output.contracts[file][contractName].abi;
             teamJson.bytecode = output.contracts[file][contractName].evm.bytecode.object;

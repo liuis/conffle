@@ -5,10 +5,6 @@ const ConfluxWeb = require('conflux-web');
 const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
 var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
 const provision = require("@truffle/provisioner");
-//const {
-//  Web3Shim,
-//  createInterfaceAdapter
-//} = require("@truffle/interface-adapter");
 //load conffle  contract object 
 const contract = require("conffle-contract");
 const vm = require("vm");
@@ -17,6 +13,7 @@ const ConffleError = require("@truffle/error");
 const fse = require("fs-extra");
 const path = require("path");
 const EventEmitter = require("events");
+const solpath = path.resolve(process.cwd(), '..');
 
 const processInput = input => {
     const inputComponents = input.trim().split(" ");
@@ -33,11 +30,6 @@ class Console extends EventEmitter {
         super();
         EventEmitter.call(this);
 
-        ///expect.options(options, [
-        ///  "working_directory",
-        ///  "contracts_directory",
-        ///  "contracts_build_directory"
-        ///]);
 
         this.options = options;
 
@@ -45,14 +37,6 @@ class Console extends EventEmitter {
         this.command = new Command(tasks);
 
         // not load the web3
-        //this.interfaceAdapter = createInterfaceAdapter({
-        //  provider: options.provider,
-        //  networkType: options.networks[options.network].type
-        //});
-        //this.web3 = new Web3Shim({
-        //  provider: options.provider,
-        //  networkType: options.networks[options.network].type
-        //});
         this.web3 = confluxWeb;
 
         // Bubble the ReplManager's exit event
@@ -73,13 +57,10 @@ class Console extends EventEmitter {
             const abstractions = this.provision();
             console.log("abstractions: " + abstractions);
             this.repl.start({
-                //not prompt anything
-                //prompt: "conffle(" + this.options.network + ")> ",
+                //not prompt anything  network : localhost_docker
                 prompt: "conffle(localhost_docker)> ",
                 context: {
                     web3: this.web3
-                        //interfaceAdapter: this.interfaceAdapter,
-                        //accounts: fetchedAccounts
                 },
                 interpreter: this.interpret.bind(this),
                 done: callback
@@ -111,37 +92,31 @@ class Console extends EventEmitter {
         }
         */
         let jsonBlobs = [];
-        files = files || [];
 
-        //files.forEach(file => {
-        //  try {
-        //const body = fse.readFileSync(
-        //  path.join(this.options.contracts_build_directory, file),
-        //  "utf8"
-        //);
-        const body = fse.readFileSync("./MetaCoin.sol.json", "utf8");
-        //console.log("body:", MC);
-        jsonBlobs.push(JSON.parse(body));
-        //  } catch (error) {
-        //    throw new Error(`Error parsing or reading ${file}: ${error.message}`);
-        //  }
-        //});
+        rp = solpath + '/build/Link.json';
+        var data = fse.readFileSync(rp);
+        let RawData = JSON.parse(data);
+        contracts = RawData.noNeedlink.concat(RawData.Linked);
+        for (let name of contracts) {
+            const body = fse.readFileSync(solpath + "/build/" + name + ".json");
+            jsonBlobs.push(JSON.parse(body));
+        }
 
         const abstractions = jsonBlobs.map(json => {
 
             const abstraction = contract({
-                    contractName: "MetaCoin",
-                    abi: json.abi, // optional
-                    bytecode: json.bytecode, // optional
-                    address: json.contractAddress, // optional
-                });
+                contractName: json.contractName,
+                abi: json.abi, // optional
+                bytecode: json.bytecode, // optional
+                address: json.contractAddress, // optional
+            });
             abstraction.setProvider(provider);
             if (typeof abstraction.currentProvider.sendAsync !== "function") {
                 abstraction.currentProvider.sendAsync = function() {
                     return abstraction.currentProvider.send.apply(abstraction.currentProvider, arguments);
                 };
             };
-            console.log("abstraction::", abstraction)
+            //console.log("abstraction::", abstraction)
             provision(abstraction, this.options);
             return abstraction;
         });
@@ -157,7 +132,6 @@ class Console extends EventEmitter {
         const contextVars = {};
 
         abstractions.forEach(abstraction => {
-            //contextVars[abstraction.contract_name] = abstraction;
             contextVars[abstraction.contract_name] = abstraction;
         });
 
