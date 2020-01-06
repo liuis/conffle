@@ -13,7 +13,7 @@ const ConffleError = require("@truffle/error");
 const fse = require("fs-extra");
 const path = require("path");
 const EventEmitter = require("events");
-const solpath = path.resolve(process.cwd(), '..');
+const solpath = path.resolve(process.cwd(), '');
 
 const processInput = input => {
     const inputComponents = input.trim().split(" ");
@@ -93,10 +93,10 @@ class Console extends EventEmitter {
         */
         let jsonBlobs = [];
 
-        rp = solpath + '/build/Link.json';
+        var rp = solpath + '/build/Link.json';
         var data = fse.readFileSync(rp);
         let RawData = JSON.parse(data);
-        contracts = RawData.noNeedlink.concat(RawData.Linked);
+        var contracts = RawData.noNeedlink.concat(RawData.Linked);
         for (let name of contracts) {
             const body = fse.readFileSync(solpath + "/build/" + name + ".json");
             jsonBlobs.push(JSON.parse(body));
