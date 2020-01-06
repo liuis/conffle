@@ -58,7 +58,7 @@ const addCompileOption = (program) => {
         .option('--name [contract name], Give you want to compile the contract name')
         .description('Compile contracts')
         .action(async (option) => {
-            await compile.run(option);
+            await compile.run(option.name);
         })
 }
 
