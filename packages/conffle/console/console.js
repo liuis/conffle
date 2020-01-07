@@ -55,7 +55,7 @@ class Console extends EventEmitter {
             //this.interfaceAdapter.getAccounts().then(fetchedAccounts => {
 
             const abstractions = this.provision();
-            console.log("abstractions: " + abstractions);
+            //console.log("abstractions: " + abstractions);
             this.repl.start({
                 //not prompt anything  network : localhost_docker
                 prompt: "conffle(localhost_docker)> ",

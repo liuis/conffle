@@ -17,7 +17,7 @@ const GENESIS_ADDRESS = "0xfbe45681ac6c53d5a40475f7526bac1fe7590fb8";
 
 //confluxWeb.cfx.getBalance(GENESIS_ADDRESS).then(console.log)
 
-const cfxNum = new BN('3000000000000000000');
+const cfxNum = new BN('30000000000000000000');
 
 var jayson = require('jayson');
 var client = jayson.client.http('http://localhost:12537');

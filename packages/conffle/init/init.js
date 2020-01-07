@@ -1,10 +1,7 @@
-const TruffleBox = require("truffle-conflux-box");
-const fs = require("fs");
-const path = require("path");
+const Box = require('./box');
 const unboxOptions = {
     force: false
 };
-
 
 function mkdirs(dirname, callback) {
     fs.exists(dirname, function(exists) {
@@ -31,29 +28,17 @@ function mkdirsSync(dirname) {
     }
 }
 
+
 async function run() {
 
     createProjectStructure();
-    //mkdirs("./build", function(err) {
-    //    if (err) console.error(err)
-    //    else {
-    //        try {
-
-    //            createProjectStructure();
-
-    //        } catch (e) {
-    //            console.error(e);
-    //        }
-    //    }
-
-    //});
 
 }
 
 function createProjectStructure(dir = "./") {
     console.log("start the example procject, pls wait....")
 
-    TruffleBox.unbox("https://github.com/liuis/truffle-conflux-init-default", dir, unboxOptions);
+    Box.unbox("https://github.com/liuis/truffle-conflux-init-default", dir, unboxOptions);
 }
 
 module.exports = {

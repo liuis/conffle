@@ -8,19 +8,6 @@ inherits(ReplManager, EventEmitter);
 
 function ReplManager(options) {
   EventEmitter.call(this);
-  //maybe we don't need this
-  //expect.options(options, [
-  //  "working_directory",
-  //  "contracts_directory",
-  //  "contracts_build_directory",
-  //  "migrations_directory",
-  //  "network",
-  //  "network_id",
-  //  "provider",
-  //  "resolver",
-  //  "build_directory"
-  //]);
-
   this.options = options;
   this.repl = options.repl;
 

@@ -287,10 +287,10 @@ async function asyncForEach(array, callback) {
           var pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
  */
 async function newContract(add, pk) {
-    rp = solpath + '/build/Link.json';
+    var rp = solpath + '/build/Link.json';
     var data = fs.readFileSync(rp);
     let RawData = JSON.parse(data);
-    contracts = RawData.noNeedlink.concat(RawData.Linked);
+    var contracts = RawData.noNeedlink.concat(RawData.Linked);
     console.log("new deployed contract order:", contracts)
     for (let x of contracts) {
          await deployContract(add, pk, x)
