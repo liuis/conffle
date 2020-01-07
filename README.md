@@ -12,6 +12,7 @@ Table of Contents
             * [Step3. conffle compile](#step3-conffle-compile)
             * [Step4. conffle sendbalance](#step4-conffle-sendbalance)
             * [Step5. conffle  deploy](#step5-conffle--deploy)
+            * [Step6. conffle  console](#step6-conffle--console)
       * [Interacting with your contract](#interacting-with-your-contract)
          * [Use a contract at a specific address](#use-a-contract-at-a-specific-address)
 # conffle
@@ -397,3 +398,5 @@ MetaCoin.new(....).then(async function(instance) {
 ......................
 
  ````
+#### Step6. conffle  console
+![console](./conffle-console.png)
