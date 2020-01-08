@@ -53,6 +53,15 @@ const inquirer = require("inquirer");
 //  });
 //}
 
+/**
+ * download the github repo
+ *
+ * @name fetchRepository
+ * @function
+ * @access public
+ * @param {} url
+ * @param {} dir
+ */
 function fetchRepository(url, dir) {
   return new Promise(function(accept, reject) {
     // Download the package from github.

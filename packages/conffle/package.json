@@ -43,7 +43,6 @@
         "truffle-conflux-artifactor": "0.0.2-alpha.0",
         "truffle-conflux-box": "0.0.2-alpha.1",
         "truffle-conflux-config": "0.0.2-alpha.0",
-        "truffle-conflux-init": "0.0.1",
         "truffle-conflux-migrate": "0.0.2-alpha.1",
         "truffle-conflux-resolver": "0.0.2-alpha.3",
         "truffle-conflux-workflow-compile": "0.0.2-alpha.0",

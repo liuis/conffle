@@ -5,14 +5,17 @@ const init = require('./init/init.js');
 const sendbalance = require('./sendbalance/sendbalance.js');
 
 const account = require('./account/account.js');
+
 //const node = require('./node/node.js');
+
 const deploy = require('./deploy/deploy.js');
+
 const console = require('./console/index.js');
 
 const addInitOption = (program) => {
     program
         .command('init')
-        .description('Initialize Conflux-dapp-js')
+        .description('Initialize conffle')
         .option('--update [update]', 'Update project files')
         .action(async (option) => {
             await init.run(option.update);

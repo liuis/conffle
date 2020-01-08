@@ -9,6 +9,7 @@
   "author": "ping.li@conflux-chain.org",
   "license": "ISC",
   "dependencies": {
-    "config": "^3.2.3"
+    "config": "^3.2.3",
+    "toml": "^3.0.0"
   }
 }
