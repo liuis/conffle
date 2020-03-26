@@ -27,6 +27,7 @@
         "conffle-contract": "^0.0.24-y.29",
         "conffle-utils": "^0.0.23-alpha.2",
         "conflux-web": "^0.1.22-alpha.0",
+        "js-conflux-sdk":"^0.8.5",
         "esm": "^3.0.77",
         "ethereumjs-vm": "^4.1.2",
         "fs-extra": "^8.1.0",
