@@ -3,16 +3,23 @@ const rlp = require('rlp');
 const keccak = require('keccak');
 var jayson = require('jayson');
 var client = jayson.client.http('http://localhost:12537');
-const ConfluxWeb = require('conflux-web');
-const cfxNum = new BN('3000000000000000000');
+//const ConfluxWeb = require('conflux-web');
+//const cfxNum = new BN('3000000000000000000');
 var linker = require('solc/linker');
 
 // use the testnet 
 //const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:12537');
 // use the local node
-const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
+//const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
+const { Conflux, util} = require('js-conflux-sdk');
+const cfx = new Conflux({
+    url: 'http://0.0.0.0:12537',
+    defaultGasPrice: 100,
+    defaultGas: 1000000,
+    logger: console,
+  });
 
-const mnemonicInfo = require("conffle-utils/mnemonic");
+///const mnemonicInfo = require("conffle-utils/mnemonic");
 
 var fs = require('fs');
 var request = require('request');
@@ -34,18 +41,23 @@ async function run(address, privateKeys, name) {
 }
 
 
-function deploy(argument, abi, solfile) {
-    confluxWeb.cfx.signTransaction(argument)
-        .then((encodedTransaction) => {
-            const {
-                rawTransaction
-            } = encodedTransaction;
-            console.log('raw transaction: ', rawTransaction);
-            return confluxWeb.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
-                console.log('transaction hash from RPC: ', transactionHash);
-                localhost_waitBlock(transactionHash, solfile)
-            })
-        }).catch(console.error);
+function deploy(account, argument,  solfile) {
+    const rawTransaction = account.signTransaction(argument);
+    console.log('raw transaction: ', rawTransaction);
+    return cfx.sendRawTransaction(rawTransaction.serialize()).then((transactionHash) => {
+        console.log('transaction hash from RPC: ', transactionHash);
+        localhost_waitBlock(transactionHash, solfile)
+    })
+    //confluxWeb.cfx.signTransaction(argument)
+    //    .then((encodedTransaction) => {
+    //        const {
+    //            rawTransaction
+    //        } = encodedTransaction;
+    //        return confluxWeb.cfx.sendSignedTransaction(rawTransaction).then((transactionHash) => {
+    //            console.log('transaction hash from RPC: ', transactionHash);
+    //            localhost_waitBlock(transactionHash, solfile)
+    //        })
+    //    }).catch(console.error);
 };
 
 function isHex(num) {
@@ -53,38 +65,46 @@ function isHex(num) {
 };
 
 async function deployContract(address, privateKeys, name) {
-
-
-    await confluxWeb.cfx.accounts.wallet.add({
-        privateKey: privateKeys,
-        address: address
-    });
-
-
+    //await confluxWeb.cfx.accounts.wallet.add({
+    //    privateKey: privateKeys,
+    //    address: address
+    //});
+    const account = cfx.Account(privateKeys);
     let rawdata = fs.readFileSync("./build/" + name + ".sol.json");
     let fd = JSON.parse(rawdata);
     console.log("bytecode:", "0x" + fd.bytecode)
     code = "0x" + fd.bytecode
     abi = fd.abi
     if (isHex(code)) {
-        const add = confluxWeb.cfx.accounts.wallet[0].address;
-        confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
+        //const contract = cfx.Contract({
+        //    abi:abi,
+        //    code:code
+        //});
+        //const { contractCreated } = await contract.constructor(10)
+        //.sendTransaction({
+        //  from: account,
+        //})
+        //.confirmed();
+        //contract.address = contractCreated;
+        //localhost_waitBlock(txParams, abi, name + ".sol.json");
+        //const add = confluxWeb.cfx.accounts.wallet[0].address;
+        cfx.getTransactionCount(address).then(async(nonceValue) => {
             console.log("nonceValue:", nonceValue)
+            gasPrice = await cfx.getGasPrice();
             const txParams = {
-                from: add,
+                from : address,
                 nonce: nonceValue, // make nonce appropriate
-                gasPrice: 5000,
+                gasPrice: gasPrice,
                 value: 0,
                 to: null,
                 data: code
             };
 
-            let gas = await confluxWeb.cfx.estimateGas(txParams);
+            let gas = await cfx.estimateGas(txParams);
             console.log("gas : ", gas)
             txParams.gas = gas;
-            txParams.from = 0;
             if (abi) {
-                deploy(txParams, abi, name + ".sol.json");
+                deploy(account, txParams, name + ".sol.json");
             }
         })
     } else {
@@ -116,22 +136,22 @@ async function deployContract(address, privateKeys, name) {
         */
         NewByteCode = linker.linkBytecode(fd.bytecode, tempJson);
         writeJsonto("bytecode", name + ".sol.json", NewByteCode);
-        const add = confluxWeb.cfx.accounts.wallet[0].address;
-        confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
+        //const add = confluxWeb.cfx.accounts.wallet[0].address;
+        cfx.getTransactionCount(address).then(async(nonceValue) => {
+            gasPrice = await cfx.getGasPrice();
             const txParams = {
-                from: add,
+                from: address,
                 nonce: nonceValue, // make nonce appropriate
-                gasPrice: 5000,
+                gasPrice: gasPrice,
                 value: 0,
                 to: null,
                 data: "0x" + NewByteCode
             };
 
-            let gas = await confluxWeb.cfx.estimateGas(txParams);
+            let gas = await cfx.estimateGas(txParams);
             txParams.gas = gas;
-            txParams.from = 0;
             if (abi) {
-                deploy(txParams, abi, name + ".sol.json");
+                deploy(account, txParams,  name + ".sol.json");
             }
         })
 
@@ -151,7 +171,7 @@ function sleep(ms) {
 
 function waitBlock(txHash, abi) {
 
-    return confluxWeb.cfx.getTransactionReceipt(txHash).then(
+    return cfx.getTransactionReceipt(txHash).then(
         (receipt) => {
             console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux chain");
             if (receipt !== null) {
@@ -176,8 +196,7 @@ function localhost_waitBlock(txHash, solfile) {
 
     }
 
-
-    return confluxWeb.cfx.getTransactionReceipt(txHash).then(
+    return cfx.getTransactionReceipt(txHash).then(
         (receipt) => {
             //console.log("Note that it might take some sceonds for the block to propagate befor it's visible in conflux");
             if (receipt !== null) {
@@ -186,7 +205,7 @@ function localhost_waitBlock(txHash, solfile) {
                 cAddress = receipt["contractCreated"]
                 console.log("Your contract has been deployed at :" + cAddress);
                 writeJsonto("contractAddress", solfile, cAddress);
-                confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
+                //confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
             } else {
                 return localhost_waitBlock(txHash, solfile)
             }

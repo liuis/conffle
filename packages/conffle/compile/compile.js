@@ -122,9 +122,9 @@ function compile() {
     console.log("See the above content, check whether there are any errors, if there is no error, may be a success!")
     console.log("--------------------------------------------")
     console.log("\n")
-    console.log("U need first deploy this contract:", [...new Set(noNeedlink)])
+    console.log("U need first deploy these contracts:", [...new Set(noNeedlink)])
     console.log("\n")
-    console.log("then deploy this contract:", [...new Set(Linked)])
+    console.log("then deploy these contracts:", [...new Set(Linked)])
     Link.noNeedlink = [...new Set(noNeedlink)];
     Link.Linked = [...new Set(Linked)];
     fs.writeFile('./build/Link.json', JSON.stringify(Link, null, 4), function(err) {

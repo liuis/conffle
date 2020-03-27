@@ -4,10 +4,15 @@ var fs = require('fs');
 var sd = require('silly-datetime');
 var path = require('path');
 
-const ConfluxWeb = require('conflux-web');
+const { Conflux, util } = require('js-conflux-sdk');
 const BN = require('bn.js');
-const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
-const cfxNum = new BN('30000000000000000000');
+const cfx = new Conflux({
+    url: 'http://0.0.0.0:12537',
+    defaultGasPrice: 100,
+    defaultGas: 1000000,
+    logger: console,
+  });
+//const cfxNum = new BN('30000000000000000000');
 var jayson = require('jayson');
 var client = jayson.client.http('http://localhost:12537');
 
@@ -113,13 +118,13 @@ async function generatePK(dir = "KeyAccounts") {
     writeJson(walletAccounts.mnemonic, walletAccounts.accounts, dir);
     for (let account of walletAccounts.accounts) {
         await sendcfx(account.address);
-        await confluxWeb.cfx.accounts.wallet.add({
-            privateKey: account.privateKey,
-            address: account.address
-        });
+        //await confluxWeb.cfx.accounts.wallet.add({
+        //    privateKey: account.privateKey,
+        //    address: account.address
+        //});
         //await confluxWeb.cfx.getBalance(account.address).then(console.log)
         //await confluxWeb.cfx.accounts.wallet.then(console.log)
-        console.log(confluxWeb.cfx.accounts.wallet.accounts)
+        //console.log(confluxWeb.cfx.accounts.wallet.accounts)
     };
 
     //const {
@@ -149,37 +154,39 @@ async function generatePK(dir = "KeyAccounts") {
 
 async function sendcfx(address) {
 
-    await confluxWeb.cfx.accounts.wallet.add({
-        privateKey: GENESIS_PRI_KEY,
-        address: GENESIS_ADDRESS
-    })
+    //await confluxWeb.cfx.accounts.wallet.add({
+    //    privateKey: GENESIS_PRI_KEY,
+    //    address: GENESIS_ADDRESS
+    //})
+    
+    const account = cfx.Account(GENESIS_PRI_KEY);
     var TO_ACCOUNT = address;
-    return confluxWeb.cfx.getTransactionCount(GENESIS_ADDRESS).then(async(nonceValue) => {
-        let gasPrice = await confluxWeb.cfx.getGasPrice();
+    return cfx.getTransactionCount(account).then(async(nonceValue) => {
+        let gasPrice = await cfx.getGasPrice();
         let txParms = {
-            from: GENESIS_ADDRESS,
             nonce: nonceValue,
-            gasPrice: 100,
+            gasPrice: gasPrice,
+            gas: 1000000,
             data: "0x00",
-            value: cfxNum,
+            value: util.unit.fromcfxToDrip(100), //default cfx coin 100
             to: TO_ACCOUNT
         };
-        let gas = await confluxWeb.cfx.estimateGas(txParms);
-        txParms.gas = gas;
-        txParms.from = 0;
-        await confluxWeb.cfx.signTransaction(txParms)
-            .then(async(encodedTransaction) => {
-                const {
-                    rawTransaction
-                } = encodedTransaction;
-                await confluxWeb.cfx.sendSignedTransaction(rawTransaction).then(async(transactionHash) => {
-                    await waitBlock(transactionHash, TO_ACCOUNT)
-                })
-            }).catch(console.error);
+        const tx = account.signTransaction(txParams); 
+        await cfx.sendRawTransaction(tx.serialize())
+            .then(async(transactionHash) => {
+            await waitBlock(transactionHash, TO_ACCOUNT)
+        })
+        //await confluxWeb.cfx.signTransaction(txParms)
+        //    .then(async(encodedTransaction) => {
+        //        const {
+        //            rawTransaction
+        //        } = encodedTransaction;
+        //        await confluxWeb.cfx.sendSignedTransaction(rawTransaction).then(async(transactionHash) => {
+        //            await waitBlock(transactionHash, TO_ACCOUNT)
+        //        })
+        //    }).catch(console.error);
     });
 }
-
-
 
 function package() {
     array = [];
@@ -197,14 +204,13 @@ function package() {
     return Promise.all(array);
 }
 
-
 async function waitBlock(txHash, TO_ACCOUNT) {
     await package();
-    await confluxWeb.cfx.getTransactionReceipt(txHash).then(
+    await cfx.getTransactionReceipt(txHash).then(
         async(receipt) => {
             if (receipt !== null) {
                 //console.log("Your account has been receiver some cfx coin");
-                await confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
+                //await confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
                 return Promise.resolve("done");
             } else {
                 //return waitBlock(txHash, TO_ACCOUNT)

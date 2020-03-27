@@ -152,7 +152,7 @@ class Command {
           " - a development framework for Conflux chain" +
           OS.EOL +
           OS.EOL +
-          "Usage: truffle <command> [options]"
+          "Usage: conffle <command> [options]"
       )
       .epilog("See more at http://conflux-chain.org/docs")
       .showHelp();
