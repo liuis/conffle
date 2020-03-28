@@ -4,6 +4,7 @@ const PromiEvent = require("./promievent");
 const EventEmitter = require("events")
 const ad = "0xe1680683be13895b59c94eaf61818975a0d105dd";
 //const pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
+//fixme: sign_transaction 的时候错误
 const Tx = require("./transaction.js");
 const pk = Buffer.from(
     '91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac',
@@ -94,7 +95,7 @@ const execute = {
 
     signTransaction: async function(constructor, txParams,promiEvent) {
         const web3 = constructor.web3;
-
+        //fixme:指定from 和pk 
         txParams.then(async function(res) {
             //console.log("txParams gas::::::::::", res);
             let NonceValue = await web3.cfx.getTransactionCount(ad);

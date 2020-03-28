@@ -210,6 +210,7 @@ var contract = (function(module) {
         new: async function(add, pk) {
             // try to new deploy, then get the new contract address,return new this(contract address); 
             // warning : this function will be deploy the contract dir all the contracts ,get the new contract address
+            //fixme 此处只需要pk
             await newContract(add, pk);
             let contents = fs.readFileSync(solpath + "/build/" + this.contractName + ".sol.json");
             data = JSON.parse(contents);
