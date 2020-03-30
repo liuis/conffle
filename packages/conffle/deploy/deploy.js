@@ -3,23 +3,19 @@ const rlp = require('rlp');
 const keccak = require('keccak');
 var jayson = require('jayson');
 var client = jayson.client.http('http://localhost:12537');
-//const ConfluxWeb = require('conflux-web');
-//const cfxNum = new BN('3000000000000000000');
 var linker = require('solc/linker');
 
 // use the testnet 
-//const confluxWeb = new ConfluxWeb('http://testnet-jsonrpc.conflux-chain.org:12537');
+//'http://testnet-jsonrpc.conflux-chain.org:12537';
 // use the local node
-//const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
+//'http://0.0.0.0:12537';
 const { Conflux, util} = require('js-conflux-sdk');
 const cfx = new Conflux({
     url: 'http://0.0.0.0:12537',
     defaultGasPrice: 100,
     defaultGas: 1000000,
-    logger: console,
   });
 
-///const mnemonicInfo = require("conffle-utils/mnemonic");
 
 var fs = require('fs');
 var request = require('request');
@@ -31,7 +27,6 @@ async function run(address, privateKeys, name) {
 
     try {
         console.log("address:" + address, "privateKeys:" + privateKeys)
-
 
         deployContract(address, privateKeys, name);
 
