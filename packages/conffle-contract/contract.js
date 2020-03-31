@@ -1,14 +1,16 @@
-var ethJSABI = require("ethjs-abi");
-var BlockchainUtils = require("truffle-blockchain-utils");
+const { Conflux,  provider } = require('js-conflux-sdk');
+
+const cfx = new Conflux({
+    url: 'http://0.0.0.0:12537',
+    defaultGasPrice: 100,
+    defaultGas: 1000000,
+});
 var Web3 = require("conflux-web");
-const newContract = require("conffle-lib").newContract;
+const newContract = require("conffle-lib");
 const webUtils = require("web3-utils");
 //var StatusError = require("./statuserror.js")
 var util = require("util");
 var execute = require("./execute");
-var fs = require("fs");
-const path = require("path");
-const solpath = path.resolve(process.cwd(), '..');
 //const bootstrap = require("./bootstrap");
 var contract = (function(module) {
 
@@ -29,7 +31,11 @@ var contract = (function(module) {
         var constructor = this.constructor;
         if (typeof contract === "string") {
             var web3Instance = new constructor.web3.cfx.Contract(constructor.abi);
+            //var web3Instance = cfx.Contract({address:contract, abi: constructor.abi});
+            
+            console.log("web3Instance:", web3Instance);
             web3Instance.options.address = contract;
+            //web3Instance.address = contract;
             contract = web3Instance;
         }
 
@@ -47,8 +53,6 @@ var contract = (function(module) {
                     var isConstant = item.constant; // new form // deprecated case
 
                     var signature = webUtils._jsonInterfaceMethodToString(item);
-                    //console.log("isConstant:::::", isConstant);
-                    //console.log("item.name::::::;", item.name);
                     var method = function(constant, web3Method) {
                         var fn;
 
@@ -185,7 +189,7 @@ var contract = (function(module) {
             }
 
             try {
-                const onChainCode = await this.web3.cfx.getCode(address);
+                const onChainCode = await cfx.getCode(address);
                 //console.log("onchainCode:", onChainCode);
                 if (!onChainCode || onChainCode.replace("0x", "").replace(/0/g, "") === "")
                     throw new Error(
@@ -199,23 +203,24 @@ var contract = (function(module) {
         deployed: async function() {
 
             //add something fn to check 
+            /*
             try {
-                //utils.checkNetworkArtifactMatch(this);
-                //utils.checkDeployment(this);
+                utils.checkNetworkArtifactMatch(this);
+                utils.checkDeployment(this);
                 return new this(this.address);
             } catch (error) {
                 throw error;
             }
+            */
+
+
         },
-        new: async function(add, pk) {
-            // try to new deploy, then get the new contract address,return new this(contract address); 
-            // warning : this function will be deploy the contract dir all the contracts ,get the new contract address
-            //fixme 此处只需要pk
-            await newContract(add, pk);
-            let contents = fs.readFileSync(solpath + "/build/" + this.contractName + ".sol.json");
-            data = JSON.parse(contents);
-            return new this(data.contractAddress);
-            
+        new: function(){
+        // try to new deploy, then get the new contract address,return new this(contract address); 
+        // warning : this function will be deploy the build dir all the contract ,get the new contract address
+        let newAddress = newContract();
+        this.at(newAddress)
+
         },
         parallel: function(arr, callback) {
             callback = callback || function() {};
@@ -267,6 +272,8 @@ var contract = (function(module) {
             Utils.bootstrap(temp);
 
             temp.web3 = new Web3();
+            //wo don't need to set_provider, use the instance of conflux object
+            
 
             temp.class_defaults = temp.prototype.defaults || {};
             // Copy over custom key/values to the contract class

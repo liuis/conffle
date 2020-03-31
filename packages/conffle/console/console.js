@@ -8,7 +8,7 @@ const { Conflux, util, provider } = require('js-conflux-sdk');
     url: 'http://0.0.0.0:12537',
     defaultGasPrice: 100,
     defaultGas: 1000000,
-    logger: console,
+    //logger: console,
   });
 //var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
 var providerJs = provider("http://0.0.0.0:12537");
@@ -45,7 +45,7 @@ class Console extends EventEmitter {
         this.command = new Command(tasks);
 
         // not load the web3
-        this.web3 = cfx;
+        this.cfx = cfx;
 
         // Bubble the ReplManager's exit event
         this.repl.on("exit", () => this.emit("exit"));

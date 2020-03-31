@@ -1,4 +1,4 @@
-const BN = require('bn.js');
+//const BN = require('bn.js');
 const jayson = require('jayson');
 const client = jayson.client.http('http://localhost:12537');
 const { Conflux, util} = require('js-conflux-sdk');
@@ -6,7 +6,6 @@ const cfx = new Conflux({
     url: 'http://0.0.0.0:12537',
     defaultGasPrice: 100,
     defaultGas: 1000000,
-    logger: console,
   });
 
 
@@ -126,18 +125,20 @@ async function deployContract(address, privateKeys, name) {
         //const add = confluxWeb.cfx.accounts.wallet[0].address;
         return cfx.getTransactionCount(address).then(async(nonceValue) => {
             //console.log("nonceValue:", nonceValue)
-            let gasPrice = await cfx.getGasPrice();
+            let gasPrice = (await cfx.getGasPrice()).toString();
+            value = util.unit.fromCFXToDrip(0).toString();
             const txParams = {
                 from: address,
                 nonce: nonceValue, // make nonce appropriate
-                gasPrice: gasPrice,
-                value: 0x00,
+                gasPrice: 100,
+                gas: 1000000,
+                value: value,
                 to: null,
                 data: code
             };
 
-            let gas = await cfx.estimateGas(txParams);
-            txParams.gas = gas;
+            //let gas = await cfx.estimateGas(txParams);
+            //txParams.gas = gas;
             const account = cfx.Account(privateKeys);
             if (abi) {
                 const rawTransaction = account.signTransaction(txParams);
@@ -186,18 +187,21 @@ async function deployContract(address, privateKeys, name) {
         */
         NewByteCode = linker.linkBytecode(fd.bytecode, tempJson);
         await writeJsonto("bytecode", name + ".json", NewByteCode);
+        let gasPrice = (await cfx.getGasPrice()).toString();
+        value = util.unit.fromCFXToDrip(0).toString();
         return cfx.getTransactionCount(address).then(async(nonceValue) => {
             const txParams = {
                 from: address,
                 nonce: nonceValue, // make nonce appropriate
-                gasPrice: 5000,
-                value: 0,
+                gasPrice: 100,
+                gas :1000000,
+                value: value,
                 to: null,
                 data: "0x" + NewByteCode
             };
 
-            let gas = await cfx.estimateGas(txParams);
-            txParams.gas = gas;
+            //let gas = await cfx.estimateGas(txParams);
+            //txParams.gas = gas;
             const account = cfx.Account(privateKeys);
             if (abi) {
                 const rawTransaction = account.signTransaction(txParams);

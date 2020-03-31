@@ -2,7 +2,7 @@ const sendcfx = require("../sendbalance/sendbalance");
 
 const command = {
   command: "sendbalance",
-  description: "send balance(30 cfx coin) to a address",
+  description: "send balance(100 cfx coin) to a address",
   builder: {},
   help: {
     usage:

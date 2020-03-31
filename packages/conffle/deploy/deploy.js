@@ -1,4 +1,4 @@
-const BN = require('bn.js');
+//const BN = require('bn.js');
 const rlp = require('rlp');
 const keccak = require('keccak');
 var jayson = require('jayson');
@@ -38,9 +38,9 @@ async function run(address, privateKeys, name) {
 
 function deploy(account, argument,  solfile) {
     const rawTransaction = account.signTransaction(argument);
-    console.log('raw transaction: ', rawTransaction);
+    //console.log('raw transaction: ', rawTransaction);
     return cfx.sendRawTransaction(rawTransaction.serialize()).then((transactionHash) => {
-        console.log('transaction hash from RPC: ', transactionHash);
+        //console.log('transaction hash from RPC: ', transactionHash);
         localhost_waitBlock(transactionHash, solfile)
     })
     //confluxWeb.cfx.signTransaction(argument)
@@ -68,8 +68,8 @@ async function deployContract(address, privateKeys, name) {
     let rawdata = fs.readFileSync("./build/" + name + ".sol.json");
     let fd = JSON.parse(rawdata);
     console.log("bytecode:", "0x" + fd.bytecode)
-    code = "0x" + fd.bytecode
-    abi = fd.abi
+    code = "0x" + fd.bytecode;
+    abi = fd.abi;
     if (isHex(code)) {
         //const contract = cfx.Contract({
         //    abi:abi,
@@ -84,7 +84,7 @@ async function deployContract(address, privateKeys, name) {
         //localhost_waitBlock(txParams, abi, name + ".sol.json");
         //const add = confluxWeb.cfx.accounts.wallet[0].address;
         cfx.getTransactionCount(address).then(async(nonceValue) => {
-            console.log("nonceValue:", nonceValue)
+            //console.log("nonceValue:", nonceValue)
             let gasPrice = (await cfx.getGasPrice()).toString();
             value = util.unit.fromCFXToDrip(0).toString();
             const txParams = {
@@ -189,7 +189,7 @@ function localhost_waitBlock(txHash, solfile) {
     for (var i = 0, len = 5; i < len; i++) {
         client.request('generateoneblock', [1, 300000], function(err, error, result) {
             if (err) throw err;
-            console.log("generateoneblock : " + result);
+            //console.log("generateoneblock : " + result);
         });
 
     }
