@@ -399,4 +399,59 @@ MetaCoin.new(....).then(async function(instance) {
 
  ````
 #### Step6. conffle  console
+
+```javascript
+ Home> conffle console                                                                                                   
+commands: { compile:
+   { command: 'compile',
+     description: 'compile contracts',
+     builder: {},
+     help: { usage: 'conffle compile', options: [] },
+     run: [AsyncFunction: run] },
+  deploy:
+   { command: 'deploy',
+     description: 'deploy contracts',
+     builder: {},
+     help: { usage: 'conffle deploy', options: [] },
+     run: [AsyncFunction: run] },
+  sendbalance:
+   { command: 'sendbalance',
+     description: 'send balance(30 cfx coin) to a address',
+     builder: {},
+     help: { usage: 'conffle sendbalance', options: [] },
+     run: [AsyncFunction: run] },
+  account:
+   { command: 'account',
+     description: 'generate address && priv
+     ate key',
+     builder: {},
+     help: { usage: 'conffle account', options: [] },
+     run: [AsyncFunction: run] } }
+```
+
+
+```javascript
+conffle(localhost_docker)> web3.
+web3.__defineGetter__                   web3.__defineSetter__                   web3.__lookupGetter__                   web3.__lookupSetter__
+web3.__proto__                          web3.hasOwnProperty                     web3.isPrototypeOf                      web3.propertyIsEnumerable
+web3.toLocaleString                     web3.toString                           web3.valueOf
+
+web3.Account                            web3.Contract                           web3.call                               web3.close
+web3.constructor                        web3.estimateGas                        web3.getBalance                         web3.getBestBlockHash
+web3.getBlockByEpochNumber              web3.getBlockByHash                     web3.getBlockByHashWithPivotAssumption  web3.getBlocksByEpochNumber
+web3.getCode                            web3.getEpochNumber                     web3.getGasPrice                        web3.getRiskCoefficient
+web3.getTransactionByHash               web3.getTransactionCount                web3.getTransactionReceipt              web3.setProvider
+
+web3.defaultEpoch                       web3.defaultGas                         web3.defaultGasPrice                    web3.getLogs
+web3.provider                           web3.sendRawTransaction                 web3.sendTransaction
+```
+
+```javascript
+conffle(localhost_docker)> web3.defaultEpoch
+'latest_state'
+conffle(localhost_docker)> web3.defaultGas
+1000000
+conffle(localhost_docker)> web3.defaultGasPrice
+100
+```
 ![console](./conffle-console.png)
