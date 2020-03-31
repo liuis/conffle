@@ -269,7 +269,21 @@ commands: { compile:
      help: { usage: 'conffle account', options: [] },
      run: [AsyncFunction: run] } }
 ```
+```javascript
+conffle(localhost_docker)> compile
+start compile all the contracts, pls wait....
+--------------------------------------------
+output: { contracts:
+   { 'ConvertLib.sol': { ConvertLib: [Object] },
+     'MetaCoin.sol': { MetaCoin: [Object] },
+     'Migrations.sol': { Migrations: [Object] } },
+  sources:
+   { 'ConvertLib.sol': { id: 0 },
+     'MetaCoin.sol': { id: 1 },
+     'Migrations.sol': { id: 2 } } }
 
+..................................
+```
 
 ```javascript
 conffle(localhost_docker)> web3.
