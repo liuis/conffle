@@ -1,3 +1,9 @@
+/*
+ *  keep for the new VM code
+ * 
+ * 
+ * 
+ * 
 const BN = require('bn.js')
 var VM = require('ethereumjs-vm').default
 
@@ -25,3 +31,4 @@ vm.runCode({
     console.log('gasUsed  : ' + results.gasUsed.toString())
   })
   .catch(err => console.log('Error    : ' + err))
+*/

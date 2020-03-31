@@ -85,19 +85,20 @@ async function deployContract(address, privateKeys, name) {
         //const add = confluxWeb.cfx.accounts.wallet[0].address;
         cfx.getTransactionCount(address).then(async(nonceValue) => {
             console.log("nonceValue:", nonceValue)
-            gasPrice = await cfx.getGasPrice();
+            let gasPrice = (await cfx.getGasPrice()).toString();
+            value = util.unit.fromCFXToDrip(0).toString();
             const txParams = {
                 from : address,
                 nonce: nonceValue, // make nonce appropriate
-                gasPrice: gasPrice,
-                value: 0,
+                gasPrice: 100,
+                gas: 1000000,
+                value: value,
                 to: null,
                 data: code
             };
 
-            let gas = await cfx.estimateGas(txParams);
-            console.log("gas : ", gas)
-            txParams.gas = gas;
+            //let gas = await cfx.estimateGas(txParams);
+            //txParams.gas = gas;
             if (abi) {
                 deploy(account, txParams, name + ".sol.json");
             }
@@ -133,18 +134,20 @@ async function deployContract(address, privateKeys, name) {
         writeJsonto("bytecode", name + ".sol.json", NewByteCode);
         //const add = confluxWeb.cfx.accounts.wallet[0].address;
         cfx.getTransactionCount(address).then(async(nonceValue) => {
-            gasPrice = await cfx.getGasPrice();
+            //gasPrice = await cfx.getGasPrice();
+            value = util.unit.fromCFXToDrip(0).toString();
             const txParams = {
                 from: address,
                 nonce: nonceValue, // make nonce appropriate
-                gasPrice: gasPrice,
-                value: 0,
+                gasPrice: 100,
+                gas: 1000000,
+                value: value,
                 to: null,
                 data: "0x" + NewByteCode
             };
 
-            let gas = await cfx.estimateGas(txParams);
-            txParams.gas = gas;
+            //let gas = await cfx.estimateGas(txParams);
+            //txParams.gas = gas;
             if (abi) {
                 deploy(account, txParams,  name + ".sol.json");
             }
@@ -186,7 +189,7 @@ function localhost_waitBlock(txHash, solfile) {
     for (var i = 0, len = 5; i < len; i++) {
         client.request('generateoneblock', [1, 300000], function(err, error, result) {
             if (err) throw err;
-            //console.log("generateoneblock : " + result);
+            console.log("generateoneblock : " + result);
         });
 
     }

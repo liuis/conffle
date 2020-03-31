@@ -1,3 +1,12 @@
+/*
+ *  link code for example 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ *
 var linker = require('solc/linker');
 var mc = require('./build/MetaCoin.sol.json');
 var keccak256 = require('js-sha3').keccak256;
@@ -11,3 +20,4 @@ bytecode = linker.linkBytecode(mc.bytecode, { 'ConvertLib.sol:ConvertLib': '0xe4
 console.log(mc.bytecode);
 console.log(bytecode);
 libraryHashPlaceholder('ConvertLib.sol:ConvertLib')
+*/

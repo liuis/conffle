@@ -13,7 +13,7 @@ const cfx = new Conflux({
   });
 
 var jayson = require('jayson');
-var client = jayson.client.http('http://localhost:19629');
+var client = jayson.client.http('http://localhost:12537');
 
 const GENESIS_PRI_KEY = "0x46b9e861b63d3509c88b7817275a30d22d62c8cd8fa6486ddee35ef0d8e0495f";
 const GENESIS_ADDRESS = "0xfbe45681ac6c53d5a40475f7526bac1fe7590fb8";

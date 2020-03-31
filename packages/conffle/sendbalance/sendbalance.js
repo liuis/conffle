@@ -20,7 +20,7 @@ const GENESIS_ADDRESS = "0xfbe45681ac6c53d5a40475f7526bac1fe7590fb8";
 
 
 var jayson = require('jayson');
-var client = jayson.client.http('http://localhost:19629');
+var client = jayson.client.http('http://localhost:12537');
 
 
 function sleep(ms) {
@@ -47,6 +47,7 @@ async function sendcfx(address) {
         };
         const tx = account.signTransaction(txParms); 
         const txHash = await cfx.sendRawTransaction(tx.serialize());
+        //console.log("txHash:", txHash);
         await waitBlock(txHash, address);
         //cfx.sendRawTransaction(tx.serialize())
         //    .then(async(transactionHash) => {
@@ -92,7 +93,7 @@ async function waitBlock(txHash, TO_ACCOUNT) {
         async(receipt) => {
             //console.log("receipt:", receipt);
             if (receipt !== null) {
-                //console.log("Your account has been receiver some cfx coin");
+                console.log("Your account has been receiver some cfx coin:", TO_ACCOUNT,  (await cfx.getBalance(TO_ACCOUNT)).toString());
                 //await confluxWeb.cfx.accounts.wallet.remove(GENESIS_ADDRESS)
                 return Promise.resolve("done");
             } else {
