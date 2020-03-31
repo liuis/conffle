@@ -25,7 +25,8 @@ Table of Contents
 
 
 
-**conffle** is an conflux framework which helps with Initialize a dapp project.
+**conffle** is an conflux framework which helps with Initialize a dapp project.  inspird by truffle && ganache! 
+
 The framework makes the development of smart contracts in the conflux network pretty easy. It provides commands for    compilation, deployment of smart contracts, running a local node, local compiler and unit testing the contracts.
 
 conffle consists of 5 separated packages. There are two main packages.
@@ -45,18 +46,17 @@ npm i -g conffle
 -----------------
 
 ## Documentation
-###  **warning** 
-
-All tests are run on mac, because of the case-sensitive nature of Linux, so you can't run it on Linux for the time being.
 
 ### start a  local node
-Before you start you must locally run a our conflux chain node. https://github.com/liuis/conflux-local-network
+Before you start you must locally run a our conflux chain node.
+If you want to build by yourself, just fellow this:
+https://github.com/liuis/conflux-local-network
 
 ```bash
-docker pull liqiazero/conflux-chain:v0.1.10
+docker pull liqiazero/conflux-chain:v0.2.4
 
 
-docker run --name conflux-chain  -p 12537:12537 -p 32323:32323 -p 32323:32323/udp -p 14629:14629 -p 12539:12539  -d liqiazero/conflux-chain:v0.1.10
+docker run --name conflux-chain  -p 12537:12537 -p 32323:32323 -p 32323:32323/udp -p 14629:14629 -p 12539:12539  -d liqiazero/conflux-chain:v0.2.4
 
 
 ```
