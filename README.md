@@ -294,6 +294,9 @@ conffle(localhost_docker)> web3.defaultGas
 1000000
 conffle(localhost_docker)> web3.defaultGasPrice
 100
+
+conffle(localhost_docker)> (await web3.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd")).toString()
+'199937499999800000000'
 ```
 ![console](./conffle-console.png)
 
