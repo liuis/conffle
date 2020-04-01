@@ -286,33 +286,64 @@ output: { contracts:
 ```
 
 ```javascript
-conffle(localhost_docker)> web3.
-web3.__defineGetter__                   web3.__defineSetter__                   web3.__lookupGetter__                   web3.__lookupSetter__
-web3.__proto__                          web3.hasOwnProperty                     web3.isPrototypeOf                      web3.propertyIsEnumerable
-web3.toLocaleString                     web3.toString                           web3.valueOf
+conffle(localhost_docker)> cfx.
+cfx.__defineGetter__                   cfx.__defineSetter__                   cfx.__lookupGetter__                   cfx.__lookupSetter__
+cfx.__proto__                          cfx.hasOwnProperty                     cfx.isPrototypeOf                      cfx.propertyIsEnumerable
+cfx.toLocaleString                     cfx.toString                           cfx.valueOf
 
-web3.Account                            web3.Contract                           web3.call                               web3.close
-web3.constructor                        web3.estimateGas                        web3.getBalance                         web3.getBestBlockHash
-web3.getBlockByEpochNumber              web3.getBlockByHash                     web3.getBlockByHashWithPivotAssumption  web3.getBlocksByEpochNumber
-web3.getCode                            web3.getEpochNumber                     web3.getGasPrice                        web3.getRiskCoefficient
-web3.getTransactionByHash               web3.getTransactionCount                web3.getTransactionReceipt              web3.setProvider
+cfx.Account                            cfx.Contract                           cfx.call                               cfx.close
+cfx.constructor                        cfx.estimateGas                        cfx.getBalance                         cfx.getBestBlockHash
+cfx.getBlockByEpochNumber              cfx.getBlockByHash                     cfx.getBlockByHashWithPivotAssumption  cfx.getBlocksByEpochNumber
+cfx.getCode                            cfx.getEpochNumber                     cfx.getGasPrice                        cfx.getRiskCoefficient
+cfx.getTransactionByHash               cfx.getTransactionCount                cfx.getTransactionReceipt              cfx.setProvider
 
-web3.defaultEpoch                       web3.defaultGas                         web3.defaultGasPrice                    web3.getLogs
-web3.provider                           web3.sendRawTransaction                 web3.sendTransaction
+cfx.defaultEpoch                       cfx.defaultGas                         cfx.defaultGasPrice                    cfx.getLogs
+cfx.provider                           cfx.sendRawTransaction                 cfx.sendTransaction
+
 ```
 
 ```javascript
-conffle(localhost_docker)> web3.defaultEpoch
+conffle(localhost_docker)> cfx.defaultEpoch
 'latest_state'
-conffle(localhost_docker)> web3.defaultGas
+conffle(localhost_docker)> cfx.defaultGas
 1000000
-conffle(localhost_docker)> web3.defaultGasPrice
+conffle(localhost_docker)> cfx.defaultGasPrice
 100
 
-conffle(localhost_docker)> (await web3.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd")).toString()
+conffle(localhost_docker)> (await cfx.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd")).toString()
 '199937499999800000000'
 ```
-![console](./conffle-console.png)
+```javascript
+conffle(localhost_docker)> MetaCoin.
+MetaCoin.__defineGetter__      MetaCoin.__defineSetter__      MetaCoin.__lookupGetter__      MetaCoin.__lookupSetter__      MetaCoin.__proto__
+MetaCoin.hasOwnProperty        MetaCoin.isPrototypeOf         MetaCoin.propertyIsEnumerable  MetaCoin.toLocaleString        MetaCoin.valueOf
+
+MetaCoin.apply                 MetaCoin.bind                  MetaCoin.call                  MetaCoin.constructor           MetaCoin.toString
+
+MetaCoin._constructorMethods   MetaCoin._json                 MetaCoin._properties           MetaCoin._property_values      MetaCoin.abi
+MetaCoin.addProp               MetaCoin.address               MetaCoin.arguments             MetaCoin.at                    MetaCoin.bytecode
+MetaCoin.caller                MetaCoin.class_defaults        MetaCoin.clone                 MetaCoin.contractName          MetaCoin.contract_name
+MetaCoin.currentProvider       MetaCoin.deployed              MetaCoin.ens                   MetaCoin.length                MetaCoin.name
+MetaCoin.new                   MetaCoin.parallel              MetaCoin.prototype             MetaCoin.setProvider           MetaCoin.toJSON
+MetaCoin.web3
+
+conffle(localhost_docker)> ConvertLib
+ConvertLib
+
+conffle(localhost_docker)> ConvertLib.
+ConvertLib.__defineGetter__      ConvertLib.__defineSetter__      ConvertLib.__lookupGetter__      ConvertLib.__lookupSetter__      ConvertLib.__proto__
+ConvertLib.hasOwnProperty        ConvertLib.isPrototypeOf         ConvertLib.propertyIsEnumerable  ConvertLib.toLocaleString        ConvertLib.valueOf
+
+ConvertLib.apply                 ConvertLib.bind                  ConvertLib.call                  ConvertLib.constructor           ConvertLib.toString
+
+ConvertLib._constructorMethods   ConvertLib._json                 ConvertLib._properties           ConvertLib._property_values      ConvertLib.abi
+ConvertLib.addProp               ConvertLib.address               ConvertLib.arguments             ConvertLib.at                    ConvertLib.bytecode
+ConvertLib.caller                ConvertLib.class_defaults        ConvertLib.clone                 ConvertLib.contractName          ConvertLib.contract_name
+ConvertLib.currentProvider       ConvertLib.deployed              ConvertLib.ens                   ConvertLib.length                ConvertLib.name
+ConvertLib.new                   ConvertLib.parallel              ConvertLib.prototype             ConvertLib.setProvider           ConvertLib.toJSON
+ConvertLib.web3
+
+```
 
 ## Interacting with your contract
 
