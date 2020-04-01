@@ -1,6 +1,6 @@
 const ConfluxWeb = require('conflux-web');
 var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
-var contractTr = require('valve-contract');
+var contractTr = require("../index.js");
 var MC = require("../build/MetaCoin.sol.json");
 const util = require('util');
 
@@ -11,7 +11,7 @@ var MetaCoin = contractTr({
     contractName: "MetaCoin",
     abi: MC.abi,
     bytecode: MC.bytecode,
-    address: MC.contractAddress, // optional
+    address: "0x3a69dd57facd0e1751b85182b225a3b74ae7f0e3", // optional
 });
 
 MetaCoin.setProvider(provider);
@@ -31,7 +31,7 @@ if (typeof MetaCoin.currentProvider.sendAsync !== "function") {
 }
 
 
-var contract_address = MC.contractAddress;
+var contract_address = "0x3a69dd57facd0e1751b85182b225a3b74ae7f0e3"
 var coin;
 
 //coin.constructor.web3.cfx.accounts.wallet.add({
@@ -52,6 +52,7 @@ MetaCoin.at(contract_address).then(async function(instance) {
         console.log("--------------------------------")
         coin.sendCoin(account_two, 3).then(async function(res) {
                 console.log("step1:", res)
+                //coin.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd").then(function(re) {
                 coin.getBalance(account_two).then(function(re) {
                     console.log("account_two balance is : ", re)
                 });

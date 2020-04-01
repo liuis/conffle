@@ -1,47 +1,47 @@
 Table of Contents
 =================
 
-   * [conffle](#conffle)
+   * [valve](#valve)
       * [Installing](#installing)
       * [Documentation](#documentation)
          * [start a  local node](#start-a--local-node)
          * [use docker-compose](#use-docker-compose)
-         * [conffle commander:](#conffle-use)
-            * [Step1. conffle init](#step1-conffle-init)
-            * [Step2. conffle account](#step2-conffle-account)
-            * [Step3. conffle compile](#step3-conffle-compile)
-            * [Step4. conffle sendbalance](#step4-conffle-sendbalance)
-            * [Step5. conffle  deploy](#step5-conffle--deploy)
-            * [Step6. conffle  console](#step6-conffle--console)
+         * [valve commander:](#valve-use)
+            * [Step1. valve init](#step1-valve-init)
+            * [Step2. valve account](#step2-valve-account)
+            * [Step3. valve compile](#step3-valve-compile)
+            * [Step4. valve sendbalance](#step4-valve-sendbalance)
+            * [Step5. valve  deploy](#step5-valve--deploy)
+            * [Step6. valve  console](#step6-valve--console)
       * [Interacting with your contract](#interacting-with-your-contract)
          * [Use a contract at a specific address](#use-a-contract-at-a-specific-address)
-# conffle
+# valve
 
-![Build Status](https://api.travis-ci.org/liuis/conflux-dapp-js.svg?branch=refactor) [![npm](https://img.shields.io/npm/dm/conffle.svg)](https://www.npmjs.com/package/conffle) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
-[![npm version](https://badge.fury.io/js/conffle.svg)](https://badge.fury.io/js/conffle)
+![Build Status](https://api.travis-ci.org/liuis/conflux-dapp-js.svg?branch=refactor) [![npm](https://img.shields.io/npm/dm/valve.svg)](https://www.npmjs.com/package/valve) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+[![npm version](https://badge.fury.io/js/valve.svg)](https://badge.fury.io/js/valve)
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/liqiazero/conflux-chain.svg)](https://hub.docker.com/r/liqiazero/conflux-chain/)
 [![Docker Stars](https://img.shields.io/docker/stars/liqiazero/conflux-chain.svg)](https://hub.docker.com/r/liqiazero/conflux-chain/)
 
 
 
-**conffle** is an conflux framework which helps with Initialize a dapp project.  inspird by truffle && ganache! 
+**valve** is an conflux framework which helps with Initialize a dapp project.  inspird by truffle && ganache! 
 
 The framework makes the development of smart contracts in the conflux network pretty easy. It provides commands for    compilation, deployment of smart contracts, running a local node, local compiler and unit testing the contracts.
 
-conffle consists of 5 separated packages. There are two main packages.
-- **conffle** - This package is responsible for reading **Conffle** commands from the command line
-- **conffle-contract** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
-- **conffle-logger** - Using this package will give you the ability to print your historical deployments on the console.   
-- **conffle-config** - This package is used as helper where all the necessary configuration files are included.
-- **conffle-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
+valve consists of 5 separated packages. There are two main packages.
+- **valve** - This package is responsible for reading **Conffle** commands from the command line
+- **valve-contract** - installing this package will give you access to the Deployer, which gives you the ability to deploy    compiled contracts.
+- **valve-logger** - Using this package will give you the ability to print your historical deployments on the console.   
+- **valve-config** - This package is used as helper where all the necessary configuration files are included.
+- **valve-utils** - Similarly to config this package helps with functions like **ReadFile**  & **keyToHex**, etc.
 
 
 
 ## Installing
 
 ```javascript
-npm i -g conffle
+npm i -g valve
 ```
 -----------------
 
@@ -84,20 +84,20 @@ To cleanup the associated docker volumes, `-v` option could be used:
 docker-compose down -v
 ```
 
-### conffle commander:
+### valve commander:
 
-#### Step1. conffle init
+#### Step1. valve init
 
 ```javascript
-conffle init
+valve init
 ```
 
 Put your own contract under the current directory
 
-#### Step2. conffle account
+#### Step2. valve account
 
 ```javascript
-conffle account
+valve account
 ```
 Generate account and private key . 
 
@@ -169,14 +169,14 @@ The following content :
 }
 
 ```
-#### Step3. conffle compile 
+#### Step3. valve compile 
 
 ```javascript
 example:
-      conffle compile 
+      valve compile 
 ```
 
-if you have multiple contracts, libraries, etc., there is a reference relationship between them. When compiling, conffle will automatically do the linking for you. But you need to deploy your contracts in the order suggested.
+if you have multiple contracts, libraries, etc., there is a reference relationship between them. When compiling, valve will automatically do the linking for you. But you need to deploy your contracts in the order suggested.
 
 ````javascript 
 .........
@@ -201,27 +201,27 @@ then deploy this contract: [ 'MetaCoin.sol' ]
 
 To compile your contract, will generate build directory down generated abi and the bytecode.
 
-#### Step4. conffle sendbalance 
+#### Step4. valve sendbalance 
 
 Give your address some CFX coin.
 
 ```javascript
 example:
-        conffle sendbalance --a "0xe1680683be13895b59c94eaf61818975a0d105dd"
+        valve sendbalance --a "0xe1680683be13895b59c94eaf61818975a0d105dd"
 ```
 
-#### Step5. conffle  deploy 
+#### Step5. valve  deploy 
 
 ######  **default:**  
 wallet addressIndex[0] as the default deploy address
 
 Select the address and privatekey you want to deploy in the wallet.json file.
 
-Ensure that your account has plenty of cfx coin, if not you can use **conffle sendbalance**  send some to your account.
+Ensure that your account has plenty of cfx coin, if not you can use **valve sendbalance**  send some to your account.
 
 ```javascript
 example： 
-conffle deploy --a "0xe1680683be13895b59c94eaf61818975a0d105dd"  --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac" --name ConvertLib
+valve deploy --a "0xe1680683be13895b59c94eaf61818975a0d105dd"  --pk "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac" --name ConvertLib
         
 ```
 
@@ -239,38 +239,38 @@ you can find the transaction details on : http://www.confluxscan.io/transactions
 Your contract has been deployed at :0xae2b17be6f7d590510fa7db89f86c02f55e73d2a
 
 ````
-#### Step6. conffle  console
+#### Step6. valve  console
 
 ```javascript
- Home> conffle console                                                                                                   
+ Home> valve console                                                                                                   
 commands: { compile:
    { command: 'compile',
      description: 'compile contracts',
      builder: {},
-     help: { usage: 'conffle compile', options: [] },
+     help: { usage: 'valve compile', options: [] },
      run: [AsyncFunction: run] },
   deploy:
    { command: 'deploy',
      description: 'deploy contracts',
      builder: {},
-     help: { usage: 'conffle deploy', options: [] },
+     help: { usage: 'valve deploy', options: [] },
      run: [AsyncFunction: run] },
   sendbalance:
    { command: 'sendbalance',
      description: 'send balance(30 cfx coin) to a address',
      builder: {},
-     help: { usage: 'conffle sendbalance', options: [] },
+     help: { usage: 'valve sendbalance', options: [] },
      run: [AsyncFunction: run] },
   account:
    { command: 'account',
      description: 'generate address && priv
      ate key',
      builder: {},
-     help: { usage: 'conffle account', options: [] },
+     help: { usage: 'valve account', options: [] },
      run: [AsyncFunction: run] } }
 ```
 ```javascript
-conffle(localhost_docker)> compile
+valve(localhost_docker)> compile
 start compile all the contracts, pls wait....
 --------------------------------------------
 output: { contracts:
@@ -286,7 +286,7 @@ output: { contracts:
 ```
 
 ```javascript
-conffle(localhost_docker)> cfx.
+valve(localhost_docker)> cfx.
 cfx.__defineGetter__                   cfx.__defineSetter__                   cfx.__lookupGetter__                   cfx.__lookupSetter__
 cfx.__proto__                          cfx.hasOwnProperty                     cfx.isPrototypeOf                      cfx.propertyIsEnumerable
 cfx.toLocaleString                     cfx.toString                           cfx.valueOf
@@ -303,18 +303,18 @@ cfx.provider                           cfx.sendRawTransaction                 cf
 ```
 
 ```javascript
-conffle(localhost_docker)> cfx.defaultEpoch
+valve(localhost_docker)> cfx.defaultEpoch
 'latest_state'
-conffle(localhost_docker)> cfx.defaultGas
+valve(localhost_docker)> cfx.defaultGas
 1000000
-conffle(localhost_docker)> cfx.defaultGasPrice
+valve(localhost_docker)> cfx.defaultGasPrice
 100
 
-conffle(localhost_docker)> (await cfx.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd")).toString()
+valve(localhost_docker)> (await cfx.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd")).toString()
 '199937499999800000000'
 ```
 ```javascript
-conffle(localhost_docker)> MetaCoin.
+valve(localhost_docker)> MetaCoin.
 MetaCoin.__defineGetter__      MetaCoin.__defineSetter__      MetaCoin.__lookupGetter__      MetaCoin.__lookupSetter__      MetaCoin.__proto__
 MetaCoin.hasOwnProperty        MetaCoin.isPrototypeOf         MetaCoin.propertyIsEnumerable  MetaCoin.toLocaleString        MetaCoin.valueOf
 
@@ -327,10 +327,10 @@ MetaCoin.currentProvider       MetaCoin.deployed              MetaCoin.ens      
 MetaCoin.new                   MetaCoin.parallel              MetaCoin.prototype             MetaCoin.setProvider           MetaCoin.toJSON
 MetaCoin.web3
 
-conffle(localhost_docker)> ConvertLib
+valve(localhost_docker)> ConvertLib
 ConvertLib
 
-conffle(localhost_docker)> ConvertLib.
+valve(localhost_docker)> ConvertLib.
 ConvertLib.__defineGetter__      ConvertLib.__defineSetter__      ConvertLib.__lookupGetter__      ConvertLib.__lookupSetter__      ConvertLib.__proto__
 ConvertLib.hasOwnProperty        ConvertLib.isPrototypeOf         ConvertLib.propertyIsEnumerable  ConvertLib.toLocaleString        ConvertLib.valueOf
 
@@ -415,7 +415,7 @@ example:
 ````javascript
 const ConfluxWeb = require('conflux-web');
 var provider = new ConfluxWeb.providers.HttpProvider("http://0.0.0.0:12537");
-var contractTr = require('conffle-contract');
+var contractTr = require('valve-contract');
 var MC = require("../build/MetaCoin.sol.json");  //Enter the actual path of the file compiled by your contract
 const util = require('util');
 

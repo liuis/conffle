@@ -1,9 +1,0 @@
-0 silly argv { _: [ 'version' ], lernaVersion: '3.17.0', '$0': 'lerna' }
-1 notice cli v3.17.0
-2 verbose rootPath /Users/liping/about_CFX_Work/conflux-chain-dapp-js
-3 error Error: Invalid package name " conffle-error": name cannot contain leading or trailing spaces; name can only contain URL-friendly characters
-3 error     at invalidPackageName (/Users/liping/about_CFX_Work/conflux-chain-dapp-js/node_modules/npm-package-arg/npa.js:86:15)
-3 error     at Result.setName (/Users/liping/about_CFX_Work/conflux-chain-dapp-js/node_modules/npm-package-arg/npa.js:121:11)
-3 error     at new Result (/Users/liping/about_CFX_Work/conflux-chain-dapp-js/node_modules/npm-package-arg/npa.js:111:23)
-3 error     at Function.resolve (/Users/liping/about_CFX_Work/conflux-chain-dapp-js/node_modules/npm-package-arg/npa.js:58:15)
-3 error     at new Package (/Users/liping/about_CFX_Work/conflux-chain-dapp-js/node_modules/@lerna/package/index.js:36:26)

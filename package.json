@@ -1,14 +1,14 @@
 {
-  "name": "conffle",
+  "name": "valve",
   "version": "0.0.1",
   "description": "conflux init publish deploy smart contract ",
-  "main": "./packages/conffle/conffle.js",
+  "main": "./packages/valve/valve.js",
   "scripts": {
     "test": "mocha ./test/**/*.js --timeout 0 --exit",
-    "link": "lerna bootstrap && cd packages/conffle && yarn link"
+    "link": "lerna bootstrap && cd packages/valve && yarn link"
   },
   "keywords": [
-    "conffle",
+    "valve",
     "smart",
     "contract"
   ],
@@ -19,7 +19,6 @@
     "acorn": "^6.3.0",
     "bip39": "^3.0.2",
     "circular-json": "^0.5.9",
-    "conflux-web": "0.1.22-alpha.0",
     "crypto": "^1.0.1",
     "ether-pudding": "^3.2.0",
     "ethereumjs-wallet": "^0.6.3",
