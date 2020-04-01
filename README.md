@@ -286,30 +286,31 @@ output: { contracts:
 ```
 
 ```javascript
-conffle(localhost_docker)> web3.
-web3.__defineGetter__                   web3.__defineSetter__                   web3.__lookupGetter__                   web3.__lookupSetter__
-web3.__proto__                          web3.hasOwnProperty                     web3.isPrototypeOf                      web3.propertyIsEnumerable
-web3.toLocaleString                     web3.toString                           web3.valueOf
+conffle(localhost_docker)> cfx.
+cfx.__defineGetter__                   cfx.__defineSetter__                   cfx.__lookupGetter__                   cfx.__lookupSetter__
+cfx.__proto__                          cfx.hasOwnProperty                     cfx.isPrototypeOf                      cfx.propertyIsEnumerable
+cfx.toLocaleString                     cfx.toString                           cfx.valueOf
 
-web3.Account                            web3.Contract                           web3.call                               web3.close
-web3.constructor                        web3.estimateGas                        web3.getBalance                         web3.getBestBlockHash
-web3.getBlockByEpochNumber              web3.getBlockByHash                     web3.getBlockByHashWithPivotAssumption  web3.getBlocksByEpochNumber
-web3.getCode                            web3.getEpochNumber                     web3.getGasPrice                        web3.getRiskCoefficient
-web3.getTransactionByHash               web3.getTransactionCount                web3.getTransactionReceipt              web3.setProvider
+cfx.Account                            cfx.Contract                           cfx.call                               cfx.close
+cfx.constructor                        cfx.estimateGas                        cfx.getBalance                         cfx.getBestBlockHash
+cfx.getBlockByEpochNumber              cfx.getBlockByHash                     cfx.getBlockByHashWithPivotAssumption  cfx.getBlocksByEpochNumber
+cfx.getCode                            cfx.getEpochNumber                     cfx.getGasPrice                        cfx.getRiskCoefficient
+cfx.getTransactionByHash               cfx.getTransactionCount                cfx.getTransactionReceipt              cfx.setProvider
 
-web3.defaultEpoch                       web3.defaultGas                         web3.defaultGasPrice                    web3.getLogs
-web3.provider                           web3.sendRawTransaction                 web3.sendTransaction
+cfx.defaultEpoch                       cfx.defaultGas                         cfx.defaultGasPrice                    cfx.getLogs
+cfx.provider                           cfx.sendRawTransaction                 cfx.sendTransaction
+
 ```
 
 ```javascript
-conffle(localhost_docker)> web3.defaultEpoch
+conffle(localhost_docker)> cfx.defaultEpoch
 'latest_state'
-conffle(localhost_docker)> web3.defaultGas
+conffle(localhost_docker)> cfx.defaultGas
 1000000
-conffle(localhost_docker)> web3.defaultGasPrice
+conffle(localhost_docker)> cfx.defaultGasPrice
 100
 
-conffle(localhost_docker)> (await web3.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd")).toString()
+conffle(localhost_docker)> (await cfx.getBalance("0xe1680683be13895b59c94eaf61818975a0d105dd")).toString()
 '199937499999800000000'
 ```
 ![console](./conffle-console.png)
