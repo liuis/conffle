@@ -212,8 +212,6 @@ example:
 
 #### Step5. valve  deploy 
 
-######  **default:**  
-wallet addressIndex[0] as the default deploy address
 
 Select the address and privatekey you want to deploy in the wallet.json file.
 
