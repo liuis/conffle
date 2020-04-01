@@ -1,4 +1,3 @@
-//const BN = require('bn.js');
 const rlp = require('rlp');
 const keccak = require('keccak');
 var jayson = require('jayson');
@@ -71,18 +70,6 @@ async function deployContract(address, privateKeys, name) {
     code = "0x" + fd.bytecode;
     abi = fd.abi;
     if (isHex(code)) {
-        //const contract = cfx.Contract({
-        //    abi:abi,
-        //    code:code
-        //});
-        //const { contractCreated } = await contract.constructor(10)
-        //.sendTransaction({
-        //  from: account,
-        //})
-        //.confirmed();
-        //contract.address = contractCreated;
-        //localhost_waitBlock(txParams, abi, name + ".sol.json");
-        //const add = confluxWeb.cfx.accounts.wallet[0].address;
         cfx.getTransactionCount(address).then(async(nonceValue) => {
             //console.log("nonceValue:", nonceValue)
             let gasPrice = (await cfx.getGasPrice()).toString();

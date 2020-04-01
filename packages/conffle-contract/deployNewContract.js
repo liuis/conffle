@@ -1,10 +1,15 @@
-const BN = require('bn.js');
 const jayson = require('jayson');
 const client = jayson.client.http('http://localhost:12537');
 const ConfluxWeb = require('conflux-web');
-const cfxNum = new BN('3000000000000000000');
 var linker = require('solc/linker');
-const confluxWeb = new ConfluxWeb('http://0.0.0.0:12537');
+const { Conflux, util} = require('js-conflux-sdk');
+const cfx = new Conflux({
+    url: 'http://0.0.0.0:12537',
+    defaultGasPrice: 100,
+    defaultGas: 1000000,
+  });
+
+
 const mnemonicInfo = require("conffle-utils/mnemonic");
 var fs = require('fs');
 var request = require('request');
@@ -100,47 +105,54 @@ async function writeJsonto(key, solfile, newValues) {
  */
 async function deployContract(address, privateKeys, name) {
 
+    //await confluxWeb.cfx.accounts.wallet.add({
+    //    privateKey: privateKeys,
+    //    address: address
+    //});
 
-    await confluxWeb.cfx.accounts.wallet.add({
-        privateKey: privateKeys,
-        address: address
-    });
-
-
+    const account = cfx.Account(privateKeys);
     let rawdata = fs.readFileSync("./build/" + name + ".json");
     let fd = JSON.parse(rawdata);
     //console.log("bytecode:", "0x" + fd.bytecode)
     code = "0x" + fd.bytecode;
     abi = fd.abi;
     if (isHex(code)) {
-        const add = confluxWeb.cfx.accounts.wallet[0].address;
-        return confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
+        return confluxWeb.cfx.getTransactionCount(address).then(async(nonceValue) => {
+            let gasPrice = (await cfx.getGasPrice()).toString();
+            value = util.unit.fromCFXToDrip(0).toString();
             //console.log("nonceValue:", nonceValue)
             const txParams = {
                 from: add,
                 nonce: nonceValue, // make nonce appropriate
-                gasPrice: 5000,
-                value: 0,
+                gasPrice: 100,
+                gas: 1000000,
+                value: value,
                 to: null,
                 data: code
             };
 
-            let gas = await confluxWeb.cfx.estimateGas(txParams);
+            //let gas = await confluxWeb.cfx.estimateGas(txParams);
             //console.log("gas : ", gas)
-            txParams.gas = gas;
-            txParams.from = 0;
+            //txParams.gas = gas;
+            //txParams.from = 0;
             if (abi) {
-                await confluxWeb.cfx.signTransaction(txParams)
-                    .then(async(encodedTransaction) => {
-                        const {
-                            rawTransaction
-                        } = encodedTransaction;
-                        //console.log('raw transaction: ', rawTransaction);
-                        await confluxWeb.cfx.sendSignedTransaction(rawTransaction).then(async(transactionHash) => {
-                            console.log('transaction hash from RPC: ', transactionHash);
-                            await localhost_waitBlock(transactionHash, name + ".json")
-                        })
-                    }).catch(console.error);
+                const rawTransaction = account.signTransaction(argument);
+                //console.log('raw transaction: ', rawTransaction);
+                return cfx.sendRawTransaction(rawTransaction.serialize()).then((transactionHash) => {
+                    //console.log('transaction hash from RPC: ', transactionHash);
+                    localhost_waitBlock(transactionHash, name + ".json")
+                })
+                //await confluxWeb.cfx.signTransaction(txParams)
+                //    .then(async(encodedTransaction) => {
+                //        const {
+                //            rawTransaction
+                //        } = encodedTransaction;
+                //        //console.log('raw transaction: ', rawTransaction);
+                //        await confluxWeb.cfx.sendSignedTransaction(rawTransaction).then(async(transactionHash) => {
+                //            console.log('transaction hash from RPC: ', transactionHash);
+                //            await localhost_waitBlock(transactionHash, name + ".json")
+                //        })
+                //    }).catch(console.error);
 
             }
         })
@@ -170,34 +182,39 @@ async function deployContract(address, privateKeys, name) {
         */
         NewByteCode = linker.linkBytecode(fd.bytecode, tempJson);
         await writeJsonto("bytecode", name + ".json", NewByteCode);
-        const add = confluxWeb.cfx.accounts.wallet[0].address;
-        return confluxWeb.cfx.getTransactionCount(confluxWeb.cfx.accounts.wallet[0].address).then(async(nonceValue) => {
+        //const add = confluxWeb.cfx.accounts.wallet[0].address;
+        return confluxWeb.cfx.getTransactionCount(address).then(async(nonceValue) => {
+            value = util.unit.fromCFXToDrip(0).toString();
             const txParams = {
-                from: add,
+                from: address,
                 nonce: nonceValue, // make nonce appropriate
-                gasPrice: 5000,
-                value: 0,
+                gasPrice: 100,
+                value: 1000000,
                 to: null,
                 data: "0x" + NewByteCode
             };
 
-            let gas = await confluxWeb.cfx.estimateGas(txParams);
-            txParams.gas = gas;
-            txParams.from = 0;
+            //let gas = await confluxWeb.cfx.estimateGas(txParams);
             if (abi) {
+                const rawTransaction = account.signTransaction(argument);
+                //console.log('raw transaction: ', rawTransaction);
+                return cfx.sendRawTransaction(rawTransaction.serialize()).then((transactionHash) => {
+                    //console.log('transaction hash from RPC: ', transactionHash);
+                    localhost_waitBlock(transactionHash, name + ".json")
+                })
                 //await deploy(txParams, abi, name + ".json");
-                await confluxWeb.cfx.signTransaction(txParams)
-                    .then(async(encodedTransaction) => {
-                        const {
-                            rawTransaction
-                        } = encodedTransaction;
-                        //console.log('raw transaction: ', rawTransaction);
-                        await confluxWeb.cfx.sendSignedTransaction(rawTransaction).then(async(transactionHash) => {
-                            console.log('transaction hash from RPC: ', transactionHash);
-                            await localhost_waitBlock(transactionHash, name + ".json")
-                                //
-                        })
-                    }).catch(console.error);
+                //await confluxWeb.cfx.signTransaction(txParams)
+                //    .then(async(encodedTransaction) => {
+                //        const {
+                //            rawTransaction
+                //        } = encodedTransaction;
+                //        //console.log('raw transaction: ', rawTransaction);
+                //        await confluxWeb.cfx.sendSignedTransaction(rawTransaction).then(async(transactionHash) => {
+                //            console.log('transaction hash from RPC: ', transactionHash);
+                //            await localhost_waitBlock(transactionHash, name + ".json")
+                //                //
+                //        })
+                //    }).catch(console.error);
 
             }
         })
@@ -243,7 +260,7 @@ function package() {
  */
 async function localhost_waitBlock(txHash, solfile) {
     await package();
-    await confluxWeb.cfx.getTransactionReceipt(txHash).then(async(receipt) => {
+    await cfx.getTransactionReceipt(txHash).then(async(receipt) => {
         if (receipt !== null) {
             cAddress = receipt["contractCreated"]
             console.log("Your contract has been deployed at :" + cAddress);
@@ -256,10 +273,10 @@ async function localhost_waitBlock(txHash, solfile) {
 
 }
 
-var add = "0xe1680683be13895b59c94eaf61818975a0d105dd";
-var pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
+//var add = "0xe1680683be13895b59c94eaf61818975a0d105dd";
+//var pk = "0x91594bd85fec9695a26ed630f536195b5f8c448560f46d68512e2efcd837d0ac";
 
-const contracts = ['ConvertLib.sol', 'MetaCoin.sol'];
+//const contracts = ['ConvertLib.sol', 'MetaCoin.sol'];
 
 /**
  * paralle the array 
@@ -286,7 +303,7 @@ async function asyncForEach(array, callback) {
  * @param {hex|address hex value} add address hex values
  * @param {private key | hex values} pk private key hex values
  */
-async function new(add, pk) {
+async function newDeployContract(add, pk) {
     fs.readFile('./build/Link.json', (err, data) => {
         if (err) throw err;
         let RawData = JSON.parse(data);
@@ -297,5 +314,5 @@ async function new(add, pk) {
     });
 }
 
-module.exports = new;
+module.exports = newDeployContract;
 

@@ -1,3 +1,5 @@
+var ethJSABI = require("ethjs-abi");
+var BlockchainUtils = require("truffle-blockchain-utils");
 const { Conflux,  provider } = require('js-conflux-sdk');
 
 const cfx = new Conflux({
@@ -33,7 +35,7 @@ var contract = (function(module) {
             var web3Instance = new constructor.web3.cfx.Contract(constructor.abi);
             //var web3Instance = cfx.Contract({address:contract, abi: constructor.abi});
             
-            console.log("web3Instance:", web3Instance);
+            //console.log("web3Instance:", web3Instance);
             web3Instance.options.address = contract;
             //web3Instance.address = contract;
             contract = web3Instance;
@@ -55,7 +57,6 @@ var contract = (function(module) {
                     var signature = webUtils._jsonInterfaceMethodToString(item);
                     var method = function(constant, web3Method) {
                         var fn;
-
                         constant
                             ?
                             (fn = execute.call.call(
