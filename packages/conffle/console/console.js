@@ -68,7 +68,7 @@ class Console extends EventEmitter {
                 //not prompt anything  network : localhost_docker
                 prompt: "conffle(localhost_docker)> ",
                 context: {
-                    web3: this.web3
+                    cfx: this.cfx
                 },
                 interpreter: this.interpret.bind(this),
                 done: callback
